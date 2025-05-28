@@ -1,0 +1,10 @@
+# Ignorar dependências
+node_modules/
+
+# Ignorar arquivos de lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Outros comuns
+dist/
