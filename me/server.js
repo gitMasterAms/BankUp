@@ -1,59 +1,204 @@
-// server.js
-require('dotenv').config(); // Carregar variáveis de ambiente primeiro
+require('dotenv').config();
 const express = require('express');
-const { initializeDatabase } = require('./config/database'); // Ajuste o caminho se necessário
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { initializeDatabase } = require('./config/database');
+
+let db; // Variável para armazenar os modelos e a instância do sequelize
 
 const app = express();
-const PORT = process.env.PORT || 3000; // Porta do .env ou padrão 3000
+const PORT = process.env.PORT || 3000; // É bom usar uma variável para a porta
 
-// Middlewares básicos
+//Config JSON Response
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true })); // Quando usarmos html
 
-// Variáveis para guardar a instância do Sequelize e os modelos após a inicialização
-let dbInstance;
+//Open Route - Public Route
+app.get('/', (req, res) => {
+  res.status(200).json({ msg: 'Bem vindo a nossa API!' });
+});
 
-// Função principal para iniciar a aplicação
-const startApp = async () => {
-  try {
-    // 1. Inicializar o banco de dados e obter a instância do Sequelize e modelos
-    // initializeDatabase() fará:
-    // - Criar o banco "bankup" se não existir.
-    // - Conectar com Sequelize.
-    // - Definir modelos User e Client com relação 1-para-1.
-    // - Sincronizar (criar tabelas se não existirem, ou alterar em dev, SEM FORÇAR/APAGAR).
-    dbInstance = await initializeDatabase(); // dbInstance conterá { sequelize, User, Client }
+// Private Route
+app.get('/user/:id', checkToken, async (req, res) => {
+  // // Validar se o db e User estão prontos antes de usar
+  // if (!db || !db.User) {
+  //   // Correto: checando db.User
+  //   return res
+  //     .status(503)
+  //     .json({
+  //       msg: 'Serviço temporariamente indisponível, banco de dados não inicializado.',
+  //     });
+  // }
+  const id = req.params.id;
+  // 2. Usar db.User para acessar o modelo
+  // 3. Usar findByPk para buscar pela chave primária (ID)
+  // 4. Usar a opção 'attributes: { exclude: ['password'] }' para não retornar a senha
+  const user = await db.User.findByPk(id, {
+    attributes: { exclude: ['password'] },
+  });
 
-    console.log('Banco de dados pronto para uso.');
-
-    // 2. Configurar rotas AQUI, agora que dbInstance.User e dbInstance.Client estão disponíveis
-    // Exemplo de rota simples:
-    app.get('/users', async (req, res) => {
-      try {
-        const users = await dbInstance.User.findAll({
-          include: [{ model: dbInstance.Client }] // Exemplo de como usar a associação
-        });
-        res.json(users);
-      } catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar usuários', details: error.message });
-      }
-    });
-
-    app.get('/', (req, res) => {
-      res.send(`Servidor rodando! Banco de dados "${process.env.DB_NAME || 'bankup'}" está conectado.`);
-    });
-
-    // 3. Iniciar o servidor Express
-    app.listen(PORT, () => {
-      console.log(`Servidor Express rodando na porta ${PORT}`);
-      console.log(`Ambiente: ${process.env.NODE_ENV}`);
-    });
-
-  } catch (error) {
-    console.error('Falha crítica ao iniciar a aplicação:', error);
-    process.exit(1); // Sair se o DB não puder ser inicializado
+  if (!user) {
+    return res
+      .status(404)
+      .json({ msg: 'Usuário não encontrado' });
   }
-};
+
+  // Se o usuário for encontrado, retorne-o
+  return res.status(200).json({ user });
+});
+
+function checkToken(req, res, next) { //função chegar se o token 
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(" ")[1]
+
+  if(!token) {
+    return res.status(401).json({msg: 'acesso negado'})
+  }
+
+  try {
+    const secret = process.env.SECRET
+
+    jwt.verify(token, secret)
+
+    next()
+  } catch(error) {
+    res.status(400).json({msg: "token inválido"})
+  }
+}
+// Register User
+app.post('/auth/register', async (req, res) => {
+  const { email, password, confirmpassword } = req.body;
+
+  // validations
+  if (!email) {
+    return res
+      .status(422)
+      .json({ msg: 'O email é obrigatório!' });
+  }
+  if (!password) {
+    return res
+      .status(422)
+      .json({ msg: 'A senha é obrigatória!' });
+  }
+  if (password !== confirmpassword) {
+    return res
+      .status(422)
+      .json({ msg: 'As senhas não conferem!' });
+  }
+
+  try {
+    // Movido para englobar a verificação de existência também
+    // Check if user exists
+    const userExists = await db.User.findOne({
+      where: { email: email },
+    }); 
+
+    if (userExists) {
+      return res
+        .status(422)
+        .json({ msg: 'Por favor, utilize outro email' });
+    }
+
+    // Create password hash
+    const salt = await bcrypt.genSalt(12);
+    const passwordHash = await bcrypt.hash(password, salt);
+
+    // Create user instance (ainda não salvo no DB)
+    const user = db.User.build({      
+      email,
+      password: passwordHash,
+    });
+     
+    // Agora salve a instância no banco de dados
+    await user.save(); // user agora contém o ID e outros campos preenchidos pelo DB (como timestamps)    
+
+    return res.status(201).json({msg: 'Usuário criado com sucesso!',
+
+      // Usar os dados da instância salva (user)
+      user: { id: user.id, email: user.email },
+    });
+  } catch (error) {
+    console.error('Erro ao registrar usuário:', error);
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(422).json({msg: 'Este e-mail já está em uso. Por favor, utilize outro.'});
+    }
+    return res.status(500).json({msg: 'Aconteceu um erro no servidor, tente novamente mais tarde!'});
+  }
+});
+
+// Login User
+app.post('/auth/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  // validations
+  if (!email) {
+    return res
+      .status(422)
+      .json({ msg: 'O email é obrigatório!' });
+  }
+  if (!password) {
+    return res
+      .status(422)
+      .json({ msg: 'A senha é obrigatória!' });
+  }
+
+  // Check if user exists
+  const user = await db.User.findOne({ where:{ email: email }});
+
+  if (!user) {
+    return res.status(404).json({ msg: 'usuário não encontrado.' });
+  }
+
+  // check if password match
+
+  const checkPassword = await bcrypt.compare(password, user.password);
+
+  if (!checkPassword) {
+    return res.status(422).json({ msg: 'Senha inválida!' });
+  }
+
+  try {
+    const secret = process.env.SECRET;
+
+    const token = jwt.sign(
+      {
+        id: user._id,
+      },
+      secret
+    );
+
+    res
+      .status(200)
+      .json({
+        msg: 'Autenticação validada com sucesso', token});
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({msg: 'Aconteceu um erro no servidor, tente novamente mais tarde!'});
+  }
+});
+
+// Função para iniciar o servidor após inicializar o DB
+async function startApp() {
+  try {
+    console.log('Inicializando o banco de dados...');
+
+    // db vai conter { sequelize, User, Client, ... }
+    db = await initializeDatabase();
+    console.log('Banco de dados inicializado com sucesso.');
+
+    // Iniciar o servidor Express APÓS o DB estar pronto
+    app.listen(PORT, () => {
+      console.log(`Servidor rodando na porta ${PORT}`);
+    });
+  } catch (error) {
+    console.error(
+      'Falha ao inicializar o banco de dados ou iniciar o servidor:',
+      error
+    );
+    process.exit(1); // Encerra a aplicação se o DB não puder ser inicializado
+  }
+}
 
 // Iniciar a aplicação
 startApp();
