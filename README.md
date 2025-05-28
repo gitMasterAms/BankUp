@@ -13,4 +13,4 @@ Objetivo: Criar uma FINTECH que será um banco digital focado em automação de 
 Para baixar as dependências.
 Após isso rode npm run start para iniciar o servidor na url "localhost:3303". Pressione Ctrl + C dentro do terminal se quiser parar a execução.
 
-Observação: Os arquivos dentro da pasta "login" são apenas para parâmetro, usarei os dentro da pasta "me" para criarmos nosso projeto!
+Observação: Os arquivos dentro da pasta "login" são apenas para parâmetro, usarei os dentro da pasta "me" para criarmos nosso projeto!.
