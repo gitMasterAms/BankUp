@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Container principal centralizado -->
+  <div class="cadastro-wrapper">
+    <!-- Formulário de cadastro -->
+    <form class="cadastro-form">
+      <!-- Título do formulário -->
+      <h2 class="cadastro-titulo">Criar Conta</h2>
+
+      <!-- Campo de e-mail -->
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Digite seu email" required>
+
+      <!-- Campo de senha -->
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" placeholder="Digite sua senha" required>
+
+      <!-- Botão que executa a função de verificação de e-mail -->
+      <button type="button" onclick="verificarEmail()">Verificar Email</button>
+
+      <!-- Link para a tela de login -->
+      <p class="login-link">Já tem uma conta? <a href="login.html">Entrar</a></p>
+    </form>
+  </div>
+
+  <!-- Script JavaScript para verificação simples do e-mail -->
+  <script>
+    function verificarEmail() {
+      const email = document.getElementById('email').value;
+      // Verifica se o e-mail contém "@" e "." como forma simples de validação
+      if (email.includes("@") && email.includes(".")) {
+        alert("E-mail verificado com sucesso!");
+      } else {
+        alert("Por favor, insira um e-mail válido.");
+      }
+    }
+  </script>
+</body>
+</html>
