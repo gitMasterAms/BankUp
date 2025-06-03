@@ -6,7 +6,7 @@ Objetivo: Criar uma FINTECH que será um banco digital focado em automação de 
 
 - Para rodar o código, verificar se o banco postgre está instalado e se as variáveis de ambiente estão corretas no arquivo .env (atenção especial para o nome de usuário e senha do banco).
 
-- Vá até o diretório dentro da pasta "me" dê um:
+Dentro da pasta "BankUp" dê um:
 
 "npm install"
 

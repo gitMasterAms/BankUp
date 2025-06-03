@@ -62,7 +62,7 @@ const sequelize = new Sequelize(
     port: DB_PORT,
     dialect: 'postgres',
     logging:
-      process.env.NODE_ENV === 'development' ? console.log : false, // faz o Sequelize imprimir no console cada query que ele executa
+      process.env.NODE_ENV === 'nao_mostre' ? console.log : false, // faz o Sequelize imprimir no console cada query que ele executa
   }
 );
 
