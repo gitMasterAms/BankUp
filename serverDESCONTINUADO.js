@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { initializeDatabase } = require('./config/database');
 
+
 let db; // Variável para armazenar os modelos e a instância do sequelize
 
 const app = express();
@@ -20,19 +21,8 @@ app.get('/', (req, res) => {
 
 // Private Route
 app.get('/user/:id', checkToken, async (req, res) => {
-  // // Validar se o db e User estão prontos antes de usar
-  // if (!db || !db.User) {
-  //   // Correto: checando db.User
-  //   return res
-  //     .status(503)
-  //     .json({
-  //       msg: 'Serviço temporariamente indisponível, banco de dados não inicializado.',
-  //     });
-  // }
-  const id = req.params.id;
-  // 2. Usar db.User para acessar o modelo
-  // 3. Usar findByPk para buscar pela chave primária (ID)
-  // 4. Usar a opção 'attributes: { exclude: ['password'] }' para não retornar a senha
+  
+  const id = req.params.id;  
   const user = await db.User.findByPk(id, {
     attributes: { exclude: ['password'] },
   });

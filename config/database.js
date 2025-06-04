@@ -62,7 +62,7 @@ const sequelize = new Sequelize(
     port: DB_PORT,
     dialect: 'postgres',
     logging:
-      process.env.NODE_ENV === 'nao_mostre' ? console.log : false, // faz o Sequelize imprimir no console cada query que ele executa
+      process.env.NODE_ENV === 'dontshow' ? console.log : false, // faz o Sequelize imprimir no console cada query que ele executa
   }
 );
 
@@ -83,7 +83,7 @@ const initializeDatabase = async () => {
 
     // 3. Carregar modelos
     // Note que passamos 'sequelize' e 'DataTypes' para cada função de definição de modelo
-    db.User = require('../models/userModel')(
+    db.User = require('../src/models/User')(
       sequelize,
       DataTypes
     );
