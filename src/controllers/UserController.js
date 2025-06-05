@@ -4,30 +4,10 @@ class UserController {
     constructor(userService) {
         this.userService = userService;
 
-        this.getById = this.getById.bind(this);
         this.register = this.register.bind(this);
         this.login = this.login.bind(this);
-    }
-
-    async getById(req, res) {
-        const id = req.params.id;
-
-        if (!validator.isUUID(id)) {
-            return res.status(400).json({ msg: 'ID inválido' });
-        }
-
-        try {
-            const result = await this.userService.getById(id);
-            return res.status(200).json(result);
-        } catch (err) {
-            console.error('Erro em getById:', err);  // log do erro completo
-            if (err.message === 'USUARIO_NAO_ENCONTRADO') {
-                return res.status(404).json({ msg: 'Usuário não encontrado' });
-            }
-
-            return res.status(500).json({ msg: 'Erro ao buscar usuário', error: err.message });
-        }        
-    }
+        this.getById = this.getById.bind(this);
+    }    
 
     async register(req, res) {
         let { email, password, confirmpassword } = req.body;
@@ -97,6 +77,26 @@ class UserController {
             }
             return res.status(500).json({ msg: 'Erro interno no Servidor'});
         }
+    }
+
+    async getById(req, res) {
+        const id = req.params.id;
+
+        if (!validator.isUUID(id)) {
+            return res.status(400).json({ msg: 'ID inválido' });
+        }
+
+        try {
+            const result = await this.userService.getById(id);
+            return res.status(200).json(result);
+        } catch (err) {
+            console.error('Erro em getById:', err);  // log do erro completo
+            if (err.message === 'USUARIO_NAO_ENCONTRADO') {
+                return res.status(404).json({ msg: 'Usuário não encontrado' });
+            }
+
+            return res.status(500).json({ msg: 'Erro ao buscar usuário', error: err.message });
+        }        
     }
 }
 

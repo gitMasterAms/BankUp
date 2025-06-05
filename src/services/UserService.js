@@ -8,22 +8,6 @@ class UserService {
     this.userRepository = userRepository;
   }
 
-  async getById(id) {
-    try {      
-      const user = await this.userRepository.getById(id);
-
-      if (!user) {
-        throw new Error('USUARIO_NAO_ENCONTRADO');
-      }      
-      return user;
-    } catch (err) {
-      if (err.message !== 'USUARIO_NAO_ENCONTRADO'){ // Boa prática para só salvar erros inesperados no log (Diferente de um 404, que é apenas um user não encontrado).
-      console.error('UserService.getById ERRO:', err);   
-      }
-      throw err;
-    }
-  }
-
   async register({ email, password }) {
     try {      
       const existingUser = await this.userRepository.findByEmail(email);
@@ -77,6 +61,21 @@ class UserService {
     }
   }
 
+  async getById(id) {
+    try {      
+      const user = await this.userRepository.getById(id);
+
+      if (!user) {
+        throw new Error('USUARIO_NAO_ENCONTRADO');
+      }      
+      return user;
+    } catch (err) {
+      if (err.message !== 'USUARIO_NAO_ENCONTRADO'){ // Boa prática para só salvar erros inesperados no log (Diferente de um 404, que é apenas um user não encontrado).
+      console.error('UserService.getById ERRO:', err);   
+      }
+      throw err;
+    }
+  }
 }
 
 module.exports = UserService;
