@@ -16,7 +16,7 @@ const createDatabaseIfNotExists = async () => {
     host: DB_HOST,
     password: DB_PASSWORD,
     port: DB_PORT,
-    database: 'postgres',
+    database: 'postgres', // me conecto ao banco inicial do postgres pois ele tem propriedades administrativas, como criar outros bancos.
   });
 
   try {
@@ -141,7 +141,7 @@ module.exports = {
   initializeDatabase,
   sequelize,
   DataTypes,
-  db,
+  db
 };
 // Exportar sequelize e DataTypes aqui pode ser útil se você precisar deles
 // para definir modelos em testes ou scripts sem passar por initializeDatabase
