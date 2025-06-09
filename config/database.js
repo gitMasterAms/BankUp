@@ -87,7 +87,7 @@ const initializeDatabase = async () => {
       sequelize,
       DataTypes
     );
-    db.Client = require('../models/clientModel')(
+    db.Client = require('../src/models/Client')(
       sequelize,
       DataTypes
     );
