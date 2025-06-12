@@ -4,12 +4,9 @@ class UserController {
     constructor(userService) {
         this.userService = userService;
 
-        this.register = this.register.bind(this);
-        this.login = this.login.bind(this);
-        this.getById = this.getById.bind(this);
     }    
 
-    async register(req, res) {
+    register = async (req, res) => {gi
         let { email, password, confirmpassword } = req.body;
         email = email.toLowerCase();
 
@@ -53,7 +50,7 @@ class UserController {
         }
     }
 
-    async login(req, res) {
+    login = async(req, res) => {
         const { email, password } = req.body;
 
         if (!email) {
@@ -79,7 +76,7 @@ class UserController {
         }
     }
 
-    async getById(req, res) {
+    getById = async (req, res) => {
         const id = req.params.id;
 
         if (!validator.isUUID(id)) {
