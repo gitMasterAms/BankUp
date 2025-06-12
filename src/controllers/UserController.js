@@ -6,7 +6,7 @@ class UserController {
 
     }    
 
-    register = async (req, res) => {gi
+    register = async (req, res) => {
         let { email, password, confirmpassword } = req.body;
         email = email.toLowerCase();
 
