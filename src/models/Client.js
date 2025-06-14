@@ -1,9 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
   const Client = sequelize.define('Client', {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+    userId: { //possivelmente já seria adicionado pelo associate, mas por conta do UUID é bom definir.
+      type: DataTypes.UUID, // ← Importante: precisa ser UUID
       primaryKey: true,
+      allowNull: false,
+      unique: true,
     },
     name: {
       type: DataTypes.STRING,
@@ -26,11 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATEONLY,
       allowNull: true,
     },
-    userId: { //possivelmente já seria adicionado pelo associate, mas por conta do UUID é bom definir.
-      type: DataTypes.UUID, // ← Importante: precisa ser UUID
-      allowNull: false,
-      unique: true,
-    },
+    
   }, {
     tableName: 'Clients',
   });
@@ -39,9 +36,9 @@ module.exports = (sequelize, DataTypes) => {
     Client.belongsTo(models.User, {
       foreignKey: {
         name: 'userId',
-        allowNull: false,
+        onDelete: 'CASCADE',        
       },
-      onDelete: 'CASCADE', // opcional, se quiser deletar o Client quando o User for apagado
+       // opcional, se quiser deletar o Client quando o User for apagado
     });
   };
 

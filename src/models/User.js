@@ -23,6 +23,11 @@ module.exports = (sequelizeInstance, DataTypes) => { // sequelizeInstance é o '
       type: DataTypes.STRING,
       allowNull: false,
     },
+    profile_complete: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    }
   }, {
     tableName: 'Users',
   });

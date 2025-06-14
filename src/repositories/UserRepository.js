@@ -16,7 +16,15 @@ class UserRepository{
          return await this.User.findByPk(id, {
              attributes: { exclude: ['password'] },
          });
-    }    
+    }
+
+    async updateProfile_Complete(userId){
+      
+        return await this.User.update(
+            {profile_complete: true},
+            {where: { id: userId }}
+        );
+    }
 }
 
 module.exports = UserRepository;
