@@ -16,7 +16,7 @@ module.exports = (db) => {
   // 1. Use o modelo Sequelize db.User ao instanciar o repositório
   
   const userRepository = new UserRepository(db.User); 
-  const clientRepository = new ClientRepository(db.Client, userRepository);
+  const clientRepository = new ClientRepository(db.Client);
   
   // 2. Injete o repositório no service
   const userService = new UserService(userRepository);  
