@@ -3,7 +3,7 @@ require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize'); // DataTypes aqui é útil
 const { Client: PgClient } = require('pg');
 
-const DB_NAME = process.env.DB_NAME || 'bankup';
+const DB_NAME = process.env.DB_NAME || 'bankup_db';
 const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_HOST = process.env.DB_HOST;
