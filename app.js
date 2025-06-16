@@ -19,7 +19,9 @@ async function startApp() {
 
     // AQUI: use require('./routes')(db) em vez de app.use(routes)
     const createRoutes = require('./routes'); // rota exporta uma função (db) => router
+    const cors = require('cors');
     app.use(createRoutes(db));
+    app.use(cors());
 
     app.listen(PORT, () => {
       console.log(`Servidor rodando na porta ${PORT}`);
