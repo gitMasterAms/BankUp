@@ -49,7 +49,7 @@ class UserService {
         expiresIn: '15m',
       });
       
-      return { id: user.id, token };
+      return {profile_complete: user.profile_complete, id: user.id, token };
       
 
     } catch (err) {
@@ -67,7 +67,7 @@ class UserService {
       if (!user) {
         throw new Error('USUARIO_NAO_ENCONTRADO');
       }      
-      return user;
+      return user;  
     } catch (err) {
       if (err.message !== 'USUARIO_NAO_ENCONTRADO'){ // Boa prática para só salvar erros inesperados no log (Diferente de um 404, que é apenas um user não encontrado).
       console.error('UserService.getById ERRO:', err);   
