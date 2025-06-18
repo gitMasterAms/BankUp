@@ -1,10 +1,37 @@
 const validator = require('validator');
+const EmailService = require('../services/EmailService');
 
 class UserController {
     constructor(userService) {
         this.userService = userService;
+        this.emailService = new EmailService();
+        this.sendTokenEmail = this.sendTokenEmail.bind(this);
+    }
+    
+    async sendTokenEmail(req, res) {
+        const { email } = req.body;
 
-    }    
+        if (!email) {
+            return res.status(422).json({ msg: 'O email é obrigatório!' });
+        }
+
+        if (!validator.isEmail(email)) {
+            return res.status(422).json({ msg: 'O email informado não é válido!' });
+        }
+
+        try {
+            // Gera um token aleatório de 6 dígitos
+            const token = Math.floor(100000 + Math.random() * 900000).toString();
+            
+            // Envia o e-mail com o token
+            await this.emailService.sendTokenEmail(email, token);
+            
+            return res.status(200).json({ msg: 'Token enviado com sucesso para o e-mail!' });
+        } catch (err) {
+            console.error('Erro ao enviar token por e-mail:', err);
+            return res.status(500).json({ msg: 'Erro ao enviar token por e-mail', error: err.message });
+        }
+    }
 
     register = async (req, res) => {
         let { email, password, confirmpassword } = req.body;

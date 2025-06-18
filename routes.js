@@ -34,7 +34,7 @@ module.exports = (db) => {
   // Rotas de autenticação (register / login)
   router.post('/user/register', userController.register);
   router.post('/user/login', userController.login);
-
+  router.post('/user/send-token', userController.sendTokenEmail);
   //Rota cadastro Cliente
   router.post('/client', checkToken, clientController.register);
 
