@@ -83,11 +83,11 @@ const initializeDatabase = async () => {
 
     // 3. Carregar modelos
     // Note que passamos 'sequelize' e 'DataTypes' para cada função de definição de modelo
-    db.User = require('../src/models/User')(
+    db.User = require('../modules/auth/models/User')(
       sequelize,
       DataTypes
     );
-    db.Client = require('../src/models/Client')(
+    db.Client = require('../modules/auth/models/Client')(
       sequelize,
       DataTypes
     );

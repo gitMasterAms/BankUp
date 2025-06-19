@@ -1,50 +1,28 @@
-const express = require('express');
-const UserRepository = require('./src/repositories/UserRepository');
-const ClientRepository = require('./src/repositories/ClientRepository')
+const { Router } = require('express');
 
-const UserService    = require('./src/services/UserService');
-const ClientService = require('./src/services/ClientService')
+// Importa os roteadores de cada módulo.
+// Cada importação é uma função que espera a instância 'db'.
+const createAuthRoutes = require('./modules/auth/authRoutes');
+// const createFinancialRoutes = require('./modules/financial/financial.routes'); // Futuro módulo
 
-const UserController = require('./src/controllers/UserController');
-const ClientController = require('./src/controllers/ClientController');
-
-const { checkToken } = require('./src/middlewares/checkToken');
-
+// Exporta uma função que recebe a instância do DB e retorna o roteador principal.
+// Isso permite que o app.js injete a instância do BD após a inicialização.
 module.exports = (db) => {
-  const router = express.Router();
+  const router = Router();
 
-  // 1. Use o modelo Sequelize db.User ao instanciar o repositório
-  
-  const userRepository = new UserRepository(db.User); 
-  const clientRepository = new ClientRepository(db.Client);
-  
-  // 2. Injete o repositório no service
-  const userService = new UserService(userRepository);  
-  const clientService = new ClientService(clientRepository, userRepository);
+  // Aplica os roteadores de cada módulo com seus prefixos.
+  // Chama a função importada e passa a instância 'db'.
+  router.use('/auth', createAuthRoutes(db)); // Ex: /auth/user/register, /auth/client, /auth/user/:id
 
-  // 3. Injete o service no controller
-  const userController = new UserController(userService);  
-  const clientController = new ClientController(clientService);
-  
-  // Rotas públicas
-  router.get('/', (req, res) => {
-    res.status(200).json({ msg: 'Bem vindo a nossa API!' });
-  });
+  // Descomente e adicione conforme você criar os outros módulos:
+  // appRouter.use('/financial', createFinancialRoutes(db)); // Ex: /financial/recurring-accounts, /financial/payments
 
-  // Rotas de autenticação (register / login)
-  router.post('/user/register', userController.register);
-  router.post('/user/login', userController.login);
-  router.post('/user/send-token', userController.sendTokenEmail);
-  //Rota cadastro Cliente
-  router.post('/client', checkToken, clientController.register);
-
-  // Rota protegida
-  router.get('/user/:id', checkToken, userController.getById);
-
-  //Middleware para capturar rotas indefinidas (sempre como a última rota para não engolir erros específicos).
+  // Middleware para capturar rotas não encontradas (404 Not Found).
+  // É crucial que este middleware seja o ÚLTIMO a ser adicionado ao appRouter,
+  // garantindo que todas as rotas definidas acima sejam verificadas antes.
   router.use((req, res) => {
-  res.status(404).json({ msg: 'Rota indefinida.' });
-});
+    res.status(404).json({ message: 'Recurso não encontrado. Verifique a URL e o método da requisição.' });
+  });
 
   return router;
 };
