@@ -1,0 +1,95 @@
+/* Estilos apenas para a tela de login */
+.tela-login {
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.tela-login * {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.tela-login .login-container {
+  background-color: #111;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgb(0, 173, 75);
+  width: 100%;
+  max-width: 400px;
+}
+
+.tela-login .login-container h1 {
+  color: #00AD4A;
+  margin-bottom: 30px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.tela-login .form-group {
+  margin-bottom: 20px;
+}
+
+.tela-login label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.tela-login input[type="email"],
+.tela-login input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background-color: #222;
+  color: #fff;
+}
+
+.tela-login .forgot-password {
+  display: block;
+  text-align: right;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #00AD4A;
+  text-decoration: none;
+}
+
+.tela-login .forgot-password:hover {
+  text-decoration: underline;
+}
+
+.tela-login .login-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #00AD4A;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.tela-login .login-btn:hover {
+  background-color: #008f3b;
+}
+
+.tela-login .signup-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.tela-login .signup-link a {
+  color: #00AD4A;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.tela-login .signup-link a:hover {
+  text-decoration: underline;
+}
