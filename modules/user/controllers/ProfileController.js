@@ -22,7 +22,11 @@ class ProfileController{
             
             if (!validator.isMobilePhone(phone)) {
                 return res.status(422).json({ msg: 'O telefone informado não é válido!' });
-            } 
+            }
+
+            if (!validator.isDate(birthdate)) {
+                 return res.status(422).json({ msg: 'A data de nascimento informado não é válido!' });
+            }
                 
             
             try {

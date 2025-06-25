@@ -61,7 +61,7 @@ class UserService {
       }
 
       const token = jwt.sign({ id: user.id }, process.env.SECRET, {
-        expiresIn: '15m',
+        expiresIn: '1d',
       });
       
       return {profile_complete: user.profile_complete, id: user.id, token };

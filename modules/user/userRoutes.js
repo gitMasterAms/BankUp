@@ -11,7 +11,7 @@ const ProfileController = require('./controllers/ProfileController');
 const { checkToken } = require('../../middlewares/checkToken');
 
 module.exports = (db) => {
-  const authRouter = express.Router();
+  const userRouter = express.Router();
 
   // 1. Use o modelo Sequelize db.User ao instanciar o repositório
 
@@ -27,12 +27,12 @@ module.exports = (db) => {
   const profileController = new ProfileController(profileService);
 
   // Rotas de autenticação (register / login)
-  authRouter.post('/register', userController.register);
-  authRouter.post('/login', userController.login);
+  userRouter.post('/register', userController.register);
+  userRouter.post('/login', userController.login);
   //Rota cadastro Profile
-  authRouter.post('/profile', checkToken, profileController.register);
+  userRouter.post('/profile', checkToken, profileController.register);
   // Rota protegida
-  authRouter.get('/user/:id', checkToken, userController.getById);
+  userRouter.get('/user/:id', checkToken, userController.getById);
 
-  return authRouter;
+  return userRouter;
 };
