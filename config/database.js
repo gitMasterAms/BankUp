@@ -87,7 +87,7 @@ const initializeDatabase = async () => {
       sequelize,
       DataTypes
     );
-    db.Client = require('../modules/auth/models/Client')(
+    db.Profile = require('../modules/auth/models/Profile')(
       sequelize,
       DataTypes
     );

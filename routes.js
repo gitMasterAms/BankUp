@@ -12,7 +12,7 @@ module.exports = (db) => {
 
   // Aplica os roteadores de cada módulo com seus prefixos.
   // Chama a função importada e passa a instância 'db'.
-  router.use('/auth', createAuthRoutes(db)); // Ex: /auth/user/register, /auth/client, /auth/user/:id
+  router.use('/auth', createAuthRoutes(db)); // Ex: /auth/user/register, /auth/Profile, /auth/user/:id
 
   // Descomente e adicione conforme você criar os outros módulos:
   // appRouter.use('/financial', createFinancialRoutes(db)); // Ex: /financial/recurring-accounts, /financial/payments
