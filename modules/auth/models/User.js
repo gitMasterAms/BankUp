@@ -33,9 +33,9 @@ module.exports = (sequelizeInstance, DataTypes) => { // sequelizeInstance é o '
   });
 
   User.associate = (models) => {
-    User.hasOne(models.Client, {
+    User.hasOne(models.Profile, {
       foreignKey: {
-        name: 'userId', // Este userId no Client ainda será um UUID
+        name: 'userId', // Este userId no Profile ainda será um UUID
         allowNull: false,
         unique: true,
       },

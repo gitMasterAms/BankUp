@@ -1,24 +1,24 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
-class ClientService{
- constructor(clientRepository, userRepository) {
-        this.clientRepository = clientRepository;
+class ProfileService{
+ constructor(ProfileRepository, userRepository) {
+        this.ProfileRepository = ProfileRepository;
         this.userRepository = userRepository;
     } 
 
     async register({ userId, name, cpf_cnpj, phone, address, birthdate }) {
         try {      
-          const existingClient = await this.clientRepository.findClientByUserId(userId);
-          if (existingClient) {
+          const existingProfile = await this.ProfileRepository.findProfileByUserId(userId);
+          if (existingProfile) {
             throw new Error('PERFIL_JA_EXISTE');
           }
-          const existingCpfCnpj = await this.clientRepository.findByCpfCnpj(cpf_cnpj);
+          const existingCpfCnpj = await this.ProfileRepository.findByCpfCnpj(cpf_cnpj);
           if (existingCpfCnpj) {
             throw new Error ('CPFCNPJ_JA_EXISTE')
           }
 
-           await this.clientRepository.create({
+           await this.ProfileRepository.create({
             userId,
             name,
             cpf_cnpj,
@@ -36,4 +36,4 @@ class ClientService{
       }
 }
 
-module.exports = ClientService;
+module.exports = ProfileService;

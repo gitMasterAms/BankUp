@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Client = sequelize.define('Client', {
+  const Profile = sequelize.define('Profile', {
     userId: { //possivelmente já seria adicionado pelo associate, mas por conta do UUID é bom definir.
       type: DataTypes.UUID, // ← Importante: precisa ser UUID
       primaryKey: true,
@@ -29,18 +29,18 @@ module.exports = (sequelize, DataTypes) => {
     },
     
   }, {
-    tableName: 'Clients',
+    tableName: 'Profiles',
   });
 
-  Client.associate = (models) => {
-    Client.belongsTo(models.User, {
+  Profile.associate = (models) => {
+    Profile.belongsTo(models.User, {
       foreignKey: {
         name: 'userId',
         onDelete: 'CASCADE',        
       },
-       // opcional, se quiser deletar o Client quando o User for apagado
+       // opcional, se quiser deletar o Profile quando o User for apagado
     });
   };
 
-  return Client;
+  return Profile;
 };
