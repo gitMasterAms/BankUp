@@ -26,6 +26,13 @@ module.exports = (db) => {
   const userController = new UserController(userService);
   const profileController = new ProfileController(profileService);
 
+  // rota verifica se o token é válido
+  userRouter.get('/check', checkToken, (req, res) => {
+  // Se chegou aqui, token é válido
+  res.json({ valid: true, userId: req.id });
+});
+
+
   // Rotas de autenticação (register / login)
   userRouter.post('/register', userController.register);
   userRouter.post('/login', userController.login);

@@ -5,16 +5,27 @@ function checkToken(req, res, next) {
   const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
-    return res.status(401).json({ msg: 'Acesso negado.' });
+    return res.status(401).json({ msg: 'Token não enviado.' });
   }
 
   try {
     const secret = process.env.SECRET;
-    const decoded = jwt.verify(token, secret);  
+    const decoded = jwt.verify(token, secret);
     req.id = decoded.id;
     next();
   } catch (error) {
-    return res.status(400).json({ msg: 'Token inválido.' });
+    if (error.name === 'TokenExpiredError') {
+      return res.status(401).json({ msg: 'Token expirado.' });
+    }
+
+    if (error.name === 'JsonWebTokenError') {
+      return res.status(400).json({ msg: 'Token inválido.' });
+    }
+
+    return res.status(500).json({ 
+      msg: 'Erro desconhecido na verificação de token.', 
+      erro: error.name 
+    });
   }
 }
 
