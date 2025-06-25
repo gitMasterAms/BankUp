@@ -1,6 +1,8 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const sendEmail = require('../../../utils/SendEmail')
+const EmailService = new sendEmail();
 
 class UserService {
   constructor(userRepository) {
@@ -21,9 +23,22 @@ class UserService {
        await this.userRepository.create({
         email,
         password: passwordHash,
-      });      
+      });   
 
-      
+      // Gera um token aleatório de 6 dígitos
+      const token = Math.floor(
+        100000 + Math.random() * 900000
+      ).toString();
+
+        const title = 'Seu Token de Acesso';
+        const content = `
+                    <h1>Seu Token de Acesso</h1>
+                    <p>Olá! Aqui está seu token de acesso:</p>
+                    <h2>${token}</h2>
+                    <p>Este token é válido por 1 hora.</p>
+                    <p>Se você não solicitou este token, por favor ignore este e-mail.</p>
+                `;
+      await EmailService.sendEmail(email, title, content);
      
     } catch (err) {
       console.error('UserService.register ERRO:', err);
