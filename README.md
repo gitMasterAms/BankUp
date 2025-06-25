@@ -12,4 +12,3 @@ Dentro da pasta "BankUp" dê um:
 
 Para baixar as dependências.
 Após isso rode "npm run start" para iniciar o servidor na url "localhost:3303". Pressione Ctrl + C dentro do terminal se quiser parar a execução.
-

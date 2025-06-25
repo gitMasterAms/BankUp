@@ -34,10 +34,8 @@ module.exports = (db) => {
   // Rotas de autenticação (register / login)
   authRouter.post('/register', userController.register);
   authRouter.post('/login', userController.login);
-  authRouter.post('/send-token', userController.sendTokenEmail);
-  //Rota cadastro Profilee
+  //Rota cadastro Profile
   authRouter.post('/profile', checkToken, profileController.register);
-
   // Rota protegida
   authRouter.get('/user/:id', checkToken, userController.getById);
 
