@@ -91,6 +91,10 @@ const initializeDatabase = async () => {
       sequelize,
       DataTypes
     );
+    db.RecurringAccount = require('../financial/models/Recurring')(
+      sequelize,
+      DataTypes
+    );
 
     // Adicione outros modelos aqui da mesma forma
     

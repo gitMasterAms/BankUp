@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     tableName: 'Recurring_Accounts',
-    timestamps: false
+    // timestamps: false caso necessário para desativar o timestamp automático
   });
 
   // Associação com o modelo User (de auth/models/User.js)
