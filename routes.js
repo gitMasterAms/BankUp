@@ -20,8 +20,14 @@ module.exports = (db) => {
   // Middleware para capturar rotas não encontradas (404 Not Found).
   // É crucial que este middleware seja o ÚLTIMO a ser adicionado ao appRouter,
   // garantindo que todas as rotas definidas acima sejam verificadas antes.
+
+    // Rotas públicas
+  router.get('/', (req, res) => {
+    res.status(200).json({ msg: 'Bem vindo a nossa API!' });
+  });
+
   router.use((req, res) => {
-    res.status(404).json({ message: 'Recurso não encontrado. Verifique a URL e o método da requisição.' });
+    res.status(404).json({ message: 'A URL USADA NÃO EXISTE NA NOSSA API.' });
   });
 
   return router;

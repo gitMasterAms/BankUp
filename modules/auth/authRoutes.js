@@ -26,11 +26,6 @@ module.exports = (db) => {
   const userController = new UserController(userService);
   const profileController = new ProfileController(profileService);
 
-  // Rotas públicas
-  authRouter.get('/', (req, res) => {
-    res.status(200).json({ msg: 'Bem vindo a nossa API!' });
-  });
-
   // Rotas de autenticação (register / login)
   authRouter.post('/register', userController.register);
   authRouter.post('/login', userController.login);

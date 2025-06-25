@@ -4,11 +4,11 @@ Objetivo: Criar uma FINTECH que será um banco digital focado em automação de 
 
 # ORIENTAÇÕES:
 
-- Para rodar o código, verificar se o banco postgre está instalado e se as variáveis de ambiente estão corretas no arquivo .env (atenção especial para o nome de usuário e senha do banco).
+- Para rodar o código, verificar se o banco postgre está instalado (ao instalar, defina a senha como "postgres" e o usuario como "postgres", caso apareçam. Tudo como "postgres"). E se as variáveis de ambiente estão corretas no arquivo .env (atenção especial para o nome de usuário e senha do banco).
 
 Dentro da pasta "BankUp" dê um:
 
 "npm install"
 
 Para baixar as dependências.
-Após isso rode "npm run start" para iniciar o servidor na url "localhost:3303". Pressione Ctrl + C dentro do terminal se quiser parar a execução.
+Após isso rode "npm run start" para iniciar o servidor na url "localhost:3003". Pressione Ctrl + C dentro do terminal se quiser parar a execução.
