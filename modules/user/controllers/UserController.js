@@ -90,7 +90,7 @@ class UserController {
     }
 
     try {
-      const result = await this.userService.login(email, password);
+      const result = await this.userService.login({email, password});
       return res.status(200).json({
         msg: 'Login efetuado com sucesso!',
         ...result,

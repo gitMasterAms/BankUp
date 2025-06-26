@@ -91,6 +91,10 @@ const initializeDatabase = async () => {
       sequelize,
       DataTypes
     );
+    db.AuthCode = require('../modules/user/models/AuthCode')(
+      sequelize,
+      DataTypes
+    );
 
     // Adicione outros modelos aqui da mesma forma
     

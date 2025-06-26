@@ -1,12 +1,15 @@
 const express = require('express');
 const UserRepository = require('./repositories/UserRepository');
 const ProfileRepository = require('./repositories/ProfileRepository');
+const AuthCodeRepository = require('./repositories/AuthCodeRepository');
 
 const UserService = require('./services/UserService');
 const ProfileService = require('./services/ProfileService');
+const AuthCodeService = require('./services/AuthCodeService');
 
 const UserController = require('./controllers/UserController');
 const ProfileController = require('./controllers/ProfileController');
+const AuthCodeController = require('./controllers/AuthCodeController')
 
 const { checkToken } = require('../../middlewares/checkToken');
 
@@ -17,14 +20,16 @@ module.exports = (db) => {
 
   const userRepository = new UserRepository(db.User);
   const profileRepository = new ProfileRepository(db.Profile);
+  const authCodeRepository = new AuthCodeRepository(db.AuthCode);
 
   // 2. Injete o repositório no service
-  const userService = new UserService(userRepository);
+  const userService = new UserService(userRepository, authCodeRepository);
   const profileService = new ProfileService(profileRepository, userRepository);
-
+  const authCodeService = new AuthCodeService(authCodeRepository);
   // 3. Injete o service no controller
   const userController = new UserController(userService);
   const profileController = new ProfileController(profileService);
+  const authCodeController = new AuthCodeController(authCodeService);
 
   // rota verifica se o token é válido
   userRouter.get('/check', checkToken, (req, res) => {
@@ -36,6 +41,10 @@ module.exports = (db) => {
   // Rotas de autenticação (register / login)
   userRouter.post('/register', userController.register);
   userRouter.post('/login', userController.login);
+
+  // Rotas com o código de autenticação
+  userRouter.post('/verify-login', authCodeController.verifyLogin);
+
   //Rota cadastro Profile
   userRouter.post('/profile', checkToken, profileController.register);
   // Rota protegida

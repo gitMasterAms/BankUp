@@ -1,12 +1,12 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const sendEmail = require('../../../utils/SendEmail')
 const EmailService = new sendEmail();
 
 class UserService {
-  constructor(userRepository) {
+  constructor(userRepository, authCodeRepository) {
     this.userRepository = userRepository;
+    this.authCodeRepository = authCodeRepository;
   }
 
   async register({ email, password }) {
@@ -25,20 +25,7 @@ class UserService {
         password: passwordHash,
       });   
 
-      // Gera um token aleatório de 6 dígitos
-      const token = Math.floor(
-        100000 + Math.random() * 900000
-      ).toString();
-
-        const title = 'Seu Token de Acesso';
-        const content = `
-                    <h1>Seu Token de Acesso</h1>
-                    <p>Olá! Aqui está seu token de acesso:</p>
-                    <h2>${token}</h2>
-                    <p>Este token é válido por 1 hora.</p>
-                    <p>Se você não solicitou este token, por favor ignore este e-mail.</p>
-                `;
-      await EmailService.sendEmail(email, title, content);
+      
      
     } catch (err) {
       console.error('UserService.register ERRO:', err);
@@ -47,6 +34,7 @@ class UserService {
   }
 
   async login({ email, password }) {
+    console.log(email)
     try {
       const user = await this.userRepository.findByEmail(email);
       
@@ -60,11 +48,31 @@ class UserService {
         throw new Error('SENHA_INVALIDA');
       }
 
-      const token = jwt.sign({ id: user.id }, process.env.SECRET, {
-        expiresIn: '1d',
-      });
+      // Gera um token aleatório de 6 dígitos
+      const authCode = Math.floor(100000 + Math.random() * 900000).toString();
       
-      return {profile_complete: user.profile_complete, id: user.id, token };
+      await this.authCodeRepository.create({
+        userId: user.id,
+        type: 'login_verification',
+        code: authCode,
+        expiresAt: new Date(Date.now() + 5 * 60 * 1000)});
+
+        const title = 'Seu Token de Acesso';
+        const content = `
+                    <h1>Seu Token de Acesso</h1>
+                    <p>Olá! Aqui está seu token de acesso:</p>
+                    <h2>${authCode}</h2>
+                    <p>Este token é válido por 1 hora.</p>
+                    <p>Se você não solicitou este token, por favor ignore este e-mail.</p>
+                `;
+      await EmailService.sendEmail(email, title, content);
+
+      // const token = jwt.sign({ id: user.id }, process.env.SECRET, {
+      //   expiresIn: '1d',
+      // });
+      
+      console.log(authCode);
+      return {profile_complete: user.profile_complete, id: user.id};
       
 
     } catch (err) {
