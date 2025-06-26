@@ -59,6 +59,59 @@ class RecurringController {
       return res.status(500).json({ msg: 'Erro ao cadastrar conta recorrente.' });
     }
   };
+  getAllByUser = async (req, res) => {
+    const userId = req.id;
+
+    try {
+      const contas = await this.recurringService.getAllByUser(userId);
+      return res.status(200).json(contas);
+    } catch (err) {
+      console.error('Erro ao buscar contas:', err);
+      return res.status(500).json({ msg: 'Erro ao buscar contas.' });
+    }
+  };
+
+  getById = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const conta = await this.recurringService.getById(id);
+      if (!conta) return res.status(404).json({ msg: 'Conta não encontrada.' });
+      return res.status(200).json(conta);
+    } catch (err) {
+      console.error('Erro ao buscar conta por ID:', err);
+      return res.status(500).json({ msg: 'Erro ao buscar conta.' });
+    }
+  };
+
+  updateById = async (req, res) => {
+    const { id } = req.params;
+    const updatedData = req.body;
+
+    try {
+      const updated = await this.recurringService.updateById(id, updatedData);
+      if (updated[0] === 0) return res.status(404).json({ msg: 'Conta não encontrada para atualização.' });
+
+      return res.status(200).json({ msg: 'Conta atualizada com sucesso.' });
+    } catch (err) {
+      console.error('Erro ao atualizar conta:', err);
+      return res.status(500).json({ msg: 'Erro ao atualizar conta.' });
+    }
+  };
+
+  deleteById = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const deleted = await this.recurringService.deleteById(id);
+      if (!deleted) return res.status(404).json({ msg: 'Conta não encontrada para exclusão.' });
+
+      return res.status(200).json({ msg: 'Conta excluída com sucesso.' });
+    } catch (err) {
+      console.error('Erro ao deletar conta:', err);
+      return res.status(500).json({ msg: 'Erro ao deletar conta.' });
+    }
+  };
 }
 
 module.exports = RecurringController;

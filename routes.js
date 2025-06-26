@@ -3,7 +3,7 @@ const { Router } = require('express');
 // Importa os roteadores de cada módulo.
 // Cada importação é uma função que espera a instância 'db'.
 const createAuthRoutes = require('./modules/auth/authRoutes');
-// const createFinancialRoutes = require('./modules/financial/financial.routes'); // Futuro módulo
+const createFinancialRoutes = require('./modules/financial/financialRoutes');
 
 // Exporta uma função que recebe a instância do DB e retorna o roteador principal.
 // Isso permite que o app.js injete a instância do BD após a inicialização.
@@ -15,7 +15,7 @@ module.exports = (db) => {
   router.use('/auth', createAuthRoutes(db)); // Ex: /auth/user/register, /auth/client, /auth/user/:id
 
   // Descomente e adicione conforme você criar os outros módulos:
-  // appRouter.use('/financial', createFinancialRoutes(db)); // Ex: /financial/recurring-accounts, /financial/payments
+  router.use('/financial', createFinancialRoutes(db)); // Ex: /financial/recurring-accounts, /financial/payments
 
   // Middleware para capturar rotas não encontradas (404 Not Found).
   // É crucial que este middleware seja o ÚLTIMO a ser adicionado ao appRouter,

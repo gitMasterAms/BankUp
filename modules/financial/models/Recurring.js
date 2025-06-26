@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       primaryKey: true,
       allowNull: false,
-      autoIncrement: true
+      unique: true,
+      defaultValue: DataTypes.UUIDV4 // ← isso aqui gera o UUID automaticamente
     },
     userId: { // Referência direta ao User, como está em Client
       type: DataTypes.UUID,
@@ -46,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     tableName: 'Recurring_Accounts',
-    // timestamps: false caso necessário para desativar o timestamp automático
+    //timestamps: false 
   });
 
   // Associação com o modelo User (de auth/models/User.js)
