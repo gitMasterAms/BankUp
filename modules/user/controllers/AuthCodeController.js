@@ -36,20 +36,24 @@ class AuthCodeController {
   }
 
   verifyCode = async (req, res) => {
-    const {twoFactorCode} = req.body;
+    const {userId, twoFactorCode} = req.body;
+
+    if (!validator.isUUID(userId)) {
+          return res.status(400).json({ msg: 'ID inválido' });
+        }
 
     if (!twoFactorCode) {
       return res.status(422).json({msg: 'o código é obrigatório!'});
     }
 
     if (twoFactorCode.length != 6){
-        return res.status(401).json({msg: 'Insira um código válido.'})
+        return res.status(401).json({msg: 'Insira um código válido.'});
     }
 
     try {
-      const userId = await this.authCodeService.verifyCode({ twoFactorCode });
+      const result = await this.authCodeService.verifyCode({ userId, twoFactorCode });
       return res.status(200).json({
-        msg: 'Verificação por email efetuada com sucesso!', userId});
+        msg: 'Verificação por email efetuada com sucesso!', ...result});
     } catch (err) {
        if (err.message === 'CODIGO_NAO_ENCONTRADO') {
          return res.status(403).json({ msg: 'Código de autenticação inválido!' });
@@ -63,32 +67,23 @@ class AuthCodeController {
   }
 
   verifyLogin = async (req, res) => {
-    const {userId, twoFactorCode} = req.body;
+    const {userId} = req.body;
 
-    if (!userId || !twoFactorCode) {
+    if (!userId) {
       return res.status(422).json({msg: 'o código é obrigatório!'});
     }
 
-    if (twoFactorCode.length != 6){
-        return res.status(401).json({msg: 'Insira um código válido.'})
-    }
-
     try {
-      const result = await this.authCodeService.verifyLogin({ userId, twoFactorCode });
-      return res.status(200).json({
-        msg: 'Verificação por email efetuada com sucesso!',
-        ...result,
-      });
+      const result = await this.authCodeService.verifyLogin({ userId });
+      return res.status(200).json({msg: 'Verificação por email efetuada com sucesso!',...result});
     } catch (err) {
        if (err.message === 'CODIGO_NAO_ENCONTRADO') {
-         return res.status(401).json({ msg: 'Código de autenticação inválido!' });
+         return res.status(401).json({ msg: 'Código de autenticação não existe.'});
        }
-       if(err.message === 'IDS_NAO_CONFEREM'){
-        return res.status(401).json({msg: 'Código não pertence ao usuário informado.'});
+       if (err.message === 'JWT_SECRET_NAO_DEFINIDO') {
+        return res.status(500).json({msg: 'Erro na criação de token para login.'});
        }
-      return res
-        .status(500)
-        .json({ msg: 'Erro interno no Servidor' });
+      return res.status(500).json({ msg: 'Erro interno no Servidor' });
     }
   }
 }

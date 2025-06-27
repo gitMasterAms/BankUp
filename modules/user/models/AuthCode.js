@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('login_verification', 'password_reset'),
       allowNull: false,
     },
-    code: {
+    twoFactorCode: {
       type: DataTypes.STRING(6),
       allowNull: false,
     },   

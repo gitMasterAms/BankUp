@@ -13,8 +13,8 @@ class AuthCodeRepository {
 
     
 
-    async findByTwoFactorCode(code){
-        return await this.AuthCode.findOne({where: { code }})
+    async findByTwoFactorCode(data){
+        return await this.AuthCode.findOne({where: { ...data }});
     }
 }
 
