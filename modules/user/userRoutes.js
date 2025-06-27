@@ -9,7 +9,7 @@ const AuthCodeService = require('./services/AuthCodeService');
 
 const UserController = require('./controllers/UserController');
 const ProfileController = require('./controllers/ProfileController');
-const AuthCodeController = require('./controllers/AuthCodeController')
+const AuthCodeController = require('./controllers/AuthCodeController');
 
 const { checkToken } = require('../../middlewares/checkToken');
 
@@ -37,13 +37,15 @@ module.exports = (db) => {
   res.json({ valid: true, userId: req.id });
 });
 
-
   // Rotas de autenticação (register / login)
   userRouter.post('/register', userController.register);
   userRouter.post('/login', userController.login);
 
   // Rotas com o código de autenticação
+  userRouter.post('/send-code', authCodeController.sendCode);
+  userRouter.post('/verify-code', authCodeController.verifyCode);
   userRouter.post('/verify-login', authCodeController.verifyLogin);
+  //userRouter.post('/reset-password', authCodeController.resetPassword);
 
   //Rota cadastro Profile
   userRouter.post('/profile', checkToken, profileController.register);

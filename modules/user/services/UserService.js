@@ -1,7 +1,5 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt');
-const sendEmail = require('../../../utils/SendEmail')
-const EmailService = new sendEmail();
 
 class UserService {
   constructor(userRepository, authCodeRepository) {
@@ -34,7 +32,6 @@ class UserService {
   }
 
   async login({ email, password }) {
-    console.log(email)
     try {
       const user = await this.userRepository.findByEmail(email);
       
@@ -48,30 +45,6 @@ class UserService {
         throw new Error('SENHA_INVALIDA');
       }
 
-      // Gera um token aleatório de 6 dígitos
-      const authCode = Math.floor(100000 + Math.random() * 900000).toString();
-      
-      await this.authCodeRepository.create({
-        userId: user.id,
-        type: 'login_verification',
-        code: authCode,
-        expiresAt: new Date(Date.now() + 5 * 60 * 1000)});
-
-        const title = 'Seu Token de Acesso';
-        const content = `
-                    <h1>Seu Token de Acesso</h1>
-                    <p>Olá! Aqui está seu token de acesso:</p>
-                    <h2>${authCode}</h2>
-                    <p>Este token é válido por 1 hora.</p>
-                    <p>Se você não solicitou este token, por favor ignore este e-mail.</p>
-                `;
-      await EmailService.sendEmail(email, title, content);
-
-      // const token = jwt.sign({ id: user.id }, process.env.SECRET, {
-      //   expiresIn: '1d',
-      // });
-      
-      console.log(authCode);
       return {profile_complete: user.profile_complete, id: user.id};
       
 
