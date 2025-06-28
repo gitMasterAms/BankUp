@@ -25,12 +25,15 @@ module.exports = (sequelize, DataTypes) => {
     attempts: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
+    },
+    blockedUntil: {
+      type: DataTypes.DATE,
+      allowNull: true,
     }
   }, {
     tableName: 'AuthCodes',
     indexes: [
-      { fields: ['userId'] },
-      { unique: true, fields: ['userId', 'type'] } // evita múltiplos códigos ativos por tipo
+      { unique: true, fields: ['userId'] } // permite apenas um código por usuário, independentemente do tipo
     ]
   });
 

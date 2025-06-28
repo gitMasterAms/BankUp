@@ -25,6 +25,14 @@ class UserRepository{
             {where: { id: userId }}
         );
     }
+
+     async update(userId, dataToUpdate) {
+        // Encontra o usuário e atualiza os dados especificados
+        return await this.User.update(
+            dataToUpdate,
+            { where: { id: userId } }
+        );
+    }
 }
 
 module.exports = UserRepository;

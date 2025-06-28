@@ -14,7 +14,7 @@ class UserService {
         throw new Error('EMAIL_JA_EXISTE');
       }
      
-      const salt = await bcrypt.genSalt(12);
+      const salt = await bcrypt.genSalt(10);
       const passwordHash = await bcrypt.hash(password, salt);      
 
       
@@ -45,7 +45,7 @@ class UserService {
         throw new Error('SENHA_INVALIDA');
       }
 
-      return {profile_complete: user.profile_complete, id: user.id};
+      return {email, id: user.id};
       
 
     } catch (err) {

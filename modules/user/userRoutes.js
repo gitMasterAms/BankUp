@@ -11,7 +11,8 @@ const UserController = require('./controllers/UserController');
 const ProfileController = require('./controllers/ProfileController');
 const AuthCodeController = require('./controllers/AuthCodeController');
 
-const { checkToken } = require('../../middlewares/checkToken');
+const { checkLoginToken } = require('../../middlewares/checkLoginToken');
+const { checkResetToken } = require('../../middlewares/checkResetToken');
 
 module.exports = (db) => {
   const userRouter = express.Router();
@@ -25,14 +26,14 @@ module.exports = (db) => {
   // 2. Injete o repositório no service
   const userService = new UserService(userRepository, authCodeRepository);
   const profileService = new ProfileService(profileRepository, userRepository);
-  const authCodeService = new AuthCodeService(authCodeRepository);
+  const authCodeService = new AuthCodeService(authCodeRepository, userRepository);
   // 3. Injete o service no controller
   const userController = new UserController(userService);
   const profileController = new ProfileController(profileService);
   const authCodeController = new AuthCodeController(authCodeService);
 
   // rota verifica se o token é válido
-  userRouter.get('/check', checkToken, (req, res) => {
+  userRouter.get('/check', checkLoginToken, (req, res) => {
   // Se chegou aqui, token é válido
   res.json({ valid: true, userId: req.id });
 });
@@ -43,14 +44,13 @@ module.exports = (db) => {
 
   // Rotas com o código de autenticação
   userRouter.post('/send-code', authCodeController.sendCode);
-  userRouter.post('/verify-code', authCodeController.verifyCode);
-  userRouter.post('/verify-login', authCodeController.verifyLogin);
-  //userRouter.post('/reset-password', authCodeController.resetPassword);
+  userRouter.post('/verify-code', authCodeController.verifyCodeAndGetToken);
+  userRouter.post('/password-reset', checkResetToken, authCodeController.passwordReset);
 
   //Rota cadastro Profile
-  userRouter.post('/profile', checkToken, profileController.register);
+  userRouter.post('/profile', checkLoginToken, profileController.register);
   // Rota protegida
-  userRouter.get('/user/:id', checkToken, userController.getById);
+  userRouter.get('/user/:id', checkLoginToken, userController.getById);
 
   return userRouter;
 };
