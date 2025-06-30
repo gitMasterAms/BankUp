@@ -1,0 +1,117 @@
+const validator = require('validator');
+
+class RecurringController {
+  constructor(recurringService) {
+    this.recurringService = recurringService;
+  }
+
+  register = async (req, res) => {
+    const userId = req.id;
+    const {
+      description,
+      amount,
+      due_date,
+      payee,
+      pix_key,
+      status
+    } = req.body;
+
+    // Validação básica
+    if (!validator.isUUID(userId)) {
+      return res.status(400).json({ msg: 'ID de usuário inválido.' });
+    }
+
+    if (!description || !amount || !due_date || !payee || !pix_key || !status) {
+      return res.status(422).json({ msg: 'Preencha todos os campos obrigatórios!' });
+    }
+
+    if (!validator.isDecimal(amount.toString())) {
+      return res.status(422).json({ msg: 'Valor da conta inválido.' });
+    }
+
+    if (!validator.isDate(due_date)) {
+      return res.status(422).json({ msg: 'Data de vencimento inválida.' });
+    }
+
+    if (!validator.isAlphanumeric(pix_key)) {
+      return res.status(422).json({ msg: 'Chave PIX inválida.' });
+    }
+
+    try {
+      await this.recurringService.register({
+        userId,
+        description,
+        amount,
+        due_date,
+        payee,
+        pix_key,
+        status
+      });
+
+      return res.status(201).json({ msg: 'Conta recorrente criada com sucesso.' });
+    } catch (err) {
+      console.error('Erro ao criar conta recorrente:', err);
+
+      if (err.message === 'CONTA_DUPLICADA') {
+        return res.status(409).json({ msg: 'Conta já cadastrada para esse vencimento.' });
+      }
+
+      return res.status(500).json({ msg: 'Erro ao cadastrar conta recorrente.' });
+    }
+  };
+  getAllByUser = async (req, res) => {
+    const userId = req.id;
+
+    try {
+      const contas = await this.recurringService.getAllByUser(userId);
+      return res.status(200).json(contas);
+    } catch (err) {
+      console.error('Erro ao buscar contas:', err);
+      return res.status(500).json({ msg: 'Erro ao buscar contas.' });
+    }
+  };
+
+  getById = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const conta = await this.recurringService.getById(id);
+      if (!conta) return res.status(404).json({ msg: 'Conta não encontrada.' });
+      return res.status(200).json(conta);
+    } catch (err) {
+      console.error('Erro ao buscar conta por ID:', err);
+      return res.status(500).json({ msg: 'Erro ao buscar conta.' });
+    }
+  };
+
+  updateById = async (req, res) => {
+    const { id } = req.params;
+    const updatedData = req.body;
+
+    try {
+      const updated = await this.recurringService.updateById(id, updatedData);
+      if (updated[0] === 0) return res.status(404).json({ msg: 'Conta não encontrada para atualização.' });
+
+      return res.status(200).json({ msg: 'Conta atualizada com sucesso.' });
+    } catch (err) {
+      console.error('Erro ao atualizar conta:', err);
+      return res.status(500).json({ msg: 'Erro ao atualizar conta.' });
+    }
+  };
+
+  deleteById = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const deleted = await this.recurringService.deleteById(id);
+      if (!deleted) return res.status(404).json({ msg: 'Conta não encontrada para exclusão.' });
+
+      return res.status(200).json({ msg: 'Conta excluída com sucesso.' });
+    } catch (err) {
+      console.error('Erro ao deletar conta:', err);
+      return res.status(500).json({ msg: 'Erro ao deletar conta.' });
+    }
+  };
+}
+
+module.exports = RecurringController;
