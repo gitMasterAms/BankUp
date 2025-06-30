@@ -1,10 +1,10 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 class UserService {
-  constructor(userRepository) {
+  constructor(userRepository, authCodeRepository) {
     this.userRepository = userRepository;
+    this.authCodeRepository = authCodeRepository;
   }
 
   async register({ email, password }) {
@@ -14,14 +14,14 @@ class UserService {
         throw new Error('EMAIL_JA_EXISTE');
       }
      
-      const salt = await bcrypt.genSalt(12);
+      const salt = await bcrypt.genSalt(10);
       const passwordHash = await bcrypt.hash(password, salt);      
 
       
        await this.userRepository.create({
         email,
         password: passwordHash,
-      });      
+      });   
 
       
      
@@ -45,11 +45,7 @@ class UserService {
         throw new Error('SENHA_INVALIDA');
       }
 
-      const token = jwt.sign({ id: user.id }, process.env.SECRET, {
-        expiresIn: '15m',
-      });
-      
-      return {profile_complete: user.profile_complete, id: user.id, token };
+      return {email, id: user.id};
       
 
     } catch (err) {

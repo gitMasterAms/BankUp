@@ -1,9 +1,9 @@
 const validator = require('validator');
 
-class ClientController{
+class ProfileController{
 
-         constructor(clientService) {
-         this.clientService = clientService;
+         constructor(ProfileService) {
+         this.ProfileService = ProfileService;
 
      }
 
@@ -22,11 +22,15 @@ class ClientController{
             
             if (!validator.isMobilePhone(phone)) {
                 return res.status(422).json({ msg: 'O telefone informado não é válido!' });
-            } 
+            }
+
+            if (!validator.isDate(birthdate)) {
+                 return res.status(422).json({ msg: 'A data de nascimento informado não é válido!' });
+            }
                 
             
             try {
-                await this.clientService.register({ userId, name, cpf_cnpj, phone, address, birthdate });
+                await this.ProfileService.register({ userId, name, cpf_cnpj, phone, address, birthdate });
                 return res.status(201).json({ msg: 'Usuário cadastrado com sucesso.'});
             } catch (err) {
                 console.error('Erro ao cadastrar usuário:', err);  // log do erro completo
@@ -43,4 +47,4 @@ class ClientController{
 }
 
 
-module.exports = ClientController;
+module.exports = ProfileController;
