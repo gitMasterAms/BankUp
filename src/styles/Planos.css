@@ -1,0 +1,74 @@
+/* Escopo isolado dos planos usando .precos-wrapper */
+.precos-wrapper {
+  background-color: #000;
+  color: #fff;
+  padding: 50px 20px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.precos-titulo {
+  font-size: 2em;
+  margin-bottom: 40px;
+}
+
+.precos-cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.precos-card {
+  background-color: #1a1a1a;
+  border-radius: 20px;
+  width: 280px;
+  padding: 30px 20px;
+  box-shadow: 0 0 15px rgb(3, 169, 75);
+}
+
+.precos-nome {
+  background-color: #00AD4A;
+  color: white;
+  padding: 10px;
+  border-radius: 20px 20px 0 0;
+  font-size: 1.5em;
+  margin: -30px -20px 20px -20px;
+}
+
+.precos-preco {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.precos-sub {
+  color: #00AD4A;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.precos-lista {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  font-size: 0.95em;
+}
+
+.precos-lista li {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.precos-check {
+  color: #00AD4A;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.precos-x {
+  color: red;
+  font-weight: bold;
+  font-size: 1.2em;
+}

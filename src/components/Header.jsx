@@ -4,8 +4,8 @@ function Header({ irParaPagina }) {
       <div className="logo">Bank<span>Up</span></div>
       <nav className="menu">
         <a href="#serviços" className="btn">Serviços</a>
-        <a href="planos.html" className="btn">Planos</a>
-        <button className="btn" onClick={() => irParaPagina('login')}>Entrar</button>
+        <a href="#" className="btn" onClick={() => irParaPagina('planos')}>Planos</a>
+        <a href="#" className="btn" onClick={() => irParaPagina('login')}>Entrar</a>
         <a href="#" className="btn btn-secundario" onClick={() => irParaPagina('cadastro')}>Cadastrar</a>
       </nav>
     </header>
