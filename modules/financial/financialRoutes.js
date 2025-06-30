@@ -4,7 +4,7 @@ const RecurringRepository = require('./repositories/RecurringRepository');
 const RecurringService = require('./services/RecurringService');
 const RecurringController = require('./controllers/RecurringController');
 
-const { checkToken } = require('../../middlewares/checkToken');
+const { checkLoginToken } = require('../../middlewares/checkLoginToken');
 
 module.exports = (db) => {
   const financialRouter = express.Router();
@@ -24,11 +24,11 @@ module.exports = (db) => {
   });
 
   // Rotas protegidas
-  financialRouter.post('/recurring', checkToken, recurringController.register);
-  financialRouter.get('/recurring', checkToken, recurringController.getAllByUser);
-  financialRouter.get('/recurring/:id', checkToken, recurringController.getById);
-  financialRouter.put('/recurring/:id', checkToken, recurringController.updateById);
-  financialRouter.delete('/recurring/:id', checkToken, recurringController.deleteById);
+  financialRouter.post('/recurring', checkLoginToken, recurringController.register);
+  financialRouter.get('/recurring', checkLoginToken, recurringController.getAllByUser);
+  financialRouter.get('/recurring/:id', checkLoginToken, recurringController.getById);
+  financialRouter.put('/recurring/:id', checkLoginToken, recurringController.updateById);
+  financialRouter.delete('/recurring/:id', checkLoginToken, recurringController.deleteById);
 
 
   return financialRouter;
