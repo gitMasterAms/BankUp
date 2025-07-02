@@ -1,84 +1,128 @@
-// Importa o React hook useState para controlar o estado dos inputs
-import { useState } from 'react';
-// Importa o arquivo CSS exclusivo para a tela de cadastro
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './styles/cadastro.css';
 
-// Componente de Cadastro
-function Cadastro({ irParaPagina }) {
-  // Estado para armazenar o email digitado
+function Cadastro() {
   const [email, setEmail] = useState('');
-  // Estado para armazenar a senha digitada
   const [senha, setSenha] = useState('');
-  // Estado para armazenar a confirmação da senha
   const [confirmarSenha, setConfirmarSenha] = useState('');
+  const navigate = useNavigate();
 
-  // Função chamada ao clicar no botão "Verificar Email"
-  const verificarEmail = () => {
-    // Validação simples de formato de e-mail
+  // Verifica se o usuário já tem um token válido salvo
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const emailSalvo = localStorage.getItem('email');
+
+    if (token && emailSalvo) {
+      fetch(`http://100.108.7.70:3000/user/check?email=${emailSalvo}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.valid === true) {
+            // Se o token for válido, redireciona
+            navigate('/perfil'); // ou a página apropriada
+          }
+        })
+        .catch(err => {
+          console.log('Token inválido ou erro de conexão:', err);
+        });
+    }
+  }, [navigate]);
+
+  const verificarEmail = async () => {
     if (!email.includes('@') || !email.includes('.')) {
       alert('Por favor, insira um e-mail válido.');
       return;
     }
 
-    // Verifica se as senhas digitadas são iguais
+    if (senha.length < 6) {
+      alert('A senha deve ter pelo menos 6 caracteres.');
+      return;
+    }
+
     if (senha !== confirmarSenha) {
       alert('As senhas não coincidem!');
       return;
     }
 
-    // Exibe mensagem de sucesso e redireciona para a tela de login
-    alert('Cadastro realizado com sucesso!');
-    irParaPagina('login');
+    try {
+      const resposta = await fetch('http://100.108.7.70:3000/user/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password: senha,
+          confirmpassword: confirmarSenha,
+        }),
+      });
+
+      if (resposta.ok) {
+        alert('Cadastro realizado com sucesso!');
+        navigate('/login');
+      } else {
+        const erro = await resposta.json();
+        alert(erro.msg || 'Erro ao cadastrar. Verifique os dados.');
+      }
+    } catch (erro) {
+      console.error('Erro na requisição:', erro);
+      alert('Erro de conexão com o servidor. Verifique se o backend está rodando.');
+    }
   };
 
   return (
     <div className="cadastro-wrapper">
-      {/* Formulário principal de cadastro */}
       <form className="cadastro-form">
         <h2 className="cadastro-titulo">Criar Conta</h2>
 
-        {/* Campo de e-mail */}
         <label htmlFor="email">Email</label>
         <input
           type="email"
           id="email"
           placeholder="Digite seu email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)} // Atualiza o estado do email
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
 
-        {/* Campo de senha */}
         <label htmlFor="senha">Senha</label>
         <input
           type="password"
           id="senha"
           placeholder="Digite sua senha"
           value={senha}
-          onChange={(e) => setSenha(e.target.value)} // Atualiza o estado da senha
+          onChange={(e) => setSenha(e.target.value)}
           required
         />
 
-        {/* Campo de confirmação da senha */}
         <label htmlFor="confirmarSenha">Confirmar Senha</label>
         <input
           type="password"
           id="confirmarSenha"
           placeholder="Repita sua senha"
           value={confirmarSenha}
-          onChange={(e) => setConfirmarSenha(e.target.value)} // Atualiza o estado da confirmação
+          onChange={(e) => setConfirmarSenha(e.target.value)}
           required
         />
 
-        {/* Botão para validar email e senhas */}
         <button type="button" onClick={verificarEmail}>
           Verificar Email
         </button>
 
-        {/* Link para a tela de login */}
         <p className="login-link">
           Já tem uma conta?{' '}
-          <a href="#" onClick={() => irParaPagina('login')}>
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate('/login');
+            }}
+          >
             Entrar
           </a>
         </p>
@@ -87,5 +131,4 @@ function Cadastro({ irParaPagina }) {
   );
 }
 
-// Exporta o componente para ser usado no App.jsx
 export default Cadastro;

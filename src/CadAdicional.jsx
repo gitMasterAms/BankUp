@@ -1,52 +1,57 @@
-// Importa o React e o Hook useState para gerenciar os valores dos campos
 import React, { useState } from 'react';
-import './styles/CadAdicional.css'; // Importa os estilos específicos da tela
+import { useNavigate } from 'react-router-dom';
+import './styles/CadAdicional.css';
 
 function CadAdicional() {
-  // Estados para armazenar os dados digitados pelo usuário
   const [name, setName] = useState('');
   const [cpfCnpj, setCpfCnpj] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [birthdate, setBirthdate] = useState('');
 
-  // Função para lidar com o envio do formulário
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Recupera o token salvo localmente
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token'); // chave do token padronizada
 
-    // Monta o objeto com os dados do usuário
+    if (!token) {
+      alert('Usuário não autenticado. Faça login novamente.');
+      navigate('/login');
+      return;
+    }
+
     const dados = {
       name,
       cpf_cnpj: cpfCnpj,
       phone,
       address,
-      birthdate
+      birthdate,
     };
 
     try {
-      // Envia os dados via POST para a API
-      const response = await fetch('http://100.108.7.70:3000/client', {
+      const response = await fetch('http://100.108.7.70:3000/user/profile', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(dados)
+        body: JSON.stringify(dados),
       });
 
       const resultado = await response.json();
 
-      // Exibe mensagem se houver
-      if (resultado && resultado.msg) {
-        alert(resultado.msg);
+      if (response.ok) {
+        alert('Cadastro adicional realizado com sucesso!');
+        // Redirecionar para outra página, se desejar, exemplo:
+        navigate('/dashboard'); // ajuste conforme sua rota final
       } else {
-        console.log('Erro ao cadastrar');
+        alert(resultado.msg || 'Erro ao enviar cadastro adicional.');
       }
     } catch (error) {
       console.error('Erro na requisição:', error);
+      alert('Erro de conexão com o servidor.');
     }
   };
 
@@ -54,7 +59,7 @@ function CadAdicional() {
     <div className="cadastro-adicional-pagina">
       <div className="cadastro-wrapper">
         <form className="cadastro-form" onSubmit={handleSubmit}>
-          <h2 className="cadastro-titulo">ADD CADASTRO ADICIONAL</h2>
+          <h2 className="cadastro-titulo">Cadastro Adicional</h2>
 
           <label htmlFor="name">Nome</label>
           <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} required />
@@ -71,8 +76,7 @@ function CadAdicional() {
           <label htmlFor="birthdate">Data de Nascimento</label>
           <input type="date" id="birthdate" value={birthdate} onChange={(e) => setBirthdate(e.target.value)} required />
 
-          <button type="submit">CADASTRAR</button>
-
+          <button type="submit">Cadastrar</button>
         </form>
       </div>
     </div>
