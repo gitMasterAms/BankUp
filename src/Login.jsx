@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/login.css';
 
@@ -8,27 +8,27 @@ function Login() {
   const navigate = useNavigate();
 
   // Verifica token já salvo
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const emailSalvo = localStorage.getItem('email');
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   const emailSalvo = localStorage.getItem('email');
 
-    if (token && emailSalvo) {
-      fetch(`http://100.108.7.70:3000/user/check?email=${emailSalvo}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.valid === true) {
+  //   // if (token && emailSalvo) {
+  //   //   fetch(`http://100.108.7.70:3000/user/check?email=${emailSalvo}`, {
+  //   //     method: 'GET',
+  //   //     headers: {
+  //   //       Authorization: `Bearer ${token}`,
+  //   //     },
+  //   //   })
+  //   //     .then((res) => res.json())
+  //   //     .then((data) => {
+  //   //       if (data.valid === true) {
           
-            navigate('/perfil');
-          }
-        })
-        .catch((err) => console.log('Token inválido:', err));
-    }
-  }, [navigate]);
+  //   //         navigate('/home');
+  //   //       }
+  //   //     })
+  //   //     .catch((err) => console.log('Token inválido:', err));
+  //   // }
+  // }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
