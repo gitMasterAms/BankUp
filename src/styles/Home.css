@@ -1,0 +1,80 @@
+/* Estilo geral da página interna */
+.home-wrapper {
+  display: flex;
+  height: 100vh;
+  background-color: #000;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+/* Sidebar lateral fixa */
+.sidebar {
+  width: 230px;
+  height: 100vh;
+  background-color: #111;
+  color: white;
+  padding: 20px;
+  box-sizing: border-box;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+/* Título da sidebar */
+.sidebar-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Navegação da sidebar */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Botões de navegação */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  padding: 4px;
+  transition: background 0.2s;
+}
+
+.nav-item:hover {
+  background-color: #222;
+  border-radius: 5px;
+}
+
+/* Seção de categoria na sidebar */
+.nav-section {
+  font-size: 13px;
+  color: #aaa;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+/* Conteúdo principal da home */
+.main-content {
+  flex: 1;
+  padding: 40px;
+  margin-left: 230px; /* Espaço reservado para a sidebar fixa */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #00AD4A;
+  text-align: center;
+}
+
+.home-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #00AD4A;
+}

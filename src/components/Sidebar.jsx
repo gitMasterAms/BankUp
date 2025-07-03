@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaHome, FaBell, FaRegFileAlt, FaUsers, FaPlus, FaChartBar, FaFolderOpen } from 'react-icons/fa';
-import './Sidebar.css';
+import '.style/home.css';
 
 function Sidebar() {
   return (

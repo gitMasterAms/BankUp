@@ -15,11 +15,11 @@
 
 /* Formulário de cadastro */
 .cadastro-form {
-  background-color: #1a1a1a; /* Fundo cinza escuro */
+  background-color: #1b1b1b; /* Fundo cinza escuro */
   padding: 40px;
   border-radius: 15px; /* Bordas arredondadas */
   width: 300px;
-  box-shadow: 0 0 10px #00AD4A; /* Sombra verde ao redor */
+  box-shadow: 0 0 10px #01b850; /* Sombra verde ao redor */
   display: flex;
   flex-direction: column; /* Alinha os elementos verticalmente */
 }

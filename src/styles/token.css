@@ -12,7 +12,7 @@
 
 .token-container {
   background-color: #111;
-  padding: 40px;
+  padding: 60px;
   border-radius: 10px;
   width: 90%;
   max-width: 400px;
@@ -58,5 +58,23 @@
 }
 
 .btn-verificar:hover {
-  background-color: #008f3a;
+  background-color: #077e37;
+}
+
+
+.btn-reenviar {
+  background-color: #00AD4A;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 50%;
+  margin-top: 10px; 
+}
+
+.btn-reenviar:hover {
+  background-color: #0e5028;
 }

@@ -1,14 +1,17 @@
-// src/pages/Home.jsx
+// src/Home.jsx
 import React from 'react';
 import Sidebar from './components/Sidebar';
+import './styles/Home.css'; // Importando o CSS separado
 
 function Home() {
   return (
-    <div style={{ display: 'flex' }}>
+    <div className="home-container">
+      {/* Sidebar Fixa */}
       <Sidebar />
-      <div style={{ marginLeft: '230px', padding: '20px', width: '100%' }}>
-        <h1>Bem-vindo à Home do BankUp</h1>
-        <p>Esta é sua dashboard principal.</p>
+
+      {/* Conteúdo Central */}
+      <div className="home-content">
+        <h1 className="home-title">Bem-vindo à nossa Home</h1>
       </div>
     </div>
   );
