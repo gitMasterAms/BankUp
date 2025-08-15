@@ -44,8 +44,10 @@ function CadAdicional() {
 
       if (response.ok) {
         alert('Cadastro adicional realizado com sucesso!');
-        // Redirecionar para outra página, se desejar, exemplo:
-        navigate('/dashboard'); // ajuste conforme sua rota final
+        
+        // Após o cadastro ser concluído com sucesso, redireciona para a página de Planos
+        localStorage.setItem('profile_complete', 'true');  // Atualiza o status do perfil para completo
+        navigate('/planos'); // Redireciona para a página de planos
       } else {
         alert(resultado.msg || 'Erro ao enviar cadastro adicional.');
       }

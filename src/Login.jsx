@@ -8,25 +8,33 @@ function Login() {
   const navigate = useNavigate();
 
   // Verifica token já salvo
-  useEffect(() => {
+ useEffect(() => {
     const token = localStorage.getItem('token');
-    const emailSalvo = localStorage.getItem('email');
 
-    if (token && emailSalvo) {
-      fetch(`http://100.108.7.70:3000/user/check?email=${emailSalvo}`, {
+    if (token) {
+      fetch('http://100.108.7.70:3000/user/check', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-        .then((res) => res.json())
-        .then((data) => {
+        .then(res => res.json())
+        .then(data => {
           if (data.valid === true) {
-          
-            navigate('/perfil');
+            // Token válido, redireciona para /planos
+            navigate('/planos');
+          } else {
+            // Token inválido, redireciona para /login
+            navigate('/login');
           }
         })
-        .catch((err) => console.log('Token inválido:', err));
+        .catch(err => {
+          console.log('Erro ao verificar o token ou conexão:', err);
+          navigate('/login'); // Caso haja erro, redireciona para login
+        });
+    } else {
+      // Se não houver token, redireciona para /login
+      navigate('/login');
     }
   }, [navigate]);
 

@@ -18,31 +18,39 @@ function Token() {
     }
 
     try {
-      const resposta = await fetch('http://100.108.7.70:3000/user/verify-code', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId,
-          twoFactorCode: codigo,
-        }),
-      });
+  const resposta = await fetch('http://100.108.7.70:3000/user/verify-code', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      userId,
+      twoFactorCode: codigo,
+    }),
+  });
 
-      if (resposta.ok) {
-        const data = await resposta.json();
-        const token = data.token;
+  if (resposta.ok) {
+    const data = await resposta.json();
+    const token = data.token;
+    const profileComplete = data.profile_complete; // Supondo que a resposta tenha esse campo
 
-        // Salva o token
-        localStorage.setItem('token', token);
+    // Salva o token e o profile_complete no localStorage
+    localStorage.setItem('token', token);
+    localStorage.setItem('profile_complete', profileComplete); // Salva se o perfil está completo
 
-        alert('Código verificado com sucesso!');
-        navigate('/cadAdicional'); // redireciona para a próxima etapa
-      } else {
-        const erro = await resposta.json();
-        alert(erro.msg || 'Código inválido.');
-      }
-    } catch (err) {
+    alert('Código verificado com sucesso!');
+
+    // Verifica se o perfil está completo
+    if (profileComplete === false) {
+      navigate('/cadAdicional'); // Redireciona para o cadastro adicional
+    } else {
+      navigate('/planos'); // Redireciona para a página de planos
+    }
+  } else {
+    const erro = await resposta.json();
+    alert(erro.msg || 'Código inválido.');
+  }
+} catch (err) {
       console.error('Erro ao verificar código:', err);
       alert('Erro de conexão com o servidor.');
     }
