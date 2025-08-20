@@ -1,0 +1,82 @@
+
+
+/* Estilo para a tela de cadastro - escopo isolado */
+
+/* Wrapper principal que centraliza o formulário na tela */
+.cadastro-wrapper {
+  background-color: #000; /* Fundo preto */
+  color: white; /* Texto branco */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ocupa a altura total da tela */
+  font-family: Arial, sans-serif;
+}
+
+/* Formulário de cadastro */
+.cadastro-form {
+  background-color: #1a1a1a; /* Fundo cinza escuro */
+  padding: 40px;
+  border-radius: 15px; /* Bordas arredondadas */
+  width: 300px;
+  box-shadow: 0 0 10px #00AD4A; /* Sombra verde ao redor */
+  display: flex;
+  flex-direction: column; /* Alinha os elementos verticalmente */
+}
+
+/* Título do formulário */
+.cadastro-titulo {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #00AD4A; /* Verde destaque */
+}
+
+/* Labels dos campos */
+.cadastro-form label {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Campos de entrada */
+.cadastro-form input {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+/* Botão de verificação de email */
+.cadastro-form button {
+  background-color: #00AD4A; /* Cor verde personalizada */
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Efeito hover no botão */
+.cadastro-form button:hover {
+  background-color: #008f3a;
+}
+
+/* Estilo do parágrafo com o link para login */
+.login-link {
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Estilo do link para login */
+.login-link a {
+  color: #00AD4A;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Efeito hover no link */
+.login-link a:hover {
+  text-decoration: underline;
+}
