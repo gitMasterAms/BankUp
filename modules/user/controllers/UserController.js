@@ -7,13 +7,15 @@ class UserController {
 
   register = async (req, res) => {
     let { email, password, confirmpassword } = req.body;
-    email = email.toLowerCase();
 
     if (!email) {
       return res
         .status(422)
         .json({ msg: 'O email é obrigatório!' });
     }
+    
+    // Normaliza o email para minúsculas
+    email = email.toLowerCase();
 
     if (!validator.isEmail(email)) {
       return res
