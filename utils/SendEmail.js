@@ -17,13 +17,14 @@ class SendEmail {
     });
   }
 
-  async sendEmail(to, subject, html) {
+  async sendEmail(to, subject, html, attachments = []) {
     try {
       const info = await this.transporter.sendMail({
         from: process.env.SMTP_USER,
         to,
         subject,
         html,
+        attachments,
       });
 
       return { success: true, messageId: info.messageId };
