@@ -12,42 +12,12 @@ function Header() {
 
       {/* Menu de navegação */}
       <nav className="menu">
-        {/* Ainda usa âncora interna para rolar até a seção de serviços */}
+      <a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/home'); }}>Home</a>
+
         <a href="#serviços" className="btn">Serviços</a>
-
-        {/* Botões de navegação usando navigate() para mudar de rota */}
-        <a
-          href="#"
-          className="btn"
-          onClick={(e) => {
-            e.preventDefault();
-            navigate('/planos');
-          }}
-        >
-          Planos
-        </a>
-
-        <a
-          href="#"
-          className="btn"
-          onClick={(e) => {
-            e.preventDefault();
-            navigate('/login');
-          }}
-        >
-          Entrar
-        </a>
-
-        <a
-          href="#"
-          className="btn btn-secundario"
-          onClick={(e) => {
-            e.preventDefault();
-            navigate('/cadastro');
-          }}
-        >
-          Cadastrar
-        </a>
+        <a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/planos'); }}>Planos</a>
+        <a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/login'); }}>Entrar</a>
+        <a href="#" className="btn btn-secundario" onClick={(e) => { e.preventDefault(); navigate('/cadastro'); }}>Cadastrar</a>
       </nav>
     </header>
   );

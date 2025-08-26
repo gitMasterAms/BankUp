@@ -1,0 +1,77 @@
+.sidebar {
+  width: 220px;
+  min-height: 100vh;
+  background: #111;
+  color: white;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .logo {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #00ff88;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.sidebar ul li {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sidebar ul li:hover {
+  background: #222;
+  border-radius: 5px;
+}
+
+.section-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  margin: 15px 0 5px 10px;
+  color: #00ff88;
+  text-align: left;
+}
+
+/* Container das setas ao lado do logo BankUp */
+.logo-arrows {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+/* Estilo das setas para cima ao lado do logo BankUp */
+.logo-arrow {
+  font-size: 14px;
+  opacity: 0.8;
+  transition: transform 0.2s ease;
+}
+
+/* Segunda seta posicionada ligeiramente mais alta e à direita */
+.arrow-2 {
+  transform: translateY(-2px);
+}
+
+.logo-arrow:hover {
+  transform: translateY(-4px);
+  opacity: 1;
+}
+
+.arrow-2:hover {
+  transform: translateY(-6px);
+}

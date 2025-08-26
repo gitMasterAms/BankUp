@@ -15,6 +15,9 @@ import Token from './Token.jsx';
 import Planos from './Planos.jsx';
 import CadAdicional from './CadAdicional.jsx';
 
+// Importa a Home interna (com sidebar)
+import HomeInterna from './HomeInterna.jsx';
+
 // Importa os estilos globais
 import './index.css';
 
@@ -39,7 +42,7 @@ function App() {
     <Router>
       {/* Define todas as rotas da aplicação */}
       <Routes>
-        {/* Quando a URL for "/", mostra a Home */}
+        {/* Quando a URL for "/", mostra a Home pública */}
         <Route path="/" element={<Home />} />
 
         {/* Quando a URL for "/login", mostra o componente Login */}
@@ -56,6 +59,10 @@ function App() {
 
         {/* Quando a URL for "/cadAdicional", mostra o componente CadAdicional */}
         <Route path="/cadAdicional" element={<CadAdicional />} />
+
+        {/* Quando a URL for "/home", mostra a Home interna com sidebar */}
+        <Route path="/home" element={<HomeInterna />} />
+
       </Routes>
     </Router>
   );
