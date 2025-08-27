@@ -10,6 +10,7 @@ class RecurringController {
     const {
       description,
       amount,
+      penalty,
       due_date,
       payee,
       pix_key,
@@ -29,6 +30,10 @@ class RecurringController {
       return res.status(422).json({ msg: 'Valor da conta inválido.' });
     }
 
+    if (!validator.isDecimal(penalty.toString())) {
+      return res.status(422).json({ msg: 'Valor da penalidade inválido.' });
+    }
+
     if (!validator.isDate(due_date)) {
       return res.status(422).json({ msg: 'Data de vencimento inválida.' });
     }
@@ -42,6 +47,7 @@ class RecurringController {
         userId,
         description,
         amount,
+        penalty,
         due_date,
         payee,
         pix_key,
@@ -110,6 +116,39 @@ class RecurringController {
     } catch (err) {
       console.error('Erro ao deletar conta:', err);
       return res.status(500).json({ msg: 'Erro ao deletar conta.' });
+    }
+  };
+  /**
+   * NOVA ROTA: Atualiza o status de uma conta e registra o pagamento.
+   * Espera um PATCH em /recurring/:id/status
+   */
+  updateStatusAndPay = async (req, res) => {
+    const userId = req.id;
+    const { id: accountId } = req.params; // Pega o ID da conta da URL
+    const { status } = req.body; // Pega o novo status do corpo da requisição
+
+    // Validação básica
+    if (!status) {
+      return res.status(422).json({ msg: 'O campo "status" é obrigatório.' });
+    }
+
+    if (!validator.isUUID(accountId)) {
+        return res.status(400).json({ msg: 'ID de conta inválido.' });
+    }
+
+    try {
+      const updatedAccount = await this.recurringService.updateStatusAndCreatePayment(userId, accountId, status);
+
+      return res.status(200).json(updatedAccount); // Retorna a conta atualizada
+
+    } catch (err) {
+      console.error('Erro ao confirmar pagamento:', err);
+
+      if (err.message === 'CONTA_NAO_ENCONTRADA') {
+        return res.status(404).json({ msg: 'Conta recorrente não encontrada ou não pertence a este usuário.' });
+      }
+
+      return res.status(500).json({ msg: 'Erro interno ao confirmar pagamento.' });
     }
   };
 }

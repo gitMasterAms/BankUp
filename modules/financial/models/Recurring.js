@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false
     },
+    penalty: {
+      type: DataTypes.DECIMAL(5, 2),
+      allowNull: false
+    },
     due_date: {
       type: DataTypes.DATEONLY,
       allowNull: false

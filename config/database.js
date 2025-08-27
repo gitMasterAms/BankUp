@@ -99,6 +99,10 @@ const initializeDatabase = async () => {
       sequelize,
       DataTypes
     );
+    db.Payment = require('../modules/financial/models/Payments')(
+      sequelize,
+      DataTypes
+    );
 
     // Adicione outros modelos aqui da mesma forma
     
