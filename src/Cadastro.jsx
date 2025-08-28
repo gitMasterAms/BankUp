@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-import './styles/cadastro.css';
+import './styles/Cadastro.css';
 
 function Cadastro() {
   const [email, setEmail] = useState('');
@@ -22,20 +22,15 @@ function Cadastro() {
         .then(res => res.json())
         .then(data => {
           if (data.valid === true) {
-            // Token válido, redireciona para /planos
+            // Se já estiver logado, redireciona para /planos
             navigate('/planos');
-          } else {
-            // Token inválido, redireciona para /login
-            navigate('/login');
           }
+          // Se não estiver logado, mantém na página de cadastro
         })
         .catch(err => {
-          console.log('Erro ao verificar o token ou conexão:', err);
-          navigate('/login'); // Caso haja erro, redireciona para login
+          console.log('Erro ao verificar o token:', err);
+          // Em caso de erro, mantém na página de cadastro
         });
-    } else {
-      // Se não houver token, redireciona para /login
-      navigate('/login');
     }
   }, [navigate]);
 
