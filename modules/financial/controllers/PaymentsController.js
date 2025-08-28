@@ -16,43 +16,51 @@ class PaymentsController {
     const userId = req.id;
     const {
       account_id,
-      amount_paid,
-      payment_date,
-      payment_method,
-      payment_status,
-      penalty_applied
+      amount,
+      due_date,
+      status,
+      penalty,
+      pix_key
     } = req.body;
 
     // Validação dos dados de entrada
     if (!validator.isUUID(userId)) {
       return res.status(400).json({ msg: 'ID de usuário inválido.' });
     }
-
-    if (!account_id || !amount_paid || !payment_date) {
-      return res.status(422).json({ msg: 'Os campos account_id, amount_paid e payment_date são obrigatórios!' });
-    }
-
+    
     if (!validator.isUUID(account_id)) {
       return res.status(400).json({ msg: 'ID da conta recorrente inválido.' });
     }
 
-    if (!validator.isDecimal(amount_paid.toString())) {
-      return res.status(422).json({ msg: 'Valor pago inválido.' });
-    }
+    if (!account_id || !amount || !due_date || !status || !penalty || !pix_key) {
+      return res.status(422).json({ msg: 'Preencha todos os campos obrigatórios!' });
+    } 
 
-    if (!validator.isISO8601(payment_date)) {
-      return res.status(422).json({ msg: 'Data de pagamento inválida (use o formato ISO8601).' });
-    }
+    if (!validator.isDecimal(amount.toString())) {
+          return res.status(422).json({ msg: 'Valor da conta inválido.' });
+        }
+    
+        if (!validator.isDecimal(penalty.toString())) {
+          return res.status(422).json({ msg: 'Valor da penalidade inválido.' });
+        }
+    
+        if (!validator.isDate(due_date)) {
+          return res.status(422).json({ msg: 'Data de vencimento inválida.' });
+        }
+    
+        if (!validator.isAlphanumeric(pix_key)) {
+          return res.status(422).json({ msg: 'Chave PIX inválida.' });
+        }
 
     try {
       await this.paymentsService.register({
         userId,
         account_id,
-        amount_paid,
-        payment_date,
-        payment_method,
-        payment_status,
-        penalty_applied
+        amount,
+      due_date,
+      status,
+      penalty,
+      pix_key
       });
 
       return res.status(201).json({ msg: 'Pagamento registrado com sucesso.' });

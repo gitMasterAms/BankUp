@@ -11,44 +11,31 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       allowNull: false
     },
+    name: {
+      type: DataTypes.STRING(255),
+      allowNull: false
+    },
     description: {
       type: DataTypes.STRING(255),
-      allowNull: false
+      allowNull: true
     },
-    amount: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false
+    cpf_cnpj: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true,
     },
-    penalty: {
-      type: DataTypes.DECIMAL(5, 2),
-      allowNull: false
-    },
-    due_date: {
-      type: DataTypes.DATEONLY,
-      allowNull: false
-    },
-    payee: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    },
-    pix_key: {
-      type: DataTypes.STRING(32),
-      allowNull: false
-    },
-    status: {
-      type: DataTypes.STRING(20),
-      allowNull: false
-    },
-    created_at: {
-      type: DataTypes.DATE,
+    email: {
+      type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: DataTypes.NOW
+      unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
-    updated_at: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW
-    }
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },    
   }, {
     tableName: 'Recurring_Accounts',
     //timestamps: false 

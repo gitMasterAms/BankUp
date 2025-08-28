@@ -18,39 +18,27 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       allowNull: false
     },
-    amount_paid: {
+    amount: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false
     },
-    payment_date: {
-      type: DataTypes.DATE,
+    due_date: {
+      type: DataTypes.DATEONLY,
       allowNull: false
     },
-    payment_method: {
+    status: {
       type: DataTypes.STRING(20),
-      allowNull: false,
-      defaultValue: 'PIX'
+      allowNull: false
+    }, 
+    penalty: {
+      type: DataTypes.DECIMAL(5, 2),
+      allowNull: false
     },
-    payment_status: {
-      type: DataTypes.STRING(20),
-      allowNull: false,
-      defaultValue: 'concluído'
-    },
-    penalty_applied: {
-        type: DataTypes.DECIMAL(10, 2),
-        allowNull: true,
-        defaultValue: 0.00
-    },
-    created_at: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW
-    },
-    updated_at: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW
-    }
+    
+    pix_key: {
+      type: DataTypes.STRING(32),
+      allowNull: false
+    },    
   }, {
     tableName: 'Payments',
     timestamps: true,

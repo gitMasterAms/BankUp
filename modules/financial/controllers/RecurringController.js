@@ -8,13 +8,7 @@ class RecurringController {
   register = async (req, res) => {
     const userId = req.id;
     const {
-      description,
-      amount,
-      penalty,
-      due_date,
-      payee,
-      pix_key,
-      status
+      name,      description,      cpf_cnpj,      email,      phone
     } = req.body;
 
     // Validação básica
@@ -22,36 +16,22 @@ class RecurringController {
       return res.status(400).json({ msg: 'ID de usuário inválido.' });
     }
 
-    if (!description || !amount || !due_date || !payee || !pix_key || !status) {
+    if (!description || !name || !cpf_cnpj || !email || !phone) {
       return res.status(422).json({ msg: 'Preencha todos os campos obrigatórios!' });
-    }
-
-    if (!validator.isDecimal(amount.toString())) {
-      return res.status(422).json({ msg: 'Valor da conta inválido.' });
-    }
-
-    if (!validator.isDecimal(penalty.toString())) {
-      return res.status(422).json({ msg: 'Valor da penalidade inválido.' });
-    }
-
-    if (!validator.isDate(due_date)) {
-      return res.status(422).json({ msg: 'Data de vencimento inválida.' });
-    }
-
-    if (!validator.isAlphanumeric(pix_key)) {
-      return res.status(422).json({ msg: 'Chave PIX inválida.' });
+    }   
+    
+    if (!validator.isMobilePhone(phone)) {
+      return res.status(422).json({ msg: 'O telefone informado não é válido!' });
     }
 
     try {
       await this.recurringService.register({
         userId,
+        name,
         description,
-        amount,
-        penalty,
-        due_date,
-        payee,
-        pix_key,
-        status
+        cpf_cnpj,
+        email,
+        phone
       });
 
       return res.status(201).json({ msg: 'Conta recorrente criada com sucesso.' });
