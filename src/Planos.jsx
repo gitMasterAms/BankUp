@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './styles/planos.css'; // Importando o CSS exclusivo da página de planos
+import './styles/Planos.css'; // Importando o CSS exclusivo da página de planos
+import Logout from './components/Logout';
 
 function Planos() {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ function Planos() {
 
   return (
     <div className="precos-wrapper">
+      <Logout />
       {/* Título principal da página */}
       <h1 className="precos-titulo">Escolha o melhor preço</h1>
 

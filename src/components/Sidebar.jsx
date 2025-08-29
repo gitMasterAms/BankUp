@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaHome, FaBell, FaChartBar, FaHistory, FaUserPlus, FaFileAlt } from "react-icons/fa";
 import "../styles/Sidebar.css"; // CSS separado
+import Logout from "./Logout";
 
 export default function Sidebar() {
   return (
@@ -19,6 +20,8 @@ export default function Sidebar() {
           <li><FaHistory /> Cobranças</li>
           {/* 🔗 Agora o botão abre o Cadastro de Clientes */}
           <li><Link to="/cadclientes"><FaUserPlus /> Cadastrar clientes</Link></li>
+          <li><FaUserPlus /> Cadastrar clientes</li>
+          <li><Logout /></li>
         </ul>
       </nav>
     </aside>
