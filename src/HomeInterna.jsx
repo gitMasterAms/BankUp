@@ -4,6 +4,7 @@ import "./styles/HomeInterna.css";
 
 export default function HomeInterna() {
   return (
+
     <div className="home-container">
       <Sidebar />
       <main className="home-content">
@@ -32,5 +33,6 @@ export default function HomeInterna() {
         </section>
       </main>
     </div>
+  
   );
 }

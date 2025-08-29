@@ -1,0 +1,80 @@
+.cadastro-container {
+  background: #111;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #0f0;
+  max-width: 900px;
+  margin: 20px auto;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.cadastro-container h2 {
+  margin-bottom: 5px;
+}
+
+.cadastro-container .info {
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+.form-cadastro {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row input,
+.form-row select {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: #222;
+  color: #fff;
+}
+
+.form-row input:focus,
+.form-row select:focus {
+  outline: 1px solid #0f0;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn-salvar {
+  background: #00c853;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-salvar:hover {
+  background: #00e676;
+}
+
+.btn-cancelar {
+  background: #333;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-cancelar:hover {
+  background: #555;
+}
