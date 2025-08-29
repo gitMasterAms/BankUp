@@ -14,6 +14,8 @@ import Cadastro from './Cadastro.jsx';
 import Token from './Token.jsx';
 import Planos from './Planos.jsx';
 import CadAdicional from './CadAdicional.jsx';
+import CadastrarCliente from './CadClientes.jsx';
+
 
 // Importa a Home interna (com sidebar)
 import HomeInterna from './HomeInterna.jsx';
@@ -62,6 +64,11 @@ function App() {
 
         {/* Quando a URL for "/home", mostra a Home interna com sidebar */}
         <Route path="/home" element={<HomeInterna />} />
+
+        {/* Quando a URL for "/CadClientes", mostra a Home interna com sidebar */}
+
+        <Route path="/cadclientes" element={<CadastrarCliente />} />
+
 
       </Routes>
     </Router>
