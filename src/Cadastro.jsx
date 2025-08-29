@@ -22,8 +22,8 @@ function Cadastro() {
         .then(res => res.json())
         .then(data => {
           if (data.valid === true) {
-            // Se já estiver logado, redireciona para /planos
-            navigate('/planos');
+            // Se já estiver logado, redireciona para /home
+            navigate('/home');
           }
           // Se não estiver logado, mantém na página de cadastro
         })

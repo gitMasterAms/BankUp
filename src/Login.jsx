@@ -21,8 +21,8 @@ function Login() {
         .then(res => res.json())
         .then(data => {
           if (data.valid === true) {
-            // Token válido, redireciona para /planos
-            navigate('/planos');
+            // Token válido, redireciona para /home
+            navigate('/home');
           } else {
             // Token inválido, redireciona para /login
             navigate('/login');

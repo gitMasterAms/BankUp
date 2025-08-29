@@ -44,7 +44,7 @@ function Token() {
     if (profileComplete === false) {
       navigate('/cadAdicional'); // Redireciona para o cadastro adicional
     } else {
-      navigate('/planos'); // Redireciona para a página de planos
+      navigate('/home'); // Redireciona para a página de home
     }
   } else {
     const erro = await resposta.json();

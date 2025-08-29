@@ -47,7 +47,7 @@ function CadAdicional() {
         
         // Após o cadastro ser concluído com sucesso, redireciona para a página de Planos
         localStorage.setItem('profile_complete', 'true');  // Atualiza o status do perfil para completo
-        navigate('/planos'); // Redireciona para a página de planos
+        navigate('/home'); // Redireciona para a página de home
       } else {
         alert(resultado.msg || 'Erro ao enviar cadastro adicional.');
       }

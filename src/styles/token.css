@@ -60,3 +60,26 @@
 .btn-verificar:hover {
   background-color: #008f3a;
 }
+
+.btn-reenviar {
+  width: 60%;
+  padding: 12px;
+  margin-top: 16px;
+  background-color: transparent;
+  border: 2px solid #00AD4A;
+  border-radius: 8px;
+  color: #00AD4A;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-reenviar:hover {
+  background-color: #00AD4A;
+  color: white;
+}
+
+.btn-reenviar:active {
+  transform: scale(0.98);
+}

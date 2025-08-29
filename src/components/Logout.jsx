@@ -7,7 +7,7 @@ function Logout() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('profile_complete');
-    navigate('/login');
+    navigate('/');
   };
 
   return (
