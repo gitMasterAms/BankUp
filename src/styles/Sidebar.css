@@ -1,77 +1,137 @@
+/* ===== ESTILOS DA SIDEBAR ===== */
+
+/* Container principal da sidebar */
 .sidebar {
-  width: 220px;
-  min-height: 100vh;
-  background: #111;
-  color: white;
-  padding: 20px 10px;
-  display: flex;
-  flex-direction: column;
+  width: 220px;              /* Largura fixa da sidebar */
+  min-height: 100vh;         /* Altura mínima da viewport */
+  background: #111;          /* Cor de fundo escura */
+  color: white;              /* Cor do texto */
+  padding: 20px 10px;        /* Espaçamento interno */
+  display: flex;             /* Layout flexbox */
+  flex-direction: column;    /* Direção vertical */
 }
 
+/* Estilo do logo da aplicação */
 .sidebar .logo {
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #00ff88;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 8px;
+  font-size: 22px;           /* Tamanho da fonte */
+  font-weight: bold;         /* Peso da fonte */
+  margin-bottom: 20px;       /* Margem inferior */
+  color: #00ff88;            /* Cor verde do tema */
+  display: flex;             /* Layout flexbox */
+  align-items: center;       /* Alinhamento vertical */
+  justify-content: flex-start; /* Alinhamento horizontal */
+  gap: 8px;                  /* Espaçamento entre elementos */
 }
 
+/* Lista de navegação */
 .sidebar ul {
-  list-style: none;
-  padding: 0;
-  text-align: left;
+  list-style: none;          /* Remove marcadores da lista */
+  padding: 0;                /* Remove padding padrão */
+  text-align: left;          /* Alinhamento do texto à esquerda */
 }
 
+/* Itens da lista de navegação */
 .sidebar ul li {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  padding: 10px;
-  cursor: pointer;
-  transition: background 0.2s;
+  display: flex;             /* Layout flexbox */
+  align-items: center;       /* Alinhamento vertical */
+  justify-content: flex-start; /* Alinhamento horizontal */
+  gap: 10px;                 /* Espaçamento entre ícone e texto */
+  padding: 10px;             /* Espaçamento interno */
+  cursor: pointer;           /* Cursor de ponteiro */
+  transition: background 0.2s; /* Transição suave para hover */
 }
 
+/* Efeito hover nos itens da lista */
 .sidebar ul li:hover {
-  background: #222;
-  border-radius: 5px;
+  background: #222;          /* Cor de fundo no hover */
+  border-radius: 5px;        /* Bordas arredondadas */
 }
 
+/* ===== ESTILOS PARA LINKS DO SIDEBAR ===== */
+
+/* Links de navegação (para páginas existentes) */
+.sidebar-link {
+  display: flex;             /* Layout flexbox */
+  align-items: center;       /* Alinhamento vertical */
+  gap: 10px;                 /* Espaçamento entre ícone e texto */
+  color: white;              /* Cor do texto */
+  text-decoration: none;     /* Remove sublinhado */
+  width: 100%;               /* Largura total */
+  padding: 0;                /* Remove padding */
+  background: none;          /* Remove fundo */
+  border: none;              /* Remove bordas */
+  font-size: inherit;        /* Herda tamanho da fonte */
+  font-family: inherit;      /* Herda família da fonte */
+}
+
+/* Efeito hover nos links */
+.sidebar-link:hover {
+  color: #00ff88;            /* Cor verde no hover */
+}
+
+/* ===== ESTILOS PARA BOTÕES DO SIDEBAR ===== */
+
+/* Botões de navegação (para funcionalidades futuras) */
+.sidebar-button {
+  display: flex;             /* Layout flexbox */
+  align-items: center;       /* Alinhamento vertical */
+  gap: 10px;                 /* Espaçamento entre ícone e texto */
+  color: white;              /* Cor do texto */
+  text-decoration: none;     /* Remove sublinhado */
+  width: 100%;               /* Largura total */
+  padding: 0;                /* Remove padding */
+  background: none;          /* Remove fundo */
+  border: none;              /* Remove bordas */
+  font-size: inherit;        /* Herda tamanho da fonte */
+  font-family: inherit;      /* Herda família da fonte */
+  cursor: pointer;           /* Cursor de ponteiro */
+  text-align: left;          /* Alinhamento do texto à esquerda */
+}
+
+/* Efeito hover nos botões */
+.sidebar-button:hover {
+  color: #00ff88;            /* Cor verde no hover */
+}
+
+/* ===== TÍTULO DE SEÇÃO ===== */
+
+/* Título para separar seções do menu */
 .section-title {
-  font-size: 12px;
-  text-transform: uppercase;
-  margin: 15px 0 5px 10px;
-  color: #00ff88;
-  text-align: left;
+  font-size: 12px;           /* Tamanho pequeno da fonte */
+  text-transform: uppercase; /* Texto em maiúsculas */
+  margin: 15px 0 5px 10px;   /* Margens para espaçamento */
+  color: #00ff88;            /* Cor verde do tema */
+  text-align: left;          /* Alinhamento à esquerda */
 }
 
-/* Container das setas ao lado do logo BankUp */
+/* ===== ELEMENTOS DECORATIVOS DO LOGO ===== */
+
+/* Container das setas decorativas ao lado do logo */
 .logo-arrows {
-  display: flex;
-  align-items: flex-end;
-  gap: 2px;
+  display: flex;             /* Layout flexbox */
+  align-items: flex-end;     /* Alinhamento na parte inferior */
+  gap: 2px;                 /* Pequeno espaçamento entre setas */
 }
 
-/* Estilo das setas para cima ao lado do logo BankUp */
+/* Estilo das setas decorativas */
 .logo-arrow {
-  font-size: 14px;
-  opacity: 0.8;
-  transition: transform 0.2s ease;
+  font-size: 14px;          /* Tamanho da fonte */
+  opacity: 0.8;             /* Transparência */
+  transition: transform 0.2s ease; /* Transição suave */
 }
 
-/* Segunda seta posicionada ligeiramente mais alta e à direita */
+/* Segunda seta com posicionamento diferenciado */
 .arrow-2 {
-  transform: translateY(-2px);
+  transform: translateY(-2px); /* Movimento vertical */
 }
 
+/* Efeito hover nas setas */
 .logo-arrow:hover {
-  transform: translateY(-4px);
-  opacity: 1;
+  transform: translateY(-4px); /* Movimento no hover */
+  opacity: 1;                 /* Opacidade total */
 }
 
+/* Efeito hover específico para a segunda seta */
 .arrow-2:hover {
-  transform: translateY(-6px);
+  transform: translateY(-6px); /* Movimento maior no hover */
 }
