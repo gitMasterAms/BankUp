@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/login.css';
+import CapsLockWarning, { useCapsLock } from './components/CapsLockWarning';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const navigate = useNavigate();
+  
+  // Hook para detectar se o Caps Lock está ativado
+  const capsLockOn = useCapsLock();
 
   // Verifica token já salvo
  useEffect(() => {
@@ -113,6 +117,11 @@ function Login() {
               required
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
+            />
+            {/* Aviso de Caps Lock - só aparece quando o campo de senha tem foco e Caps Lock está ativado */}
+            <CapsLockWarning 
+              show={capsLockOn && document.activeElement?.id === 'password'} 
+              className="login-caps-warning"
             />
             <a href="#" className="forgot-password">Esqueceu a senha?</a>
           </div>

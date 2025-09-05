@@ -1,0 +1,63 @@
+/* Estilos para o aviso de Caps Lock */
+
+.caps-lock-warning {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 4px;
+  color: #856404;
+  font-size: 14px;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.caps-lock-warning .warning-icon {
+  font-size: 16px;
+}
+
+.caps-lock-warning .warning-text {
+  flex: 1;
+}
+
+/* Animação de entrada suave */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos específicos para o formulário de login */
+.login-caps-warning {
+  background-color: #fff3cd;
+  border-color: #ffeaa7;
+  color: #856404;
+}
+
+/* Estilos específicos para o formulário de cadastro */
+.cadastro-caps-warning {
+  background-color: #fff3cd;
+  border-color: #ffeaa7;
+  color: #856404;
+  margin-bottom: 10px;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .caps-lock-warning {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  
+  .caps-lock-warning .warning-icon {
+    font-size: 14px;
+  }
+}
