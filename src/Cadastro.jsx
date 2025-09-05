@@ -13,7 +13,7 @@ function Cadastro() {
     const token = localStorage.getItem('token');
 
     if (token) {
-      fetch('http://100.108.7.70:3000/user/check', {
+      fetch('/api/user/check', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -51,7 +51,7 @@ function Cadastro() {
     }
 
     try {
-      const resposta = await fetch('http://100.108.7.70:3000/user/register', {
+      const resposta = await fetch('/api/user/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

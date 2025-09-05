@@ -12,7 +12,7 @@ function Login() {
     const token = localStorage.getItem('token');
 
     if (token) {
-      fetch('http://100.108.7.70:3000/user/check', {
+      fetch('/api/user/check', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -43,7 +43,7 @@ function Login() {
 
     try {
       // 1. Login
-      const loginRes = await fetch('http://100.108.7.70:3000/user/login', {
+      const loginRes = await fetch('/api/user/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password: senha }),
@@ -63,7 +63,7 @@ function Login() {
       localStorage.setItem('userId', userId);
 
       // 2. Enviar código com userId, email e type
-      const sendCodeRes = await fetch('http://100.108.7.70:3000/user/send-code', {
+      const sendCodeRes = await fetch('/api/user/send-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

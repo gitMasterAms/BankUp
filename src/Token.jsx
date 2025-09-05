@@ -18,7 +18,7 @@ function Token() {
     }
 
     try {
-  const resposta = await fetch('http://100.108.7.70:3000/user/verify-code', {
+  const resposta = await fetch('/api/user/verify-code', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ function Token() {
     }
 
     try {
-      const resposta = await fetch('http://100.108.7.70:3000/user/send-code', {
+      const resposta = await fetch('/api/user/send-code', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

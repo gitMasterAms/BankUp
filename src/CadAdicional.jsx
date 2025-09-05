@@ -31,7 +31,7 @@ function CadAdicional() {
     };
 
     try {
-      const response = await fetch('http://100.108.7.70:3000/user/profile', {
+      const response = await fetch('/api/user/profile', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
