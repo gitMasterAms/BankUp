@@ -1,12 +1,16 @@
 import { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/Cadastro.css';
+import CapsLockWarning, { useCapsLock } from './components/CapsLockWarning';
 
 function Cadastro() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
   const navigate = useNavigate();
+  
+  // Hook para detectar se o Caps Lock está ativado
+  const capsLockOn = useCapsLock();
 
   // Verifica se o usuário já tem um token válido salvo
   useEffect(() => {
@@ -100,6 +104,11 @@ function Cadastro() {
           onChange={(e) => setSenha(e.target.value)}
           required
         />
+        {/* Aviso de Caps Lock - só aparece quando o campo de senha tem foco e Caps Lock está ativado */}
+        <CapsLockWarning 
+          show={capsLockOn && document.activeElement?.id === 'senha'} 
+          className="cadastro-caps-warning"
+        />
 
         <label htmlFor="confirmarSenha">Confirmar Senha</label>
         <input
@@ -109,6 +118,11 @@ function Cadastro() {
           value={confirmarSenha}
           onChange={(e) => setConfirmarSenha(e.target.value)}
           required
+        />
+        {/* Aviso de Caps Lock - só aparece quando o campo de confirmar senha tem foco e Caps Lock está ativado */}
+        <CapsLockWarning 
+          show={capsLockOn && document.activeElement?.id === 'confirmarSenha'} 
+          className="cadastro-caps-warning"
         />
 
         <button type="button" onClick={verificarEmail}>
