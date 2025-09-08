@@ -20,7 +20,6 @@
   display: flex;             /* Layout flexbox */
   align-items: center;       /* Alinhamento vertical */
   justify-content: flex-start; /* Alinhamento horizontal */
-  gap: 8px;                  /* Espaçamento entre elementos */
 }
 
 /* Lista de navegação */
@@ -134,4 +133,57 @@
 /* Efeito hover específico para a segunda seta */
 .arrow-2:hover {
   transform: translateY(-6px); /* Movimento maior no hover */
+}
+
+/* ===== FOOTER DA SIDEBAR ===== */
+
+/* Container do footer da sidebar */
+.sidebar-footer {
+  margin-top: auto; /* Empurra para o final da sidebar */
+  padding: 20px 10px 10px 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Botão de configurações no footer */
+.config-button {
+  width: 40px !important;
+  height: 40px;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #333;
+  transition: background 0.2s;
+}
+
+.config-button:hover {
+  background: #444;
+}
+
+/* Avatar do usuário */
+.user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-placeholder {
+  width: 40px;
+  height: 40px;
+  background: #333;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #00ff88;
+  border: 2px solid #555;
+  transition: border-color 0.2s;
+}
+
+.avatar-placeholder:hover {
+  border-color: #00ff88;
 }
