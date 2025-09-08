@@ -72,3 +72,108 @@
   font-weight: bold;
   font-size: 1.2em;
 }
+
+/* ===== RESPONSIVIDADE PLANOS ===== */
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+  .precos-wrapper {
+    padding: 40px 15px;
+  }
+  
+  .precos-titulo {
+    font-size: 1.8em;
+    margin-bottom: 35px;
+  }
+  
+  .precos-cards {
+    gap: 15px;
+  }
+  
+  .precos-card {
+    width: 250px;
+    padding: 25px 15px;
+  }
+  
+  .precos-nome {
+    font-size: 1.3em;
+  }
+  
+  .precos-preco {
+    font-size: 1.8em;
+  }
+}
+
+/* Celulares (até 768px) */
+@media (max-width: 768px) {
+  .precos-wrapper {
+    padding: 30px 10px;
+  }
+  
+  .precos-titulo {
+    font-size: 1.6em;
+    margin-bottom: 30px;
+  }
+  
+  .precos-cards {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .precos-card {
+    width: 100%;
+    max-width: 350px;
+    padding: 25px 20px;
+  }
+  
+  .precos-nome {
+    font-size: 1.2em;
+    margin: -25px -20px 15px -20px;
+  }
+  
+  .precos-preco {
+    font-size: 1.6em;
+  }
+  
+  .precos-lista {
+    font-size: 0.9em;
+  }
+  
+  .precos-lista li {
+    margin-bottom: 12px;
+  }
+}
+
+/* Celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+  .precos-wrapper {
+    padding: 20px 5px;
+  }
+  
+  .precos-titulo {
+    font-size: 1.4em;
+    margin-bottom: 25px;
+  }
+  
+  .precos-card {
+    padding: 20px 15px;
+  }
+  
+  .precos-nome {
+    font-size: 1.1em;
+    margin: -20px -15px 15px -15px;
+  }
+  
+  .precos-preco {
+    font-size: 1.4em;
+  }
+  
+  .precos-lista {
+    font-size: 0.85em;
+  }
+  
+  .precos-lista li {
+    margin-bottom: 10px;
+  }
+}

@@ -207,24 +207,110 @@
   background: #444;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
+/* ===== RESPONSIVIDADE ===== */
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
   .cobranca-content {
     margin-left: 0;
-    padding: 20px;
+    padding: 15px;
+  }
+  
+  .cobranca-form-wrapper {
+    max-width: 100%;
   }
   
   .form-fields {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 15px;
+  }
+}
+
+/* Celulares (até 768px) */
+@media (max-width: 768px) {
+  .cobranca-content {
+    margin-left: 0;
+    padding: 10px;
+  }
+  
+  .cobranca-form-wrapper {
+    max-width: 100%;
+  }
+  
+  .cobranca-header h1 {
+    font-size: 24px;
+  }
+  
+  .cobranca-tip {
+    font-size: 12px;
+  }
+  
+  .cobranca-form-container {
+    padding: 15px;
+  }
+  
+  .form-fields {
+    grid-template-columns: 1fr;
+    gap: 15px;
   }
   
   .cliente-section {
     flex-direction: column;
     align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .avatar-placeholder {
+    width: 50px;
+    height: 50px;
+    font-size: 16px;
+  }
+  
+  .form-group label {
+    font-size: 13px;
+  }
+  
+  .form-group input,
+  .form-group select {
+    padding: 10px;
+    font-size: 14px;
   }
   
   .form-actions {
     flex-direction: column;
+    gap: 10px;
+  }
+  
+  .btn-salvar,
+  .btn-cancelar {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+}
+
+/* Celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+  .cobranca-content {
+    padding: 5px;
+  }
+  
+  .cobranca-header h1 {
+    font-size: 20px;
+  }
+  
+  .cobranca-form-container {
+    padding: 10px;
+  }
+  
+  .form-group input,
+  .form-group select {
+    padding: 8px;
+    font-size: 13px;
+  }
+  
+  .btn-salvar,
+  .btn-cancelar {
+    padding: 10px 15px;
+    font-size: 13px;
   }
 }
