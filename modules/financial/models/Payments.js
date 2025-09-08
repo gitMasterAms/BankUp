@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false
     },
+    description: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
     due_date: {
       type: DataTypes.DATEONLY,
       allowNull: false

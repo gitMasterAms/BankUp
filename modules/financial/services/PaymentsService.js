@@ -20,7 +20,13 @@ class PaymentsService {
    * @param {object} paymentData - Dados do pagamento.
    * @returns {Promise<object>} O pagamento registrado.
    */
-  async register({ userId, account_id, amount_paid, payment_date, payment_method, payment_status, penalty_applied }) {
+  async register({ userId,
+      account_id,
+      amount,
+      due_date,
+      status,
+      penalty,
+      pix_key }) {
     try {
       // A validação continua usando o userId (vindo do token) para garantir
       // que o usuário é o dono da conta recorrente.
@@ -32,18 +38,17 @@ class PaymentsService {
       // Cria o registro do pagamento sem o campo 'userId'.
     await this.paymentsRepository.create({
         account_id,
-        amount_paid,
-        payment_date,
-        payment_method,
-        payment_status,
-        penalty_applied,
-        created_at: new Date(),
-        updated_at: new Date()
+        account_id,
+        amount,
+        due_date,
+        status,
+        penalty,
+        pix_key
       });
 
       const qrCodePix = QrCodePix({
   version: '01',
-  key: 'nicolasggomes2@gmail.com',
+  key: pix_key,
   name: payee,
   city: 'SAO PAULO',
   transactionId: `BANKUP${Date.now()}`.slice(0,25), 

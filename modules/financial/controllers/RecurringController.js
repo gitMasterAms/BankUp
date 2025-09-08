@@ -102,35 +102,35 @@ class RecurringController {
    * NOVA ROTA: Atualiza o status de uma conta e registra o pagamento.
    * Espera um PATCH em /recurring/:id/status
    */
-  updateStatusAndPay = async (req, res) => {
-    const userId = req.id;
-    const { id: accountId } = req.params; // Pega o ID da conta da URL
-    const { status } = req.body; // Pega o novo status do corpo da requisição
+  // updateStatusAndPay = async (req, res) => {
+  //   const userId = req.id;
+  //   const { id: accountId } = req.params; // Pega o ID da conta da URL
+  //   const { status } = req.body; // Pega o novo status do corpo da requisição
 
-    // Validação básica
-    if (!status) {
-      return res.status(422).json({ msg: 'O campo "status" é obrigatório.' });
-    }
+  //   // Validação básica
+  //   if (!status) {
+  //     return res.status(422).json({ msg: 'O campo "status" é obrigatório.' });
+  //   }
 
-    if (!validator.isUUID(accountId)) {
-        return res.status(400).json({ msg: 'ID de conta inválido.' });
-    }
+  //   if (!validator.isUUID(accountId)) {
+  //       return res.status(400).json({ msg: 'ID de conta inválido.' });
+  //   }
 
-    try {
-      const updatedAccount = await this.recurringService.updateStatusAndCreatePayment(userId, accountId, status);
+  //   try {
+  //     const updatedAccount = await this.recurringService.updateStatusAndCreatePayment(userId, accountId, status);
 
-      return res.status(200).json(updatedAccount); // Retorna a conta atualizada
+  //     return res.status(200).json(updatedAccount); // Retorna a conta atualizada
 
-    } catch (err) {
-      console.error('Erro ao confirmar pagamento:', err);
+  //   } catch (err) {
+  //     console.error('Erro ao confirmar pagamento:', err);
 
-      if (err.message === 'CONTA_NAO_ENCONTRADA') {
-        return res.status(404).json({ msg: 'Conta recorrente não encontrada ou não pertence a este usuário.' });
-      }
+  //     if (err.message === 'CONTA_NAO_ENCONTRADA') {
+  //       return res.status(404).json({ msg: 'Conta recorrente não encontrada ou não pertence a este usuário.' });
+  //     }
 
-      return res.status(500).json({ msg: 'Erro interno ao confirmar pagamento.' });
-    }
-  };
+  //     return res.status(500).json({ msg: 'Erro interno ao confirmar pagamento.' });
+  //   }
+  // };
 }
 
 module.exports = RecurringController;

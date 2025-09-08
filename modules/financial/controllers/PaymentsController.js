@@ -17,6 +17,7 @@ class PaymentsController {
     const {
       account_id,
       amount,
+      description,
       due_date,
       status,
       penalty,
