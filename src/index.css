@@ -194,3 +194,167 @@ body {
   font-size: 1.2em;
   color: #ccc;              /* Cor cinza claro para contraste suave */
 }
+
+/* ===== RESPONSIVIDADE GLOBAL ===== */
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+  .cabecalho {
+    padding: 15px 20px;
+  }
+  
+  .logo {
+    font-size: 1.3em;
+  }
+  
+  .menu a {
+    margin-left: 15px;
+    font-size: 0.9em;
+  }
+  
+  .hero {
+    padding: 40px 15px;
+  }
+  
+  .hero h1 {
+    font-size: 2.5em;
+  }
+  
+  .hero p {
+    font-size: 1.1em;
+  }
+  
+  .grid-cards {
+    gap: 40px;
+    max-width: 800px;
+  }
+  
+  .card {
+    padding: 30px;
+  }
+}
+
+/* Celulares (até 768px) */
+@media (max-width: 768px) {
+  .cabecalho {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px 10px;
+  }
+  
+  .logo {
+    font-size: 1.2em;
+  }
+  
+  .menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .menu a {
+    margin-left: 0;
+    font-size: 0.8em;
+    padding: 5px 10px;
+  }
+  
+  .hero {
+    padding: 30px 10px;
+  }
+  
+  .hero h1 {
+    font-size: 2em;
+    line-height: 1.2;
+  }
+  
+  .hero p {
+    font-size: 1em;
+    margin-bottom: 20px;
+  }
+  
+  .aprenda {
+    padding: 40px 10px;
+  }
+  
+  .aprenda h2 {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+  }
+  
+  .grid-cards {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 100%;
+  }
+  
+  .card {
+    padding: 20px;
+  }
+  
+  .card img {
+    width: 50px;
+    margin-bottom: 15px;
+  }
+  
+  .card p {
+    font-size: 1em;
+  }
+  
+  .rodape {
+    padding: 30px 10px;
+    font-size: 0.8em;
+  }
+}
+
+/* Celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+  .cabecalho {
+    padding: 10px 5px;
+  }
+  
+  .logo {
+    font-size: 1.1em;
+  }
+  
+  .menu {
+    gap: 5px;
+  }
+  
+  .menu a {
+    font-size: 0.7em;
+    padding: 4px 8px;
+  }
+  
+  .hero {
+    padding: 20px 5px;
+  }
+  
+  .hero h1 {
+    font-size: 1.8em;
+  }
+  
+  .hero p {
+    font-size: 0.9em;
+  }
+  
+  .aprenda {
+    padding: 30px 5px;
+  }
+  
+  .aprenda h2 {
+    font-size: 1.3em;
+  }
+  
+  .card {
+    padding: 15px;
+  }
+  
+  .card img {
+    width: 40px;
+  }
+  
+  .card p {
+    font-size: 0.9em;
+  }
+}

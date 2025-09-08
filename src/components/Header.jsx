@@ -12,7 +12,7 @@ function Header() {
 
       {/* Menu de navegação */}
       <nav className="menu">
-      <a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/home'); }}>Home</a>
+      <a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/home'); }}>Home</a> 
 
         <a href="#serviços" className="btn">Serviços</a>
         <a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/planos'); }}>Planos</a>

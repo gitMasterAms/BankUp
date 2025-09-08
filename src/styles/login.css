@@ -93,3 +93,70 @@
 .tela-login .signup-link a:hover {
   text-decoration: underline;
 }
+
+/* ===== RESPONSIVIDADE LOGIN ===== */
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+  .tela-login .login-container {
+    padding: 30px;
+    max-width: 350px;
+  }
+  
+  .tela-login .login-container h1 {
+    font-size: 22px;
+  }
+}
+
+/* Celulares (até 768px) */
+@media (max-width: 768px) {
+  .tela-login {
+    padding: 20px;
+  }
+  
+  .tela-login .login-container {
+    padding: 25px;
+    max-width: 100%;
+    margin: 0 10px;
+  }
+  
+  .tela-login .login-container h1 {
+    font-size: 20px;
+    margin-bottom: 25px;
+  }
+  
+  .tela-login input[type="email"],
+  .tela-login input[type="password"] {
+    padding: 12px;
+    font-size: 16px; /* Evita zoom no iOS */
+  }
+  
+  .tela-login .login-btn {
+    padding: 14px;
+    font-size: 16px;
+  }
+}
+
+/* Celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+  .tela-login {
+    padding: 10px;
+  }
+  
+  .tela-login .login-container {
+    padding: 20px;
+  }
+  
+  .tela-login .login-container h1 {
+    font-size: 18px;
+  }
+  
+  .tela-login input[type="email"],
+  .tela-login input[type="password"] {
+    padding: 10px;
+  }
+  
+  .tela-login .login-btn {
+    padding: 12px;
+  }
+}

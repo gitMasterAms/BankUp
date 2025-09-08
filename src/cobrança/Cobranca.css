@@ -1,0 +1,316 @@
+/* ===== ESTILOS DA TELA DE COBRANÇA ===== */
+
+/* Container principal da página de cobrança */
+.cobranca-container {
+  display: flex;
+  min-height: 100vh;
+  background: #0a0a0a;
+  color: white;
+}
+
+/* Área de conteúdo principal */
+.cobranca-content {
+  flex: 1;
+  padding: 20px 20px 20px 0px;
+  margin-left: 60px; /* Mais próximo da sidebar */
+}
+
+/* Container do formulário de cobrança */
+.cobranca-form-wrapper {
+  max-width: 1400px; /* Aumentado para centralizar melhor */
+  margin: 0 auto;
+}
+
+/* Cabeçalho da página */
+.cobranca-header {
+  margin-bottom: 30px;
+}
+
+.cobranca-header h1 {
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
+  border-bottom: 3px solid #00ff88;
+  padding-bottom: 10px;
+  display: inline-block;
+}
+
+.cobranca-tip {
+  color: #888;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* Container do formulário */
+.cobranca-form-container {
+  background: #1a1a1a;
+  border: 1px solid #00ff88;
+  border-radius: 8px;
+  padding: 30px;
+}
+
+/* Formulário */
+.cobranca-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Seção do cliente */
+.cliente-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.cliente-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-placeholder {
+  width: 60px;
+  height: 60px;
+  background: #333;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #00ff88;
+}
+
+.cliente-info {
+  flex: 1;
+}
+
+.cliente-info label {
+  display: block;
+  color: white;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.cliente-select {
+  width: 100%;
+  padding: 12px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+}
+
+.cliente-select:focus {
+  outline: none;
+  border-color: #00ff88;
+}
+
+/* Campos do formulário */
+.form-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  color: white;
+  font-weight: 500;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 12px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #00ff88;
+}
+
+/* Input de juros especial */
+.juros-input {
+  display: flex;
+  gap: 5px;
+}
+
+.juros-symbol {
+  width: 40px;
+  text-align: center;
+  background: #333 !important;
+  color: #888 !important;
+}
+
+.juros-value {
+  flex: 1;
+}
+
+/* Botões de ação */
+.form-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.btn-salvar {
+  background: #00ff88;
+  color: #000;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-salvar:hover {
+  background: #00cc6a;
+}
+
+.btn-cancelar {
+  background: #333;
+  color: white;
+  border: 1px solid #555;
+  padding: 12px 30px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-cancelar:hover {
+  background: #444;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+  .cobranca-content {
+    margin-left: 0;
+    padding: 15px;
+  }
+  
+  .cobranca-form-wrapper {
+    max-width: 100%;
+  }
+  
+  .form-fields {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+
+/* Celulares (até 768px) */
+@media (max-width: 768px) {
+  .cobranca-content {
+    margin-left: 0;
+    padding: 10px;
+  }
+  
+  .cobranca-form-wrapper {
+    max-width: 100%;
+  }
+  
+  .cobranca-header h1 {
+    font-size: 24px;
+  }
+  
+  .cobranca-tip {
+    font-size: 12px;
+  }
+  
+  .cobranca-form-container {
+    padding: 15px;
+  }
+  
+  .form-fields {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .cliente-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .avatar-placeholder {
+    width: 50px;
+    height: 50px;
+    font-size: 16px;
+  }
+  
+  .form-group label {
+    font-size: 13px;
+  }
+  
+  .form-group input,
+  .form-group select {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .btn-salvar,
+  .btn-cancelar {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+}
+
+/* Celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+  .cobranca-content {
+    padding: 5px;
+  }
+  
+  .cobranca-header h1 {
+    font-size: 20px;
+  }
+  
+  .cobranca-form-container {
+    padding: 10px;
+  }
+  
+  .form-group input,
+  .form-group select {
+    padding: 8px;
+    font-size: 13px;
+  }
+  
+  .btn-salvar,
+  .btn-cancelar {
+    padding: 10px 15px;
+    font-size: 13px;
+  }
+}

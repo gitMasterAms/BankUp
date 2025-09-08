@@ -80,3 +80,69 @@
 .login-link a:hover {
   text-decoration: underline;
 }
+
+/* ===== RESPONSIVIDADE CADASTRO ===== */
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+  .cadastro-form {
+    padding: 35px;
+    width: 280px;
+  }
+  
+  .cadastro-titulo {
+    font-size: 1.3em;
+  }
+}
+
+/* Celulares (até 768px) */
+@media (max-width: 768px) {
+  .cadastro-wrapper {
+    padding: 20px;
+  }
+  
+  .cadastro-form {
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 10px;
+  }
+  
+  .cadastro-titulo {
+    font-size: 1.2em;
+    margin-bottom: 25px;
+  }
+  
+  .cadastro-form input {
+    padding: 12px;
+    font-size: 16px; /* Evita zoom no iOS */
+  }
+  
+  .cadastro-form button {
+    padding: 14px;
+    font-size: 16px;
+  }
+}
+
+/* Celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+  .cadastro-wrapper {
+    padding: 10px;
+  }
+  
+  .cadastro-form {
+    padding: 25px;
+  }
+  
+  .cadastro-titulo {
+    font-size: 1.1em;
+  }
+  
+  .cadastro-form input {
+    padding: 10px;
+  }
+  
+  .cadastro-form button {
+    padding: 12px;
+  }
+}

@@ -108,3 +108,89 @@
   0%, 100% { border-color: transparent }
   50% { border-color: rgba(234, 247, 239, 0.85) }
 }
+
+/* ===== RESPONSIVIDADE HOME INTERNA ===== */
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+  .home-content {
+    padding: 30px 20px;
+  }
+  
+  .hero {
+    max-width: 700px;
+  }
+  
+  .hero h1 {
+    font-size: 35px;
+  }
+  
+  .subtitle {
+    font-size: 16px;
+  }
+}
+
+/* Celulares (até 768px) */
+@media (max-width: 768px) {
+  .home-content {
+    padding: 20px 15px;
+    margin-left: 0;
+  }
+  
+  .hero {
+    max-width: 100%;
+    padding: 20px 10px;
+  }
+  
+  .badge {
+    padding: 5px 10px;
+    font-size: 0.9em;
+  }
+  
+  .hero h1 {
+    font-size: 28px;
+    line-height: 1.2;
+  }
+  
+  .subtitle {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .benefits {
+    font-size: 0.9em;
+  }
+  
+  .benefits li {
+    margin: 5px 0;
+  }
+}
+
+/* Celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+  .home-content {
+    padding: 15px 10px;
+  }
+  
+  .hero {
+    padding: 15px 5px;
+  }
+  
+  .badge {
+    padding: 4px 8px;
+    font-size: 0.8em;
+  }
+  
+  .hero h1 {
+    font-size: 24px;
+  }
+  
+  .subtitle {
+    font-size: 14px;
+    margin-bottom: 18px;
+  }
+  
+  .benefits {
+    font-size: 0.85em;
+  }
+}

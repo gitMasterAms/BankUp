@@ -20,7 +20,6 @@
   display: flex;             /* Layout flexbox */
   align-items: center;       /* Alinhamento vertical */
   justify-content: flex-start; /* Alinhamento horizontal */
-  gap: 8px;                  /* Espaçamento entre elementos */
 }
 
 /* Lista de navegação */
@@ -93,6 +92,15 @@
   color: #00ff88;            /* Cor verde no hover */
 }
 
+/* Ícones da sidebar (SVG inline) */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #00ff88; /* verde do tema */
+  margin-right: 8px;
+}
+
 /* ===== TÍTULO DE SEÇÃO ===== */
 
 /* Título para separar seções do menu */
@@ -134,4 +142,108 @@
 /* Efeito hover específico para a segunda seta */
 .arrow-2:hover {
   transform: translateY(-6px); /* Movimento maior no hover */
+}
+
+/* ===== FOOTER DA SIDEBAR ===== */
+
+/* Container do footer da sidebar */
+/* footer removido */
+
+/* Botão de configurações no footer */
+.config-button {
+  width: 40px !important;
+  height: 40px;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #333;
+  transition: background 0.2s;
+}
+
+.config-button:hover {
+  background: #444;
+}
+
+/* Avatar do usuário */
+/* avatar removido */
+
+/* avatar placeholder removido */
+
+/* hover do avatar removido */
+
+/* ===== RESPONSIVIDADE DA SIDEBAR ===== */
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 200px;
+  }
+  
+  .sidebar .logo {
+    font-size: 20px;
+  }
+  
+  .sidebar-button {
+    font-size: 14px;
+  }
+}
+
+/* Celulares (até 768px) */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    z-index: 1000;
+    transition: left 0.3s ease;
+  }
+  
+  .sidebar.open {
+    left: 0;
+  }
+  
+  .sidebar .logo {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+  
+  .sidebar-button {
+    font-size: 13px;
+    padding: 8px;
+  }
+  
+  .section-title {
+    font-size: 11px;
+    margin: 10px 0 5px 8px;
+  }
+  
+  .avatar-placeholder {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+  
+  .config-button {
+    width: 35px !important;
+    height: 35px;
+  }
+}
+
+/* Celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+  .sidebar {
+    width: 100%;
+  }
+  
+  .sidebar .logo {
+    font-size: 16px;
+  }
+  
+  .sidebar-button {
+    font-size: 12px;
+    padding: 6px;
+  }
 }

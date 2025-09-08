@@ -20,6 +20,9 @@ import CadastrarCliente from './CadClientes.jsx';
 // Importa a Home interna (com sidebar)
 import HomeInterna from './HomeInterna.jsx';
 
+// Importa a página de cobrança
+import Cobranca from './cobrança/indexCobranca.jsx';
+
 // Importa os estilos globais
 import './index.css';
 
@@ -68,6 +71,9 @@ function App() {
         {/* Quando a URL for "/CadClientes", mostra a Home interna com sidebar */}
 
         <Route path="/cadclientes" element={<CadastrarCliente />} />
+
+        {/* Quando a URL for "/cobranca", mostra a página de cobrança com sidebar */}
+        <Route path="/cobranca" element={<Cobranca />} />
 
 
       </Routes>
