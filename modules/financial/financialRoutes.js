@@ -1,42 +1,50 @@
 const express = require('express');
 
-const RecurringRepository = require('./repositories/RecurringRepository');
-const RecurringService = require('./services/RecurringService');
-const PaymentsRepository = require('./repositories/PaymentsRepository'); 
+
 const RecurringController = require('./controllers/RecurringController');
+const RecurringService = require('./services/RecurringService');
+const RecurringRepository = require('./repositories/RecurringRepository');
+
+const PaymentsController = require('./controllers/PaymentsController');
+const PaymentsService = require('./services/PaymentsService');
+const PaymentsRepository = require('./repositories/PaymentsRepository');
 
 const { checkLoginToken } = require('../../middlewares/checkLoginToken');
 
 module.exports = (db) => {
   const financialRouter = express.Router();
 
-  // Instância do repositório
+  // Instâncias dos repositórios
   const recurringRepository = new RecurringRepository(db.RecurringAccount);
-
-   // Precisamos do modelo 'Payment' e 'RecurringAccount' para o PaymentsRepository
   const paymentsRepository = new PaymentsRepository(db.Payment, db.RecurringAccount);
 
-  // 2. Instância do service (agora recebe os dois repositórios)
-  const recurringService = new RecurringService(recurringRepository, paymentsRepository);
+  // Instâncias dos services
+  const recurringService = new RecurringService(recurringRepository);
+  const paymentsService = new PaymentsService(paymentsRepository, recurringService);
 
-  // 3. Instância do controller
+  // Instâncias dos controllers
   const recurringController = new RecurringController(recurringService);
+  const paymentsController = new PaymentsController(paymentsService);
 
-  // Rota de teste/ping
+  // Rota de teste
   financialRouter.get('/', (req, res) => {
     res.status(200).json({ msg: 'Serviço financeiro ativo!' });
   });
 
-  // Rotas protegidas
+  // Rotas Contas Recorrentes
   financialRouter.post('/recurring', checkLoginToken, recurringController.register);
   financialRouter.get('/recurring', checkLoginToken, recurringController.getAllByUser);
   financialRouter.get('/recurring/:id', checkLoginToken, recurringController.getById);
   financialRouter.put('/recurring/:id', checkLoginToken, recurringController.updateById);
   financialRouter.delete('/recurring/:id', checkLoginToken, recurringController.deleteById);
-  // ---> NOVA ROTA PARA ATUALIZAR STATUS E CRIAR PAGAMENTO <---
-  financialRouter.patch('/recurring/:id/status', checkLoginToken, recurringController.updateStatusAndPay);
+  // financialRouter.patch('/recurring/:id/status', checkLoginToken, recurringController.updateStatusAndPay); // ativada
 
-
+  // Rotas Pagamentos
+  financialRouter.post('/payments', checkLoginToken, paymentsController.register);
+  financialRouter.get('/recurring/:account_id/payments', checkLoginToken, paymentsController.getAllByRecurring);
+  financialRouter.get('/payment/:account_id', checkLoginToken, paymentsController.getById);
+  //financialRouter.put('/payment/:id', checkLoginToken, paymentsController.updateById);
+  //financialRouter.delete('/payment/:id', checkLoginToken, paymentsController.deleteById);
 
   return financialRouter;
 };

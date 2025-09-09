@@ -10,9 +10,9 @@ const sendEmail = require('../../../utils/SendEmail');
 const EmailService = new sendEmail();
 
 class PaymentsService {
-  constructor(paymentsRepository, recurringRepository) {
+  constructor(paymentsRepository, recurringService) {
     this.paymentsRepository = paymentsRepository;
-    this.recurringRepository = recurringRepository;
+    this.recurringService = recurringService;
   }
 
   /**
@@ -20,9 +20,10 @@ class PaymentsService {
    * @param {object} paymentData - Dados do pagamento.
    * @returns {Promise<object>} O pagamento registrado.
    */
-  async register({ userId,
+  async register({ 
       account_id,
       amount,
+      description,
       due_date,
       status,
       penalty,
@@ -30,29 +31,29 @@ class PaymentsService {
     try {
       // A validação continua usando o userId (vindo do token) para garantir
       // que o usuário é o dono da conta recorrente.
-      const recurringAccount = await this.recurringRepository.findById(account_id);
-      if (!recurringAccount || recurringAccount.userId !== userId) {
+      const recurringAccount = await this.recurringService.getById(account_id);
+      if (!recurringAccount || recurringAccount.account_id !== account_id) {
         throw new Error('CONTA_NAO_ENCONTRADA');
       }
 
       // Cria o registro do pagamento sem o campo 'userId'.
     await this.paymentsRepository.create({
         account_id,
-        account_id,
         amount,
+        description,
         due_date,
         status,
         penalty,
         pix_key
       });
 
-      const qrCodePix = QrCodePix({
+      const qrCodePix =  QrCodePix({
   version: '01',
   key: pix_key,
-  name: payee,
+  name: recurringAccount.name,
   city: 'SAO PAULO',
   transactionId: `BANKUP${Date.now()}`.slice(0,25), 
-  message: 'Pay me :)',
+  message: description,
   cep: '99999999',
   value: amount,
 });
@@ -84,7 +85,7 @@ class PaymentsService {
       <p>Equipe BANKUP</p>
     `;
 
-    await EmailService.sendEmail(description, title, content, [
+    await EmailService.sendEmail(recurringAccount.email, title, content, [
       {
         filename: 'pix.png',
         content: qrBuffer,
@@ -98,9 +99,9 @@ class PaymentsService {
     }
   }
 
-  async getAllByUser(userId) {
+  async getAllByRecurring(account_id) {
     // Esta chamada agora funciona corretamente com o novo repositório.
-    return await this.paymentsRepository.findByUserId(userId);
+    return await this.paymentsRepository.findByAccountId(account_id);
   }
 
   async getById(id) {

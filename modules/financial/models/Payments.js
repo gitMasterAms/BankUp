@@ -31,8 +31,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     status: {
-      type: DataTypes.STRING(20),
-      allowNull: false
+      type: DataTypes.ENUM('pendente', 'concluido', 'vencido'),
+      allowNull: false,
+      defaultValue: 'pendente'
     }, 
     penalty: {
       type: DataTypes.DECIMAL(5, 2),

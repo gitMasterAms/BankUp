@@ -24,18 +24,14 @@ class PaymentsRepository {
   /**
    * Busca todos os pagamentos de um usuário específico, fazendo a busca
    * através da associação com RecurringAccount.
-   * @param {string} userId - O UUID do usuário.
+   * @param {string} account_id - O UUID do usuário.
    * @returns {Promise<Array<object>>} Uma lista de pagamentos.
    */
-  async findByUserId(userId) {
-    return await this.Payment.findAll({
-      include: [{
-        model: this.RecurringAccount,
-        where: { userId: userId },
-        attributes: []
-      }]
-    });
-  }
+  async findByAccountId(account_id) {
+  return await this.Payment.findAll({ where: { account_id }
+  });
+}
+
 
   /**
    * Busca um pagamento pelo seu ID (UUID).

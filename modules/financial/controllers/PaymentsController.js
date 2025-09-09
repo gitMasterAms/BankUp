@@ -13,7 +13,6 @@ class PaymentsController {
    * Rota para registrar um novo pagamento.
    */
   register = async (req, res) => {
-    const userId = req.id;
     const {
       account_id,
       amount,
@@ -25,15 +24,15 @@ class PaymentsController {
     } = req.body;
 
     // Validação dos dados de entrada
-    if (!validator.isUUID(userId)) {
-      return res.status(400).json({ msg: 'ID de usuário inválido.' });
-    }
-    
+       
     if (!validator.isUUID(account_id)) {
       return res.status(400).json({ msg: 'ID da conta recorrente inválido.' });
     }
+    if (!description){
+      return res.status(400).json({ msg: 'Descrição é obrigatória'});
+    }
 
-    if (!account_id || !amount || !due_date || !status || !penalty || !pix_key) {
+    if (!account_id || !amount || !due_date || !penalty || !pix_key) {
       return res.status(422).json({ msg: 'Preencha todos os campos obrigatórios!' });
     } 
 
@@ -55,9 +54,9 @@ class PaymentsController {
 
     try {
       await this.paymentsService.register({
-        userId,
         account_id,
         amount,
+      description,
       due_date,
       status,
       penalty,
@@ -76,10 +75,11 @@ class PaymentsController {
     }
   };
 
-  getAllByUser = async (req, res) => {
-    const userId = req.id;
+  getAllByRecurring = async (req, res) => {
+    const {account_id} = req.params;
     try {
-      const payments = await this.paymentsService.getAllByUser(userId);
+      //console.log(account_id);
+      const payments = await this.paymentsService.getAllByRecurring(account_id);
       return res.status(200).json(payments);
     } catch (err) {
       console.error('Erro ao buscar pagamentos:', err);
