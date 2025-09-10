@@ -14,14 +14,21 @@ import Cadastro from './Cadastro.jsx';
 import Token from './Token.jsx';
 import Planos from './Planos.jsx';
 import CadAdicional from './CadAdicional.jsx';
-import CadastrarCliente from './CadClientes.jsx';
+// Página de cadastro de pagador (migrada para a pasta Pagador)
+import CadastrarCliente from './Pagador/CadClientes.jsx';
 
 
 // Importa a Home interna (com sidebar)
 import HomeInterna from './HomeInterna.jsx';
 
-// Importa a página de cobrança
+// Importa a página de cobrança (form/tela)
 import Cobranca from './cobrança/indexCobranca.jsx';
+
+// Tabelas (novas rotas)
+// - Tabela de pagadores
+import PagadorTabela from './Pagador/PagadorTabela.jsx';
+// - Tabela de cobranças
+import CobrancaTabela from './cobrança/cobrancaTabela.jsx';
 
 // Importa os estilos globais
 import './index.css';
@@ -68,12 +75,17 @@ function App() {
         {/* Quando a URL for "/home", mostra a Home interna com sidebar */}
         <Route path="/home" element={<HomeInterna />} />
 
-        {/* Quando a URL for "/CadClientes", mostra a Home interna com sidebar */}
-
+        {/* Cadastro de pagador (agora em /Pagador/CadClientes.jsx) */}
         <Route path="/cadclientes" element={<CadastrarCliente />} />
 
-        {/* Quando a URL for "/cobranca", mostra a página de cobrança com sidebar */}
+        {/* Tela de cobrança (formulário principal) */}
         <Route path="/cobranca" element={<Cobranca />} />
+
+        {/* Tabela de pagadores (lista) */}
+        <Route path="/tabela/pagadores" element={<PagadorTabela />} />
+
+        {/* Tabela de cobranças (lista) */}
+        <Route path="/tabela/cobrancas" element={<CobrancaTabela />} />
 
 
       </Routes>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import Sidebar from "./components/Sidebar"; // Componente de menu lateral
-import "./styles/CadClientes.css"; // Estilos específicos para esta página
+import Sidebar from "../components/Sidebar"; // Componente de menu lateral
+import "./CadClientes.css"; // Estilos específicos para esta página (arquivo está na mesma pasta)
+import { useNavigate, useLocation } from "react-router-dom";
 
 /**
  * Componente CadastrarCliente - Formulário para cadastro de novos clientes
@@ -16,16 +17,37 @@ import "./styles/CadClientes.css"; // Estilos específicos para esta página
  * - Campos para dados pessoais e de contato
  */
 function CadastrarCliente() {
+  const navigate = useNavigate();
+  const location = useLocation();
   // Estado para armazenar os dados do formulário
   const [formData, setFormData] = useState({
     nome: "",           // Nome completo do cliente
-    categoria: "Aluguel", // Categoria padrão (Aluguel, Serviço, Produto)
+    descricao: "",      // Descrição do pagador
     cpfCnpj: "",        // CPF ou CNPJ do cliente
     cep: "",            // CEP do endereço
     email: "",          // Email de contato
     endereco: "",       // Endereço completo
     telefone: ""        // Telefone de contato
   });
+
+  // Se vier um editId via navegação, preencher o formulário
+  React.useEffect(() => {
+    const editId = location.state && location.state.editId;
+    if (!editId) return;
+    const existentes = JSON.parse(localStorage.getItem("pagadores") || "[]");
+    const atual = existentes.find((p) => p.id === editId);
+    if (atual) {
+      setFormData({
+        nome: atual.nome || "",
+        descricao: atual.descricao || "",
+        cpfCnpj: atual.cpfCnpj || "",
+        cep: "",
+        email: atual.email || "",
+        endereco: "",
+        telefone: atual.telefone || "",
+      });
+    }
+  }, [location.state]);
 
   /**
    * Função para atualizar os valores do formulário conforme o usuário digita
@@ -42,8 +64,30 @@ function CadastrarCliente() {
    */
   const handleSubmit = (e) => {
     e.preventDefault(); // Previne o comportamento padrão do formulário
-    console.log("Cliente cadastrado:", formData); // Log dos dados para debug
-    alert("Cliente cadastrado com sucesso!"); // Feedback visual para o usuário
+    // Persistir no localStorage (criar ou atualizar) e voltar para a tabela
+    const existentes = JSON.parse(localStorage.getItem("pagadores") || "[]");
+    const editId = location.state && location.state.editId;
+    let atualizados;
+    if (editId) {
+      atualizados = existentes.map((p) =>
+        p.id === editId
+          ? { ...p, nome: formData.nome, descricao: formData.descricao, cpfCnpj: formData.cpfCnpj, email: formData.email, telefone: formData.telefone }
+          : p
+      );
+    } else {
+      const novo = {
+        id: Date.now(),
+        nome: formData.nome,
+        descricao: formData.descricao,
+        cpfCnpj: formData.cpfCnpj,
+        email: formData.email,
+        telefone: formData.telefone,
+      };
+      atualizados = [novo, ...existentes];
+    }
+    localStorage.setItem("pagadores", JSON.stringify(atualizados));
+    alert(editId ? "Cliente atualizado com sucesso!" : "Cliente cadastrado com sucesso!");
+    navigate("/tabela/pagadores");
   };
 
   return (
@@ -75,15 +119,18 @@ function CadastrarCliente() {
                 onChange={handleChange}
                 required // Campo obrigatório
               />
-              <select
-                name="categoria"
-                value={formData.categoria}
+            
+            </div>
+
+            {/* Descrição */}
+            <div className="form-row">
+              <input
+                type="text"
+                name="descricao"
+                placeholder="Descrição"
+                value={formData.descricao}
                 onChange={handleChange}
-              >
-                <option value="Aluguel">Aluguel</option>
-                <option value="Serviço">Serviço</option>
-                <option value="Produto">Produto</option>
-              </select>
+              />
             </div>
 
             {/* Segunda linha: CPF/CNPJ e CEP */}
