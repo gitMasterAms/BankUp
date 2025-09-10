@@ -1,0 +1,97 @@
+/* Estilos simples e reutilizáveis para tabelas de listagem */
+.tabela-wrapper {
+  background: #111;
+  border: 1px solid #00ff88;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  color: #fff;
+}
+
+.tabela thead th {
+  text-align: left;
+  padding: 12px;
+  background: #1a1a1a;
+  color: #00ff88;
+  border-bottom: 1px solid #00ff88;
+}
+
+.tabela tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #222;
+}
+
+.tabela tbody tr:hover {
+  background: #161616;
+}
+
+/* Layout com sidebar já existente */
+.page-with-sidebar {
+  display: flex;
+  min-height: 100vh;
+  background: #0a0a0a;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  color: #fff;
+}
+
+/* Botões de ação simples */
+.btn-acao {
+  background: #222;
+  color: #00ff88;
+  border: 1px solid #00ff88;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-right: 6px;
+}
+
+.btn-acao:hover {
+  background: #2a2a2a;
+}
+
+.btn-danger {
+  color: #ff6b6b;
+  border-color: #ff6b6b;
+}
+
+.btn-danger:hover {
+  background: #3a1f1f;
+}
+
+/* Layout dos botões de ação lado a lado */
+.acoes {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: #1f1f1f;
+  color: #00ff88;
+  border: 1px solid #2f2f2f;
+  cursor: pointer;
+}
+
+.btn-icon:hover {
+  background: #2a2a2a;
+}
+
+.btn-icon.btn-danger {
+  color: #ff4d4f;
+}
+
+

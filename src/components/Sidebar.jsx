@@ -23,7 +23,7 @@ function Sidebar() {
                 <path d="M12 3.172l8 7V20a2 2 0 0 1-2 2h-4v-6H10v6H6a2 2 0 0 1-2-2v-9.828l8-7zM12 1l-10 8.75V20a4 4 0 0 0 4 4h5v-6h2v6h5a4 4 0 0 0 4-4V9.75L12 1z"/>
               </svg>
             </span>
-            Casa
+            Home
           </button>
         </li>
         
@@ -64,14 +64,28 @@ function Sidebar() {
         <li>
           <button 
             className="sidebar-button" 
-            onClick={() => navigate('/cobranca')}
+            onClick={() => navigate('/tabela/cobrancas')}
           >
             <span className="icon" aria-hidden="true">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M21 7H3a1 1 0 0 0-1 1v8a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zm-1 2v6H4V9h16zm-9 3.5a2.5 2.5 0 1 0 0-5h-1v-1H9v1H7v2h2v2H7v2h2v1h1v-1h1a2.5 2.5 0 0 0 0-5h-1v2h1z"/>
               </svg>
             </span>
-            Criar cobrança
+            Cobranças
+          </button>
+        </li>
+
+         <li>
+          <button 
+            className="sidebar-button" 
+            onClick={() => navigate('/tabela/pagadores')}
+          >
+            <span className="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 12a5 5 0 1 0-6 0C6.33 12 2 13.34 2 16v2h12v-2c0-2.66-4.33-4-7-4a5 5 0 1 0 8 0h2v-2h-2v2zM20 10V7h-2V5h2V3h2v2h2v2h-2v3h-2z"/>
+              </svg>
+            </span>
+            Clientes
           </button>
         </li>
         
@@ -89,19 +103,7 @@ function Sidebar() {
           </button>
         </li>
         
-        <li>
-          <button 
-            className="sidebar-button" 
-            onClick={() => navigate('/cadclientes')}
-          >
-            <span className="icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M15 12a5 5 0 1 0-6 0C6.33 12 2 13.34 2 16v2h12v-2c0-2.66-4.33-4-7-4a5 5 0 1 0 8 0h2v-2h-2v2zM20 10V7h-2V5h2V3h2v2h2v2h-2v3h-2z"/>
-              </svg>
-            </span>
-            Cadastrar clientes
-          </button>
-        </li>
+       
       </ul>
 
     </div>
