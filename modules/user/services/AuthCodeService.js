@@ -169,9 +169,7 @@ class AuthCodeService {
                     return { token, profile_complete: user.profile_complete };
                 
                 case 'password_reset':
-                    const resetToken = jwt.sign({ id: userId, scope: 'reset_password' }, process.env.SECRET, {
-                        expiresIn: '15m',
-                    });
+                    const resetToken = jwt.sign({ id: userId, scope: 'reset_password' }, process.env.SECRET);
                     return { resetToken };
 
                 default:

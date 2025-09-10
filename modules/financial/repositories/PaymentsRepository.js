@@ -33,12 +33,19 @@ class PaymentsRepository {
 }
 
 
+async findAll() {
+  return await this.Payment.findAll();
+}
+
+
+
   /**
    * Busca um pagamento pelo seu ID (UUID).
    * @param {string} payment_id - O UUID do pagamento.
    * @returns {Promise<object|null>} O objeto do pagamento ou null se não encontrado.
    */
   async findById(payment_id) {
+    console.log(payment_id);
     return await this.Payment.findOne({ where: { payment_id } });
   }
 
