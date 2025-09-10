@@ -7,6 +7,7 @@ import Hero from './components/Hero';
 import CaloteSection from './components/CaloteSection';
 import AprendaSection from './components/AprendaSection';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 
 // Importa as páginas do aplicativo
 import Login from './Login.jsx';
@@ -43,6 +44,9 @@ function Home() {
       <CaloteSection />
       <AprendaSection />
       <Footer />
+      
+      {/* Botão de voltar ao topo */}
+      <ScrollToTop />
     </>
   );
 }

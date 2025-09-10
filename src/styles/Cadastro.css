@@ -11,6 +11,43 @@
   align-items: center;
   height: 100vh; /* Ocupa a altura total da tela */
   font-family: Arial, sans-serif;
+  position: relative;
+}
+
+/* ===== BOTÃO DE VOLTAR À HOME ===== */
+
+/* Botão para voltar à home externa */
+.cadastro-wrapper .home-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: linear-gradient(135deg, #00AD4A, #00ff88);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 173, 74, 0.3);
+  z-index: 10;
+}
+
+/* Efeito hover no botão de voltar */
+.cadastro-wrapper .home-button:hover {
+  background: linear-gradient(135deg, #00ff88, #00AD4A);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 173, 74, 0.4);
+}
+
+/* Efeito ativo no botão de voltar */
+.cadastro-wrapper .home-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 173, 74, 0.3);
 }
 
 /* Formulário de cadastro */
@@ -93,6 +130,13 @@
   .cadastro-titulo {
     font-size: 1.3em;
   }
+  
+  .cadastro-wrapper .home-button {
+    top: 15px;
+    left: 15px;
+    padding: 8px 16px;
+    font-size: 16px;
+  }
 }
 
 /* Celulares (até 768px) */
@@ -111,6 +155,14 @@
   .cadastro-titulo {
     font-size: 1.2em;
     margin-bottom: 25px;
+  }
+  
+  .cadastro-wrapper .home-button {
+    top: 10px;
+    left: 10px;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 20px;
   }
   
   .cadastro-form input {
@@ -136,6 +188,14 @@
   
   .cadastro-titulo {
     font-size: 1.1em;
+  }
+  
+  .cadastro-wrapper .home-button {
+    top: 8px;
+    left: 8px;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 15px;
   }
   
   .cadastro-form input {

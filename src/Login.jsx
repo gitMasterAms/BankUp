@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/login.css';
 import CapsLockWarning, { useCapsLock } from './components/CapsLockWarning';
+import { API_URL } from './config/api';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -16,7 +17,7 @@ function Login() {
     const token = localStorage.getItem('token');
 
     if (token) {
-      fetch('/api/user/check', {
+      fetch(`${API_URL}/user/check`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -47,7 +48,7 @@ function Login() {
 
     try {
       // 1. Login
-      const loginRes = await fetch('/api/user/login', {
+      const loginRes = await fetch(`${API_URL}/user/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password: senha }),
@@ -67,7 +68,7 @@ function Login() {
       localStorage.setItem('userId', userId);
 
       // 2. Enviar código com userId, email e type
-      const sendCodeRes = await fetch('/api/user/send-code', {
+      const sendCodeRes = await fetch(`${API_URL}/user/send-code`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -93,6 +94,14 @@ function Login() {
 
   return (
     <div className="tela-login">
+      {/* Botão para voltar à home externa */}
+      <button 
+        className="home-button"
+        onClick={() => navigate('/')}
+      >
+        ← Voltar à Página Inicial
+      </button>
+      
       <div className="login-container">
         <h1>Bem-vindo de volta</h1>
         <form onSubmit={handleSubmit}>

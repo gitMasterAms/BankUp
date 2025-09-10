@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import { useNavigate } from "react-router-dom";
 import "../styles/Tabelas.css";
+import { API_URL } from "../config/api"; 
 
 // Tabela de Pagadores com colunas solicitadas:
 // nome, descrição, cpf/cnpj, email, telefone
@@ -9,15 +10,34 @@ function PagadorTabela() {
   const navigate = useNavigate();
   const [linhas, setLinhas] = useState([]);
 
-  // Carrega da storage ao abrir
   useEffect(() => {
-    const armazenados = localStorage.getItem("pagadores");
-    if (armazenados) {
-      setLinhas(JSON.parse(armazenados));
-    } else {
-      setLinhas([]);
-    }
+    const fetchPagadores = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_URL}/financial/recurring`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await response.json();
+        setLinhas(data.map(item => ({
+          id: item.account_id,
+          nome: item.name,
+          descricao: item.description,
+          cpfCnpj: item.cpf_cnpj,
+          email: item.email,
+          telefone: item.phone
+        })));
+      } catch (error) {
+        console.error('Erro ao buscar pagadores:', error);
+        setLinhas([]);
+      }
+    };
+    
+    fetchPagadores();
   }, []);
+
+
 
   return (
     <div className="page-with-sidebar">
@@ -68,12 +88,26 @@ function PagadorTabela() {
                         className="btn-icon btn-danger"
                         title="Excluir"
                         aria-label="Excluir"
-                        onClick={() => {
+                        onClick={async () => {
                           const confirmDelete = confirm("Excluir este pagador?");
                           if (!confirmDelete) return;
-                          const atualizados = linhas.filter((p) => p.id !== linha.id);
-                          setLinhas(atualizados);
-                          localStorage.setItem("pagadores", JSON.stringify(atualizados));
+                          try {
+                            const token = localStorage.getItem('token');
+                            const response = await fetch(`${API_URL}/financial/recurring/${linha.id}`, {
+                              method: 'DELETE',
+                              headers: {
+                                'Authorization': `Bearer ${token}`
+                              }
+                            });
+                            if (response.ok) {
+                              setLinhas(linhas.filter(p => p.id !== linha.id));
+                            } else {
+                              alert('Erro ao excluir pagador');
+                            }
+                          } catch (error) {
+                            console.error('Erro ao excluir:', error);
+                            alert('Erro ao excluir pagador');
+                          }
                         }}
                       >
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

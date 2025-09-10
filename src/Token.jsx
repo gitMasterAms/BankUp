@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/token.css';
+import { API_URL } from './config/api';
 
 function Token() {
   const [codigo, setCodigo] = useState('');
@@ -18,7 +19,7 @@ function Token() {
     }
 
     try {
-  const resposta = await fetch('/api/user/verify-code', {
+  const resposta = await fetch(`${API_URL}/user/verify-code`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -68,7 +69,7 @@ function Token() {
     }
 
     try {
-      const resposta = await fetch('/api/user/send-code', {
+      const resposta = await fetch(`${API_URL}/user/send-code`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
