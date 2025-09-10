@@ -8,12 +8,7 @@ class RecurringController {
   register = async (req, res) => {
     const userId = req.id;
     const {
-      description,
-      amount,
-      due_date,
-      payee,
-      pix_key,
-      status
+      name,      description,      cpf_cnpj,      email,      phone
     } = req.body;
 
     // Validação básica
@@ -21,31 +16,22 @@ class RecurringController {
       return res.status(400).json({ msg: 'ID de usuário inválido.' });
     }
 
-    if (!description || !amount || !due_date || !payee || !pix_key || !status) {
+    if (!description || !name || !cpf_cnpj || !email || !phone) {
       return res.status(422).json({ msg: 'Preencha todos os campos obrigatórios!' });
-    }
-
-    if (!validator.isDecimal(amount.toString())) {
-      return res.status(422).json({ msg: 'Valor da conta inválido.' });
-    }
-
-    if (!validator.isDate(due_date)) {
-      return res.status(422).json({ msg: 'Data de vencimento inválida.' });
-    }
-
-    if (!validator.isAlphanumeric(pix_key)) {
-      return res.status(422).json({ msg: 'Chave PIX inválida.' });
+    }   
+    
+    if (!validator.isMobilePhone(phone)) {
+      return res.status(422).json({ msg: 'O telefone informado não é válido!' });
     }
 
     try {
       await this.recurringService.register({
         userId,
+        name,
         description,
-        amount,
-        due_date,
-        payee,
-        pix_key,
-        status
+        cpf_cnpj,
+        email,
+        phone
       });
 
       return res.status(201).json({ msg: 'Conta recorrente criada com sucesso.' });
@@ -112,6 +98,39 @@ class RecurringController {
       return res.status(500).json({ msg: 'Erro ao deletar conta.' });
     }
   };
+  /**
+   * NOVA ROTA: Atualiza o status de uma conta e registra o pagamento.
+   * Espera um PATCH em /recurring/:id/status
+   */
+  // updateStatusAndPay = async (req, res) => {
+  //   const userId = req.id;
+  //   const { id: accountId } = req.params; // Pega o ID da conta da URL
+  //   const { status } = req.body; // Pega o novo status do corpo da requisição
+
+  //   // Validação básica
+  //   if (!status) {
+  //     return res.status(422).json({ msg: 'O campo "status" é obrigatório.' });
+  //   }
+
+  //   if (!validator.isUUID(accountId)) {
+  //       return res.status(400).json({ msg: 'ID de conta inválido.' });
+  //   }
+
+  //   try {
+  //     const updatedAccount = await this.recurringService.updateStatusAndCreatePayment(userId, accountId, status);
+
+  //     return res.status(200).json(updatedAccount); // Retorna a conta atualizada
+
+  //   } catch (err) {
+  //     console.error('Erro ao confirmar pagamento:', err);
+
+  //     if (err.message === 'CONTA_NAO_ENCONTRADA') {
+  //       return res.status(404).json({ msg: 'Conta recorrente não encontrada ou não pertence a este usuário.' });
+  //     }
+
+  //     return res.status(500).json({ msg: 'Erro interno ao confirmar pagamento.' });
+  //   }
+  // };
 }
 
 module.exports = RecurringController;
