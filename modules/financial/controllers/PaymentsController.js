@@ -75,6 +75,16 @@ class PaymentsController {
     }
   };
 
+  getAll = async(req, res) =>{     
+    try {
+      const contas = await this.paymentsService.getAll();
+      return res.status(200).json(contas);
+    } catch (err) {
+      console.error('Erro ao buscar contas:', err);
+      return res.status(500).json({ msg: 'Erro ao buscar contas.' });
+    }
+  }
+
   getAllByRecurring = async (req, res) => {
     const {account_id} = req.params;
     try {
@@ -88,9 +98,10 @@ class PaymentsController {
   };
 
   getById = async (req, res) => {
-    const { id } = req.params;
+    const { payment_id } = req.params;
+    console.log(payment_id);
     try {
-      const payment = await this.paymentsService.getById(id);
+      const payment = await this.paymentsService.getById(payment_id);
       if (!payment) return res.status(404).json({ msg: 'Pagamento não encontrado.' });
       return res.status(200).json(payment);
     } catch (err) {
@@ -100,10 +111,10 @@ class PaymentsController {
   };
 
   updateById = async (req, res) => {
-    const { id } = req.params;
+    const { payment_id } = req.params;
     const updatedData = req.body;
     try {
-      const updated = await this.paymentsService.updateById(id, updatedData);
+      const updated = await this.paymentsService.updateById(payment_id, updatedData);
       if (updated[0] === 0) return res.status(404).json({ msg: 'Pagamento não encontrado para atualização.' });
       return res.status(200).json({ msg: 'Pagamento atualizado com sucesso.' });
     } catch (err) {

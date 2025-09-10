@@ -41,10 +41,11 @@ module.exports = (db) => {
 
   // Rotas Pagamentos
   financialRouter.post('/payments', checkLoginToken, paymentsController.register);
+  financialRouter.get('/payments', checkLoginToken, paymentsController.getAll)
   financialRouter.get('/recurring/:account_id/payments', checkLoginToken, paymentsController.getAllByRecurring);
-  financialRouter.get('/payment/:account_id', checkLoginToken, paymentsController.getById);
-  //financialRouter.put('/payment/:id', checkLoginToken, paymentsController.updateById);
-  //financialRouter.delete('/payment/:id', checkLoginToken, paymentsController.deleteById);
+  financialRouter.get('/payments/:payment_id', checkLoginToken, paymentsController.getById);
+  financialRouter.put('/payments/:payment_id', checkLoginToken, paymentsController.updateById);
+  financialRouter.delete('/payments/:payment_id', checkLoginToken, paymentsController.deleteById);
 
   return financialRouter;
 };

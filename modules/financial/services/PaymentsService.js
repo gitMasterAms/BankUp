@@ -104,13 +104,17 @@ class PaymentsService {
     return await this.paymentsRepository.findByAccountId(account_id);
   }
 
-  async getById(id) {
-    return await this.paymentsRepository.findById(id);
+  async getAll() {
+    return await this.paymentsRepository.findAll();
   }
 
-  async updateById(id, data) {
+  async getById(payment_id) {
+    return await this.paymentsRepository.findById(payment_id);
+  }
+
+  async updateById(payment_id, data) {
     data.updated_at = new Date();
-    return await this.paymentsRepository.updateById(id, data);
+    return await this.paymentsRepository.updateById(payment_id, data);
   }
 
   async deleteById(id) {
