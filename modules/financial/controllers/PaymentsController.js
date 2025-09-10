@@ -124,9 +124,10 @@ class PaymentsController {
   };
 
   deleteById = async (req, res) => {
-    const { id } = req.params;
+    const { payment_id } = req.params;
     try {
-      const deleted = await this.paymentsService.deleteById(id);
+      console.log('Tentando deletar payment_id:', payment_id);
+      const deleted = await this.paymentsService.deleteById(payment_id);
       if (!deleted) return res.status(404).json({ msg: 'Pagamento não encontrado para exclusão.' });
       return res.status(200).json({ msg: 'Pagamento excluído com sucesso.' });
     } catch (err) {

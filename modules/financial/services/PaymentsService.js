@@ -117,8 +117,8 @@ class PaymentsService {
     return await this.paymentsRepository.updateById(payment_id, data);
   }
 
-  async deleteById(id) {
-    return await this.paymentsRepository.deleteById(id);
+  async deleteById(payment_id) {
+    return await this.paymentsRepository.deleteById(payment_id);
   }
 }
 
