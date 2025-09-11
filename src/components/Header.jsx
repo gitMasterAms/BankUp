@@ -13,11 +13,12 @@ function Header() {
       {/* Menu de navegação */}
       <nav className="menu">
       <a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/home'); }}>Home</a> 
+      <a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/sobre'); }}>Sobre nós</a> 
 
         <a href="#serviços" className="btn">Serviços</a>
         <a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/planos'); }}>Planos</a>
         <a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/login'); }}>Entrar</a>
-        <a href="#" className="btn btn-secundario" onClick={(e) => { e.preventDefault(); navigate('/cadastro'); }}>Cadastrar</a>
+        <a href="#" className="btn btn-secundario" onClick={(e) => { e.preventDefault(); navigate('/cadastro'); }}>Cadastre-se Já</a>
       </nav>
     </header>
   );

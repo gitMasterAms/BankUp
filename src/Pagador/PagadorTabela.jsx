@@ -42,7 +42,7 @@ function PagadorTabela() {
             <tbody>
               {linhas.length === 0 && (
                 <tr>
-                  <td colSpan={5} style={{ color: "#888", padding: 12 }}>Nenhum pagador cadastrado.</td>
+                  <td colSpan={6} style={{ color: "#888", padding: 12 }}>Nenhum pagador cadastrado.</td>
                 </tr>
               )}
               {linhas.map((linha) => (

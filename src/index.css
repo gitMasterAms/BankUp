@@ -164,7 +164,7 @@ body {
 }
 
 /* Grade responsiva com 3 colunas (ajusta conforme a tela) */
-.grid-cards {
+.aprenda-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Garante responsividade */
   gap: 70px;                /* Espaçamento entre os cartões */
@@ -172,15 +172,15 @@ body {
   margin: 0 auto;           /* Centraliza horizontalmente */
 }
 
-/* Estilo de cada cartão */
-.card {
+/* Estilo de cada cartão (escopado à seção Aprenda) */
+.apr-card {
   background-color: #111;   /* Fundo levemente mais claro */
   padding: 50px;            /* Espaçamento interno */
   border-radius: 10px;      /* Bordas arredondadas */
 }
 
 /* Estilo dos ícones */
-.card img {
+.apr-card img {
   width: 60px;              /* Largura do ícone */
   margin-bottom: 20px;      /* Espaço abaixo do ícone */
   
@@ -190,7 +190,7 @@ body {
 }
 
 /* Estilo do texto explicativo */
-.card p {
+.apr-card p {
   font-size: 1.2em;
   color: #ccc;              /* Cor cinza claro para contraste suave */
 }
@@ -224,12 +224,12 @@ body {
     font-size: 1.1em;
   }
   
-  .grid-cards {
+  .aprenda-grid {
     gap: 40px;
     max-width: 800px;
   }
   
-  .card {
+  .apr-card {
     padding: 30px;
   }
 }
@@ -282,22 +282,22 @@ body {
     margin-bottom: 30px;
   }
   
-  .grid-cards {
+  .aprenda-grid {
     grid-template-columns: 1fr;
     gap: 20px;
     max-width: 100%;
   }
   
-  .card {
+  .apr-card {
     padding: 20px;
   }
   
-  .card img {
+  .apr-card img {
     width: 50px;
     margin-bottom: 15px;
   }
   
-  .card p {
+  .apr-card p {
     font-size: 1em;
   }
   
@@ -346,15 +346,15 @@ body {
     font-size: 1.3em;
   }
   
-  .card {
+  .apr-card {
     padding: 15px;
   }
   
-  .card img {
+  .apr-card img {
     width: 40px;
   }
   
-  .card p {
+  .apr-card p {
     font-size: 0.9em;
   }
 }
