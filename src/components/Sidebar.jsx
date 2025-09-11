@@ -1,8 +1,20 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Sidebar.css';
+import Logout from './Logout';
 
 function Sidebar() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Função para verificar se um botão está ativo
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
+
+  // Função para verificar se está em uma rota relacionada (para páginas de cadastro)
+  const isActiveRelated = (basePath) => {
+    return location.pathname.startsWith(basePath);
+  };
 
   return (
     <div className="sidebar">
@@ -15,7 +27,7 @@ function Sidebar() {
       <ul>
         <li>
           <button 
-            className="sidebar-button" 
+            className={`sidebar-button ${isActive('/home') ? 'active' : ''}`}
             onClick={() => navigate('/home')}
           >
             <span className="icon" aria-hidden="true">
@@ -29,7 +41,7 @@ function Sidebar() {
         
         <li>
           <button 
-            className="sidebar-button" 
+            className={`sidebar-button ${isActive('/notificacoes') ? 'active' : ''}`}
             onClick={() => navigate('/notificacoes')}
           >
             <span className="icon" aria-hidden="true">
@@ -43,7 +55,7 @@ function Sidebar() {
         
         <li>
           <button 
-            className="sidebar-button" 
+            className={`sidebar-button ${isActive('/planos') ? 'active' : ''}`}
             onClick={() => navigate('/planos')}
           >
             <span className="icon" aria-hidden="true">
@@ -63,7 +75,7 @@ function Sidebar() {
       <ul>
         <li>
           <button 
-            className="sidebar-button" 
+            className={`sidebar-button ${isActiveRelated('/cobranca') || isActive('/tabela/cobrancas') ? 'active' : ''}`}
             onClick={() => navigate('/tabela/cobrancas')}
           >
             <span className="icon" aria-hidden="true">
@@ -77,7 +89,7 @@ function Sidebar() {
 
          <li>
           <button 
-            className="sidebar-button" 
+            className={`sidebar-button ${isActiveRelated('/cadclientes') || isActive('/tabela/pagadores') ? 'active' : ''}`}
             onClick={() => navigate('/tabela/pagadores')}
           >
             <span className="icon" aria-hidden="true">
@@ -91,7 +103,7 @@ function Sidebar() {
         
         <li>
           <button 
-            className="sidebar-button" 
+            className={`sidebar-button ${isActive('/graficos') ? 'active' : ''}`}
             onClick={() => navigate('/graficos')}
           >
             <span className="icon" aria-hidden="true">
@@ -102,9 +114,14 @@ function Sidebar() {
             Gráficos
           </button>
         </li>
-        
        
+        
       </ul>
+
+      {/* Botão de logout no final da sidebar */}
+      <div className="logout-container">
+        <Logout />
+      </div>
 
     </div>
   );

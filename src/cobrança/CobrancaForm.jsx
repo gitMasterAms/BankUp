@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Cobranca.css';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { API_URL } from "../config/api";
 
 function CobrancaForm() {
   const navigate = useNavigate();
@@ -27,20 +28,45 @@ function CobrancaForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const existentes = JSON.parse(localStorage.getItem('cobrancas') || '[]');
-    const editId = location.state && location.state.editId;
-    let atualizadas;
-    if (editId) {
-      atualizadas = existentes.map((c) => (c.id === editId ? { ...c, ...formData } : c));
-    } else {
-      const nova = { id: Date.now(), ...formData };
-      atualizadas = [nova, ...existentes];
+    
+    try {
+      const token = localStorage.getItem('token');
+      const editId = location.state && location.state.editId;
+      
+      const paymentData = {
+        account_id: formData.pagadorId,
+        amount: parseFloat(formData.valor),
+        description: formData.descricao,
+        due_date: formData.validade,
+        pix_key: formData.pixKey,
+        penalty: parseFloat(formData.multa)
+      };
+
+      const url = editId 
+        ? `${API_URL}/financial/payments/${editId}`
+        : `${API_URL}/financial/payments`;
+
+      const response = await fetch(url, {
+        method: editId ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(paymentData)
+      });
+
+      if (response.ok) {
+        alert('Cobrança cadastrada com sucesso!');
+        navigate('/tabela/cobrancas');
+      } else {
+        throw new Error('Erro ao cadastrar cobrança');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+      alert('Erro ao cadastrar cobrança');
     }
-    localStorage.setItem('cobrancas', JSON.stringify(atualizadas));
-    alert(editId ? 'Cobrança atualizada com sucesso!' : 'Cobrança cadastrada com sucesso!');
-    navigate('/tabela/cobrancas');
   };
 
   const handleCancel = () => {
@@ -49,22 +75,40 @@ function CobrancaForm() {
 
   // Preencher para edição se vier editId
   useEffect(() => {
-    // Carrega a lista de pagadores para o select de cliente
-    const listaPagadores = JSON.parse(localStorage.getItem('pagadores') || '[]');
-    setPagadores(listaPagadores);
+    // Carrega a lista de pagadores da API
+    const fetchPagadores = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_URL}/financial/recurring`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await response.json();
+        setPagadores(data.map(item => ({
+          id: item.account_id,
+          nome: item.name,
+          cpfCnpj: item.cpf_cnpj
+        })));
+      } catch (error) {
+        console.error('Erro ao buscar pagadores:', error);
+        setPagadores([]);
+      }
+    };
 
-    const editId = location.state && location.state.editId;
-    if (!editId) return;
-    const existentes = JSON.parse(localStorage.getItem('cobrancas') || '[]');
-    const atual = existentes.find((c) => c.id === editId);
-    if (atual) {
+    fetchPagadores();
+    
+    // Se houver estado de edição, preencher o formulário
+    const editState = location.state;
+    if (editState && editState.editId && editState.cobranca) {
+      const { cobranca } = editState;
       setFormData({
-        pagadorId: atual.pagadorId || '',
-        valor: atual.valor || '',
-        descricao: atual.descricao || '',
-        validade: atual.validade || '',
-        multa: atual.multa || '',
-        pixKey: atual.pixKey || ''
+        pagadorId: cobranca.pagadorId || '',
+        valor: cobranca.valor || '',
+        descricao: cobranca.descricao || '',
+        validade: cobranca.validade || '',
+        multa: cobranca.multa || '',
+        pixKey: cobranca.pixKey || ''
       });
     }
   }, [location.state]);
@@ -89,7 +133,7 @@ function CobrancaForm() {
             >
               <option value="">-- Selecione --</option>
               {pagadores.map((p) => (
-                <option key={p.id} value={p.id}>{p.nome} {p.cpfCnpj ? `- ${p.cpfCnpj}` : ''}</option>
+                <option key={p.id} value={p.id}>{p.nome}</option>
               ))}
             </select>
           </div>
