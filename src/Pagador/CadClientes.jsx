@@ -25,9 +25,7 @@ function CadastrarCliente() {
     nome: "",           // Nome completo do cliente
     descricao: "",      // Descrição do pagador
     cpfCnpj: "",        // CPF ou CNPJ do cliente
-    cep: "",            // CEP do endereço
     email: "",          // Email de contato
-    endereco: "",       // Endereço completo
     telefone: ""        // Telefone de contato
   });
 
@@ -52,10 +50,8 @@ function CadastrarCliente() {
         setFormData({
           nome: data.name || "",
           descricao: data.description || "",
-          cpfCnpj: data.cpf_cnpj || "",
-          cep: "",
-          email: data.email || "",
-          endereco: "",
+          cpfCnpj: data.cpf_cnpj || "",         
+          email: data.email || "",          
           telefone: data.phone || "",
         });
       } catch (error) {
@@ -151,7 +147,6 @@ function CadastrarCliente() {
                 placeholder="Nome Completo"
                 value={formData.nome}
                 onChange={handleChange}
-                required // Campo obrigatório
               />
             
             </div>
@@ -167,7 +162,7 @@ function CadastrarCliente() {
               />
             </div>
 
-            {/* Segunda linha: CPF/CNPJ e CEP */}
+            {/* Segunda linha: CPF/CNPJ */}
             <div className="form-row">
               <input
                 type="text"
@@ -175,19 +170,10 @@ function CadastrarCliente() {
                 placeholder="CPF/CNPJ"
                 value={formData.cpfCnpj}
                 onChange={handleChange}
-                required // Campo obrigatório
-              />
-              <input
-                type="text"
-                name="cep"
-                placeholder="CEP"
-                value={formData.cep}
-                onChange={handleChange}
-                required // Campo obrigatório
               />
             </div>
 
-            {/* Terceira linha: Email e Endereço */}
+            {/* Terceira linha: Email */}
             <div className="form-row">
               <input
                 type="email"
@@ -195,15 +181,6 @@ function CadastrarCliente() {
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
-                required // Campo obrigatório
-              />
-              <input
-                type="text"
-                name="endereco"
-                placeholder="Endereço (Cidade, Bairro, Número)"
-                value={formData.endereco}
-                onChange={handleChange}
-                required // Campo obrigatório
               />
             </div>
 
@@ -215,7 +192,6 @@ function CadastrarCliente() {
                 placeholder="Telefone"
                 value={formData.telefone}
                 onChange={handleChange}
-                required // Campo obrigatório
               />
             </div>
 

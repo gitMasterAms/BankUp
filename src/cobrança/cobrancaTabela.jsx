@@ -88,14 +88,13 @@ function CobrancaTabela() {
                 <th>Até a data</th>
                 <th>Multa</th>
                 <th>PixKey</th>
-                <th>Juros ao mês</th>
                 <th style={{ width: 90 }}>Ações</th>
               </tr>
             </thead>
             <tbody>
               {linhas.length === 0 && (
                 <tr>
-                  <td colSpan={8} style={{ color: "#888", padding: 12 }}>Nenhuma cobrança cadastrada.</td>
+                  <td colSpan={7} style={{ color: "#888", padding: 12 }}>Nenhuma cobrança cadastrada.</td>
                 </tr>
               )}
               {linhas.map((linha, index) => (
@@ -106,7 +105,6 @@ function CobrancaTabela() {
                   <td>{linha.validade}</td>
                   <td>{linha.multa}</td>
                   <td>{linha.pixKey}</td>
-                  <td>{linha.jurosMes}</td>
                   <td>
                     <div className="acoes">
                       <button

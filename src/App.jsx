@@ -15,6 +15,7 @@ import Cadastro from './Cadastro.jsx';
 import Token from './Token.jsx';
 import Planos from './Planos.jsx';
 import CadAdicional from './CadAdicional.jsx';
+import SobreNos from './SobreNos/SobreNos.jsx';
 // Página de cadastro de pagador (migrada para a pasta Pagador)
 import CadastrarCliente from './Pagador/CadClientes.jsx';
 
@@ -72,6 +73,9 @@ function App() {
 
         {/* Quando a URL for "/planos", mostra o componente Planos */}
         <Route path="/planos" element={<Planos />} />
+
+        {/* Quando a URL for "/sobre", mostra a página Sobre Nós */}
+        <Route path="/sobre" element={<SobreNos />} />
 
         {/* Quando a URL for "/cadAdicional", mostra o componente CadAdicional */}
         <Route path="/cadAdicional" element={<CadAdicional />} />

@@ -1,0 +1,117 @@
+.sobre-container {
+  text-align: center;
+  padding: 60px 20px;
+  background: #000;
+  color: white;
+  min-height: 100vh;
+}
+
+/* Título e subtítulo */
+.titulo {
+  font-size: 2.8rem;
+  color: #00ff88;
+}
+.subtitulo {
+  color: #ccc;
+  margin-bottom: 50px;
+}
+
+/* Botão voltar */
+.voltar-home {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 1000;
+}
+.btn-voltar {
+  background: linear-gradient(90deg, #00ff88, #00cc6a);
+  color: #000;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, filter 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 255, 136, 0.25);
+}
+.btn-voltar:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+/* Grid responsivo */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  padding: 0 20px;
+}
+@media (max-width: 1024px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+/* Card estilo CodeMyUI */
+.card {
+  position: relative;
+  background:linear-gradient(to bottom, black 35%, #00ff888f);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+}
+.card:hover {
+  transform: translateY(-8px);
+}
+
+/* Imagem do perfil */
+.card .avatar {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.card:hover .avatar {
+  transform: scale(1.05);
+}
+
+/* Overlay com nome e cargo */
+.card .info {
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 10px 0px;
+  text-align: center;
+  border-radius: 12px;
+  width: 100%;
+  margin-top: auto;
+  transition: all 0.3s;
+}
+.card:hover .info {
+  background: rgba(0,0,0,0.9);
+  transform: scale(1.02);
+}
+
+/* Texto info */
+.card h3 {
+  margin: 0 0 8px;
+  color: #00ff88;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.card p {
+  margin: 0;
+  color: #ddd;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}

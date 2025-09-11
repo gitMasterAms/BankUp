@@ -14,8 +14,7 @@ function CobrancaForm() {
     descricao: '',
     validade: '',
     multa: '',
-    pixKey: '',
-    jurosMes: ''
+    pixKey: ''
   });
 
   // Lista de clientes (pagadores) para popular o select
@@ -109,8 +108,7 @@ function CobrancaForm() {
         descricao: cobranca.descricao || '',
         validade: cobranca.validade || '',
         multa: cobranca.multa || '',
-        pixKey: cobranca.pixKey || '',
-        jurosMes: cobranca.jurosMes || ''
+        pixKey: cobranca.pixKey || ''
       });
     }
   }, [location.state]);
@@ -201,16 +199,6 @@ function CobrancaForm() {
                 />
               </div>
 
-              <div className="form-group">
-                <label>Juros ao mês</label>
-                <input 
-                  type="text" 
-                  name="jurosMes" 
-                  value={formData.jurosMes}
-                  onChange={handleInputChange}
-                  placeholder="ex.: 1%"
-                />
-              </div>
             </div>
           </div>
 

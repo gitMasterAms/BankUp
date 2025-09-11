@@ -5,7 +5,7 @@ function Hero() {
         <h1>Automatize sua cobrança. Receba sem pedir, lembre sem insistir.</h1>
         <p>Mais tempo, menos estresse: automatize suas cobranças com um clique.</p>
       </div>
-      <img src={`${import.meta.env.BASE_URL}imagens/grafico.png`} alt="Gráfico ilustrativo" className="img-hero" />
+      <img src="/imagens/grafico.png" alt="Gráfico ilustrativo" className="img-hero" />
     </section>
   );
 }
