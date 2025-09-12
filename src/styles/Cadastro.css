@@ -4,7 +4,7 @@
 
 /* Wrapper principal que centraliza o formulário na tela */
 .cadastro-wrapper {
-  background-color: #000; /* Fundo preto */
+  background-color: #000 !important; /* Fundo preto forçado */
   color: white; /* Texto branco */
   display: flex;
   justify-content: center;
@@ -27,7 +27,7 @@
   border: none;
   border-radius: 25px;
   padding: 10px 20px;
-  font-size: 18px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -54,12 +54,12 @@
 
 /* Formulário de cadastro */
 .cadastro-form {
-  background-color: #1a1a1a; /* Fundo cinza escuro */
-  padding: 32px;
+  background-color: #111; /* Fundo cinza escuro */
+  padding: 40px;
   border-radius: 15px; /* Bordas arredondadas */
   width: 100%;
-  max-width: 380px;
-  box-shadow: 0 0 10px #00AD4A; /* Sombra verde ao redor */
+  max-width: 400px;
+  box-shadow: 0 0 15px rgb(0, 173, 75); /* Sombra verde ao redor */
   display: flex;
   flex-direction: column; /* Alinha os elementos verticalmente */
 }
@@ -73,34 +73,39 @@
 
 /* Labels dos campos */
 .cadastro-form label {
-  margin-top: 10px;
+  display: block;
+  margin-bottom: 5px;
   font-weight: bold;
 }
 
 /* Campos de entrada */
-.cadastro-form input {
+.cadastro-wrapper input[type="email"],
+.cadastro-wrapper input[type="password"] {
+  width: 100%;
   padding: 10px;
-  border: none;
+  border: 1px solid #444;
   border-radius: 5px;
-  margin-top: 5px;
-  margin-bottom: 15px;
+  background-color: #222;
+  color: #fff;
 }
 
 /* Botão de verificação de email */
 .cadastro-form button {
-  background-color: #00AD4A; /* Cor verde personalizada */
-  color: white;
+  width: 100%;
   padding: 12px;
+  background-color: #00AD4A;
   border: none;
   border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  margin-top: 10px;
 }
 
 /* Efeito hover no botão */
 .cadastro-form button:hover {
-  background-color: #008f3a;
+  background-color: #008f3b;
 }
 
 /* Estilo do parágrafo com o link para login */

@@ -99,7 +99,7 @@ export default function SobreNos() {
       <h2 className="titulo">NOSSO TIME</h2>
       <p className="subtitulo">Turma do 2° ano de Analise e Desenvolvimento de Sistemas da Fatec Taubaté</p>
       <div className="voltar-home">
-        <button className="btn-voltar" onClick={() => navigate("/")}>← Voltar para a Home</button>
+        <button className="home-button" onClick={() => navigate("/")}>← Voltar à Página Inicial</button>
       </div>
 
       <div className="grid">

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { API_URL } from "../config/api";
 
 // Tabela de Cobranças com colunas solicitadas:
-// valor, descrição, até a data (validade), Multa, PixKey, Juros ao mês
+// valor, descrição, até a data (validade), Multa, PixKey
 function CobrancaTabela() {
   const navigate = useNavigate();
   const [linhas, setLinhas] = useState([]);
@@ -46,8 +46,7 @@ function CobrancaTabela() {
             descricao: payment.description,
             validade: payment.due_date,
             multa: payment.penalty,
-            pixKey: payment.pix_key,
-            jurosMes: payment.monthly_interest
+            pixKey: payment.pix_key
           };
         }));
 
