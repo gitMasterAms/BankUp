@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Sidebar from "../components/Sidebar"; // Componente de menu lateral
+import SidebarLayout from "../components/SidebarLayout"; // Layout com sidebar responsiva
 import "./CadClientes.css"; // Estilos específicos para esta página (arquivo está na mesma pasta)
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -87,12 +87,7 @@ function CadastrarCliente() {
   };
 
   return (
-    <div className="page-with-sidebar">
-      {/* Componente de menu lateral */}
-      <Sidebar />
-      
-      {/* Área principal do conteúdo */}
-      <div className="main-content">
+    <SidebarLayout>
         <div className="cadastro-container">
           {/* Título da página */}
           <h2>Dados do Cliente</h2>
@@ -168,8 +163,7 @@ function CadastrarCliente() {
             </div>
           </form>
         </div>
-      </div>
-    </div>
+    </SidebarLayout>
   );
 }
 

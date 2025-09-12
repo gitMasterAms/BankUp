@@ -9,16 +9,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Ocupa a altura total da tela */
+  min-height: 100vh; /* Evita corte em telas pequenas */
   font-family: Arial, sans-serif;
+  padding: 20px; /* respiro lateral no mobile */
 }
 
 /* Formulário de cadastro */
 .cadastro-form {
   background-color: #1a1a1a; /* Fundo cinza escuro */
-  padding: 40px;
+  padding: 32px;
   border-radius: 15px; /* Bordas arredondadas */
-  width: 300px;
+  width: 100%;
+  max-width: 380px;
   box-shadow: 0 0 10px #00AD4A; /* Sombra verde ao redor */
   display: flex;
   flex-direction: column; /* Alinha os elementos verticalmente */
@@ -98,14 +100,14 @@
 /* Celulares (até 768px) */
 @media (max-width: 768px) {
   .cadastro-wrapper {
-    padding: 20px;
+    padding: 16px;
   }
   
   .cadastro-form {
-    padding: 30px;
+    padding: 24px;
     width: 100%;
-    max-width: 400px;
-    margin: 0 10px;
+    max-width: 420px;
+    margin: 0 auto;
   }
   
   .cadastro-titulo {
