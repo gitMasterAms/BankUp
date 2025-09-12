@@ -1,12 +1,15 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# BankUp
+Pagamento Automático de Contas.
+Objetivo: Criar uma FINTECH que será um banco digital focado em automação de pagamentos de contas, com integração via Whatsapp e e-mail, garantindo praticidade para o usuário e notificações tanto para o cliente quanto para a pessoa cadastrada para pagar contas.
 
-Currently, two official plugins are available:
+# ORIENTAÇÕES:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Para rodar o código, verificar se o banco postgre está instalado (ao instalar, defina a senha como "postgres" e o usuario como "postgres", caso apareçam. Tudo como "postgres"). E se as variáveis de ambiente estão corretas no arquivo .env (atenção especial para o nome de usuário e senha do banco).
 
-## Expanding the ESLint configuration
+Dentro da pasta "BankUp" dê um:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+"npm install"
+
+Para baixar as dependências.
+Após isso rode "npm run start" para iniciar o servidor na url "localhost:3003". Pressione Ctrl + C dentro do terminal se quiser parar a execução.

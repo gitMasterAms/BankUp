@@ -1,19 +1,35 @@
 {
-  "name": "react",
+  "name": "bankup",
+  "version": "1.0.0",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "main": "server.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "nodemon app.js",
+    "test": "jest"
   },
   "dependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-icons": "^5.2.1",
-    "react-router-dom": "^7.6.2"
+    "react-router-dom": "^7.6.2",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^7.0.3",
+    "pg": "^8.16.0",
+    "pg-hstore": "^2.3.4",
+    "qrcode": "^1.5.4",
+    "qrcode-pix": "^5.0.0",
+    "sequelize": "^6.37.7",
+    "validator": "^13.15.15"
   },
   "devDependencies": {
     "@babel/core": "^7.28.3",
@@ -33,6 +49,8 @@
     "jest": "^30.1.1",
     "jest-environment-jsdom": "^30.1.1",
     "selenium-webdriver": "^4.35.0",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.1.4"
   }
 }
