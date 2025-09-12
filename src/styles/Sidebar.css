@@ -9,6 +9,9 @@
   padding: 20px 10px;        /* Espaçamento interno */
   display: flex;             /* Layout flexbox */
   flex-direction: column;    /* Direção vertical */
+  position: sticky;          /* Mantém a sidebar colada no topo no desktop */
+  top: 0;                    /* Topo */
+  justify-content: flex-start; /* Garante itens iniciando no topo */
 }
 
 /* Estilo do logo da aplicação */
@@ -104,7 +107,7 @@
   padding-left: 15px;        /* Espaçamento interno da borda */
 }
 
-Ícone dos botões ativos
+/* Ícone dos botões ativos */
 .sidebar-button.active .icon {
   color: #00ff88;            /* Ícone verde mais vibrante */
   filter: drop-shadow(0 0 2px rgba(0, 255, 136, 0.3)); /* Brilho sutil no ícone */
@@ -180,7 +183,7 @@
 
 /* Container do botão de logout */
 .logout-container {
-  margin-top: 20px;             /* Margem superior menor */
+  margin-top: auto;             /* Fica no rodapé da sidebar */
   padding: 10px;                /* Padding reduzido */
   border-top: 1px solid #333;   /* Linha separadora sutil */
 }
@@ -277,10 +280,10 @@
 /* Celulares (até 768px) */
 @media (max-width: 768px) {
   .sidebar {
-    width: 100%;
+    width: 100%;              /* evita causar overflow horizontal */
     position: fixed;
     top: 0;
-    left: -100%;
+    left: -100%;              /* fora da tela quando fechada */
     z-index: 1000;
     transition: left 0.3s ease;
   }
@@ -290,18 +293,26 @@
   }
   
   .sidebar .logo {
-    font-size: 18px;
-    margin-bottom: 15px;
+    font-size: 20px;          /* Logo levemente maior no mobile */
+    margin-bottom: 18px;
+    order: 0;                 /* Força o logo como primeiro */
+    align-self: flex-start;
   }
   
   .sidebar-button {
-    font-size: 13px;
-    padding: 8px;
+    font-size: 16px;          /* Texto maior para toque */
+    padding: 12px 10px;       /* Altura maior */
+    min-height: 48px;         /* Altura mínima confortável */
+  }
+  
+  .sidebar ul li {
+    padding: 12px 10px;       /* Área de toque maior ao redor */
   }
   
   .logout-container {
     padding: 8px;
     margin-top: 15px;
+    order: 999;               /* Garante que logout fique no final */
   }
   
   .logout-container .logout-button {

@@ -7,6 +7,7 @@ body {
   font-family: Arial, sans-serif;
   background: #000;
   color: #fff;
+  overflow-x: hidden; /* evita scroll horizontal por causa do off-canvas */
 }
 
 .cabecalho {
@@ -296,12 +297,26 @@ body {
   
   .menu a {
     margin-left: 0;
-    font-size: 0.8em;
-    padding: 5px 10px;
+    display: block;
+    width: calc(100% - 25px);
+    margin: 6px 12px;
+    font-size: 100px;
+    padding: 100px 50px;
+    text-align: center;
+    border-radius: 8px;
+  }
+
+  /* Botão destaque maior também ocupa largura total */
+  .menu .btn-secundario {
+    background-color: #00ff90;
+    color: #000;
+    border: none;
+    font-weight: 700;
   }
   
   .hero {
-    padding: 30px 10px;
+    /* Aumenta o espaçamento superior para não grudar no topo/hambúrguer */
+    padding: 72px 12px 30px;
   }
   
   .hero h1 {

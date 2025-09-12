@@ -12,7 +12,7 @@ function SidebarLayout({ children }) {
     <div className={`layout-container ${isOpen ? 'sidebar-open' : ''}`}>
       <button
         className="hamburger-button"
-        aria-label="Abrir menu"
+        aria-label={isOpen ? 'Fechar menu' : 'Abrir menu'}
         aria-expanded={isOpen}
         onClick={toggleSidebar}
       >
