@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SidebarLayout from "../components/SidebarLayout"; // Layout com sidebar responsiva
 import "./CadClientes.css"; // Estilos específicos para esta página (arquivo está na mesma pasta)
 import { useNavigate, useLocation } from "react-router-dom";
+import { API_URL } from "../config/api";
 
 /**
  * Componente CadastrarCliente - Formulário para cadastro de novos clientes
@@ -28,21 +29,37 @@ function CadastrarCliente() {
     telefone: ""        // Telefone de contato
   });
 
+  const handleCancel = () => {
+    navigate('/tabela/pagadores');
+  };
+
   // Se vier um editId via navegação, preencher o formulário
   React.useEffect(() => {
     const editId = location.state && location.state.editId;
     if (!editId) return;
-    const existentes = JSON.parse(localStorage.getItem("pagadores") || "[]");
-    const atual = existentes.find((p) => p.id === editId);
-    if (atual) {
-      setFormData({
-        nome: atual.nome || "",
-        descricao: atual.descricao || "",
-        cpfCnpj: atual.cpfCnpj || "",
-        email: atual.email || "",
-        telefone: atual.telefone || "",
-      });
-    }
+    
+    const fetchPagador = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_URL}/financial/recurring/${editId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await response.json();
+        setFormData({
+          nome: data.name || "",
+          descricao: data.description || "",
+          cpfCnpj: data.cpf_cnpj || "",         
+          email: data.email || "",          
+          telefone: data.phone || "",
+        });
+      } catch (error) {
+        console.error('Erro ao buscar pagador:', error);
+      }
+    };
+
+    fetchPagador();
   }, [location.state]);
 
   /**
@@ -58,32 +75,49 @@ function CadastrarCliente() {
    * Atualmente apenas exibe os dados no console e mostra alerta de sucesso
    * @param {Event} e - Evento de submit do formulário
    */
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Previne o comportamento padrão do formulário
-    // Persistir no localStorage (criar ou atualizar) e voltar para a tabela
-    const existentes = JSON.parse(localStorage.getItem("pagadores") || "[]");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
     const editId = location.state && location.state.editId;
-    let atualizados;
-    if (editId) {
-      atualizados = existentes.map((p) =>
-        p.id === editId
-          ? { ...p, nome: formData.nome, descricao: formData.descricao, cpfCnpj: formData.cpfCnpj, email: formData.email, telefone: formData.telefone }
-          : p
-      );
-    } else {
-      const novo = {
-        id: Date.now(),
-        nome: formData.nome,
-        descricao: formData.descricao,
-        cpfCnpj: formData.cpfCnpj,
-        email: formData.email,
-        telefone: formData.telefone,
-      };
-      atualizados = [novo, ...existentes];
+    
+    // Validação básica dos campos obrigatórios
+    if (!formData.nome || !formData.cpfCnpj || !formData.email || !formData.telefone) {
+      alert('Por favor, preencha todos os campos obrigatórios!');
+      return;
     }
-    localStorage.setItem("pagadores", JSON.stringify(atualizados));
-    alert(editId ? "Cliente atualizado com sucesso!" : "Cliente cadastrado com sucesso!");
-    navigate("/tabela/pagadores");
+
+    const pagadorData = {
+      name: formData.nome,
+      description: formData.descricao || '', // Garante que description não seja undefined
+      cpf_cnpj: formData.cpfCnpj,
+      email: formData.email,
+      phone: formData.telefone
+    };
+
+    try {
+      const token = localStorage.getItem('token');
+      const url = editId ? `${API_URL}/financial/recurring/${editId}` : `${API_URL}/financial/recurring`;
+      const response = await fetch(url, {
+        method: editId ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(pagadorData)
+      });
+
+      if (response.ok) {
+        alert(editId ? "Cliente atualizado com sucesso!" : "Cliente cadastrado com sucesso!");
+        navigate("/tabela/pagadores");
+      } else {
+        const errorData = await response.json();
+        console.error('Erro do servidor:', errorData);
+        throw new Error(errorData.msg || 'Erro ao salvar pagador');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+      alert(`Erro ao salvar pagador: ${error.message}`);
+    }
   };
 
   return (
@@ -159,7 +193,7 @@ function CadastrarCliente() {
             {/* Botões de ação do formulário */}
             <div className="form-actions">
               <button type="submit" className="btn-salvar">Salvar</button>
-              <button type="button" className="btn-cancelar">Cancelar</button>
+              <button type="button" className="btn-cancelar" onClick={handleCancel}>Cancelar</button>
             </div>
           </form>
         </div>

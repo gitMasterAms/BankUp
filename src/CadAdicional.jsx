@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/CadAdicional.css';
+import { API_URL } from './config/api';
 
 function CadAdicional() {
   const [name, setName] = useState('');
@@ -31,7 +32,7 @@ function CadAdicional() {
     };
 
     try {
-      const response = await fetch('http://100.108.7.70:3000/user/profile', {
+      const response = await fetch(`${API_URL}/user/profile`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

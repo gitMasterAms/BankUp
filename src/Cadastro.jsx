@@ -2,6 +2,8 @@ import { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/Cadastro.css';
 import CapsLockWarning, { useCapsLock } from './components/CapsLockWarning';
+import { API_URL } from './config/api';
+
 
 function Cadastro() {
   const [email, setEmail] = useState('');
@@ -17,7 +19,7 @@ function Cadastro() {
     const token = localStorage.getItem('token');
 
     if (token) {
-      fetch('http://100.108.7.70:3000/user/check', {
+      fetch(`${API_URL}/user/check`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -55,7 +57,7 @@ function Cadastro() {
     }
 
     try {
-      const resposta = await fetch('http://100.108.7.70:3000/user/register', {
+      const resposta = await fetch(`${API_URL}/user/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -82,6 +84,14 @@ function Cadastro() {
 
   return (
     <div className="cadastro-wrapper">
+      {/* Botão para voltar à home externa */}
+      <button 
+        className="home-button"
+        onClick={() => navigate('/')}
+      >
+        ← Voltar à Página Inicial
+      </button>
+      
       <form className="cadastro-form">
         <h2 className="cadastro-titulo">Criar Conta</h2>
 
