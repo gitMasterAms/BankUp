@@ -16,27 +16,40 @@
   margin-bottom: 50px;
 }
 
-/* Botão voltar */
-.voltar-home {
-  position: fixed;
-  top: 16px;
-  left: 16px;
-  z-index: 1000;
-}
-.btn-voltar {
-  background: linear-gradient(90deg, #00ff88, #00cc6a);
-  color: #000;
+/* ===== BOTÃO DE VOLTAR À HOME ===== */
+
+/* Botão para voltar à home externa */
+.home-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: linear-gradient(135deg, #00AD4A, #00ff88);
+  color: white;
   border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
-  font-weight: 700;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 12px;
+  font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s, filter 0.2s;
-  box-shadow: 0 4px 12px rgba(0, 255, 136, 0.25);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 173, 74, 0.3);
+  z-index: 10;
 }
-.btn-voltar:hover {
+
+/* Efeito hover no botão de voltar */
+.sobre-container .home-button:hover {
+  background: linear-gradient(135deg, #00ff88, #00AD4A);
   transform: translateY(-2px);
-  filter: brightness(1.1);
+  box-shadow: 0 4px 12px rgba(0, 173, 74, 0.4);
+}
+
+/* Efeito ativo no botão de voltar */
+.sobre-container .home-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 173, 74, 0.3);
 }
 
 /* Grid responsivo */

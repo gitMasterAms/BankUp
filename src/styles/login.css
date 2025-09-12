@@ -21,7 +21,7 @@
   border: none;
   border-radius: 25px;
   padding: 10px 20px;
-  font-size: 18px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -107,6 +107,7 @@
   border-radius: 5px;
   color: #fff;
   font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
   margin-top: 10px;
 }
