@@ -1,15 +1,14 @@
 import React from "react";
-import Sidebar from "../components/Sidebar";
+import SidebarLayout from "../components/SidebarLayout";
 import CobrancaForm from "./CobrancaForm";
 import "./Cobranca.css";
 
 export default function Cobranca() {
   return (
-    <div className="cobranca-container">
-      <Sidebar />
+    <SidebarLayout>
       <main className="cobranca-content">
         <CobrancaForm />
       </main>
-    </div>
+    </SidebarLayout>
   );
 }

@@ -4,12 +4,14 @@
   border: 1px solid #00ff88;
   border-radius: 8px;
   padding: 16px;
+  overflow-x: auto; /* Permite scroll horizontal em telas pequenas */
 }
 
 .tabela {
   width: 100%;
   border-collapse: collapse;
   color: #fff;
+  min-width: 720px; /* Garante colunas legíveis, combinado com scroll */
 }
 
 .tabela thead th {
@@ -92,6 +94,18 @@
 
 .btn-icon.btn-danger {
   color: #ff4d4f;
+}
+
+/* ===== Responsividade das Tabelas ===== */
+@media (max-width: 768px) {
+  .tabela thead th,
+  .tabela tbody td {
+    padding: 10px; /* um pouco mais compacto no mobile */
+  }
+
+  .main-content {
+    padding: 16px;
+  }
 }
 
 
