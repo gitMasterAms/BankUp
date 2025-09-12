@@ -1,0 +1,216 @@
+
+
+/* Estilo para a tela de cadastro - escopo isolado */
+
+/* Wrapper principal que centraliza o formulário na tela */
+.cadastro-wrapper {
+  background-color: #000 !important; /* Fundo preto forçado */
+  color: white; /* Texto branco */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Evita corte em telas pequenas */
+  font-family: Arial, sans-serif;
+  padding: 20px; /* respiro lateral no mobile */
+  position: relative;
+}
+
+/* ===== BOTÃO DE VOLTAR À HOME ===== */
+
+/* Botão para voltar à home externa */
+.cadastro-wrapper .home-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: linear-gradient(135deg, #00AD4A, #00ff88);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 173, 74, 0.3);
+  z-index: 10;
+}
+
+/* Efeito hover no botão de voltar */
+.cadastro-wrapper .home-button:hover {
+  background: linear-gradient(135deg, #00ff88, #00AD4A);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 173, 74, 0.4);
+}
+
+/* Efeito ativo no botão de voltar */
+.cadastro-wrapper .home-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 173, 74, 0.3);
+
+}
+
+/* Formulário de cadastro */
+.cadastro-form {
+  background-color: #111; /* Fundo cinza escuro */
+  padding: 40px;
+  border-radius: 15px; /* Bordas arredondadas */
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 0 15px rgb(0, 173, 75); /* Sombra verde ao redor */
+  display: flex;
+  flex-direction: column; /* Alinha os elementos verticalmente */
+}
+
+/* Título do formulário */
+.cadastro-titulo {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #00AD4A; /* Verde destaque */
+}
+
+/* Labels dos campos */
+.cadastro-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Campos de entrada */
+.cadastro-wrapper input[type="email"],
+.cadastro-wrapper input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background-color: #222;
+  color: #fff;
+}
+
+/* Botão de verificação de email */
+.cadastro-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #00AD4A;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Efeito hover no botão */
+.cadastro-form button:hover {
+  background-color: #008f3b;
+}
+
+/* Estilo do parágrafo com o link para login */
+.login-link {
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Estilo do link para login */
+.login-link a {
+  color: #00AD4A;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Efeito hover no link */
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* ===== RESPONSIVIDADE CADASTRO ===== */
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+  .cadastro-form {
+    padding: 35px;
+    width: 280px;
+  }
+  
+  .cadastro-titulo {
+    font-size: 1.3em;
+  }
+  
+  .cadastro-wrapper .home-button {
+    top: 15px;
+    left: 15px;
+    padding: 8px 16px;
+    font-size: 16px;
+  }
+}
+
+/* Celulares (até 768px) */
+@media (max-width: 768px) {
+  .cadastro-wrapper {
+    padding: 16px;
+  }
+  
+  .cadastro-form {
+    padding: 24px;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  
+  .cadastro-titulo {
+    font-size: 1.2em;
+    margin-bottom: 25px;
+  }
+  
+  .cadastro-wrapper .home-button {
+    top: 10px;
+    left: 10px;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 20px;
+  }
+  
+  .cadastro-form input {
+    padding: 12px;
+    font-size: 16px; /* Evita zoom no iOS */
+  }
+  
+  .cadastro-form button {
+    padding: 14px;
+    font-size: 16px;
+  }
+}
+
+/* Celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+  .cadastro-wrapper {
+    padding: 10px;
+  }
+  
+  .cadastro-form {
+    padding: 25px;
+  }
+  
+  .cadastro-titulo {
+    font-size: 1.1em;
+  }
+  
+  .cadastro-wrapper .home-button {
+    top: 8px;
+    left: 8px;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 15px;
+  }
+  
+  .cadastro-form input {
+    padding: 10px;
+  }
+  
+  .cadastro-form button {
+    padding: 12px;
+  }
+}

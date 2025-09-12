@@ -1,0 +1,401 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #000;
+  color: #fff;
+}
+
+.cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: #111;
+}
+
+/* Hamburger do topo (oculto no desktop) */
+.header-hamburger {
+  display: none;
+}
+
+.logo {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.logo span {
+  color: #00ff90;
+}
+ 
+.menu a {
+  margin-left: 20px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+.menu .btn {
+  padding: 6px 12px;
+  border: 1px solid #fff;
+  border-radius: 5px;
+}
+.menu .btn-secundario {
+  background-color: #00ff90;
+  color: #000;
+  border: none;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #000;
+}
+
+.hero h1 {
+  font-size: 2em;
+  max-width: 600px;
+  margin-bottom: 20px;
+}
+.hero p {
+  color: #aaa;
+  font-size: 20px;
+  
+}
+.img-hero {
+  width: 100%;
+  height: auto;
+  max-width: 600px;
+  margin-top: 30px;
+}
+
+.chega-de-calote {
+  background-color: #111;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.chega-de-calote h2 {
+  font-size: 2em;
+}
+.chega-de-calote p {
+  max-width: 600px;
+  margin: 20px auto;
+  color: #ccc;
+  font-size: 18px;
+}
+
+.imagens-calote {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+  
+}
+
+.fundoOval {
+  position: relative;
+  width: 300px;
+  height: 450px;
+  background-color: #0b9444;
+  border-radius: 50% / 35%;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+   filter: drop-shadow(0px 0px 25px #06df2a);
+   
+}
+
+.fundoOval:nth-child(2){
+   z-index: 5;
+}
+
+    .chave{
+     margin-top: 250px;
+     width: 300px;
+     margin-left: 2px;
+  }
+    .pessoa{
+      width: 380px;
+      margin-bottom: 25px;
+      margin-right: 4px;
+     
+    }
+
+    .mao{
+    margin-right: 60px;
+  }
+
+    img{
+        max-width: 100%;
+        height: auto;
+        z-index: 1;
+  }
+
+
+
+.rodape {
+  background-color: #222121;
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.9em;
+  border-top: 1px solid #222;
+}
+.redes-sociais {
+  margin-top: 10px;
+}
+.redes-sociais a {
+  color: #00ff90;
+  margin: 0 10px;
+  text-decoration: none;
+  filter: brightness(0) saturate(100%) invert(30%) sepia(100%) 
+          saturate(500%) hue-rotate(75deg);
+}
+
+
+
+/* Estilização da seção principal */
+.aprenda {
+  background-color: #000;   /* Fundo preto */
+  color: #fff;              /* Texto branco */
+  padding: 60px 20px;       /* Espaçamento interno */
+  text-align: center;       /* Centraliza o conteúdo */
+}
+
+/* Título da seção */
+.aprenda h2 {
+  font-size: 1.8em;
+  margin-bottom: 40px;      /* Espaço abaixo do título */
+}
+
+/* Grade responsiva com 3 colunas (ajusta conforme a tela) */
+.aprenda-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Garante responsividade */
+  gap: 70px;                /* Espaçamento entre os cartões */
+  max-width: 1000px;        /* Largura máxima da grade */
+  margin: 0 auto;           /* Centraliza horizontalmente */
+}
+
+/* Estilo de cada cartão (escopado à seção Aprenda) */
+.apr-card {
+  background-color: #111;   /* Fundo levemente mais claro */
+  padding: 50px;            /* Espaçamento interno */
+  border-radius: 10px;      /* Bordas arredondadas */
+}
+
+/* Estilo dos ícones */
+.apr-card img {
+  width: 60px;              /* Largura do ícone */
+  margin-bottom: 20px;      /* Espaço abaixo do ícone */
+  
+  /* Filtro para aplicar efeito verde (caso a imagem seja preta) */
+  filter: brightness(0) saturate(100%) invert(30%) sepia(100%) 
+          saturate(500%) hue-rotate(75deg);
+}
+
+/* Estilo do texto explicativo */
+.apr-card p {
+  font-size: 1.2em;
+  color: #ccc;              /* Cor cinza claro para contraste suave */
+}
+
+/* ===== RESPONSIVIDADE GLOBAL ===== */
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+  .cabecalho {
+    padding: 15px 20px;
+  }
+  
+  .logo {
+    font-size: 1.3em;
+  }
+  
+  .menu a {
+    margin-left: 15px;
+    font-size: 0.9em;
+  }
+  
+  .hero {
+    padding: 40px 15px;
+  }
+  
+  .hero h1 {
+    font-size: 2.5em;
+  }
+  
+  .hero p {
+    font-size: 1.1em;
+  }
+  
+  .aprenda-grid {
+    gap: 40px;
+    max-width: 800px;
+  }
+  
+  .apr-card {
+    padding: 30px;
+  }
+}
+
+/* Celulares (até 768px) */
+@media (max-width: 768px) {
+  .cabecalho {
+    flex-direction: row;
+    gap: 10px;
+    padding: 12px 12px;
+  }
+  
+  .logo {
+    font-size: 1.2em;
+  }
+  
+  /* Mostrar hamburger do topo */
+  .header-hamburger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+    background: #111;
+    color: #00ff90;
+    border: 1px solid #222;
+    border-radius: 6px;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    order: 2;
+  }
+  .logo { order: 1; }
+  
+  /* Menu recolhido por padrão em mobile */
+  .menu {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    background: #111;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 8px 16px;
+    border-bottom: 1px solid #222;
+    z-index: 1010;
+  }
+  .menu.open {
+    display: flex;
+  }
+  
+  .menu a {
+    margin-left: 0;
+    font-size: 0.8em;
+    padding: 5px 10px;
+  }
+  
+  .hero {
+    padding: 30px 10px;
+  }
+  
+  .hero h1 {
+    font-size: 2em;
+    line-height: 1.2;
+  }
+  
+  .hero p {
+    font-size: 1em;
+    margin-bottom: 20px;
+  }
+  
+  .aprenda {
+    padding: 40px 10px;
+  }
+  
+  .aprenda h2 {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+  }
+  
+  .aprenda-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 100%;
+  }
+  
+  .apr-card {
+    padding: 20px;
+  }
+  
+  .apr-card img {
+    width: 50px;
+    margin-bottom: 15px;
+  }
+  
+  .apr-card p {
+    font-size: 1em;
+  }
+  
+  .rodape {
+    padding: 30px 10px;
+    font-size: 0.8em;
+  }
+}
+
+/* Celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+  .cabecalho {
+    padding: 10px 5px;
+  }
+  
+  .logo {
+    font-size: 1.1em;
+  }
+  
+  .menu {
+    gap: 5px;
+  }
+  
+  .menu a {
+    font-size: 0.7em;
+    padding: 4px 8px;
+  }
+  
+  .hero {
+    padding: 20px 5px;
+  }
+  
+  .hero h1 {
+    font-size: 1.8em;
+  }
+  
+  .hero p {
+    font-size: 0.9em;
+  }
+  
+  .aprenda {
+    padding: 30px 5px;
+  }
+  
+  .aprenda h2 {
+    font-size: 1.3em;
+  }
+  
+  .apr-card {
+    padding: 15px;
+  }
+  
+  .apr-card img {
+    width: 40px;
+  }
+  
+  .apr-card p {
+    font-size: 0.9em;
+  }
+}

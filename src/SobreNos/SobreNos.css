@@ -1,0 +1,130 @@
+.sobre-container {
+  text-align: center;
+  padding: 60px 20px;
+  background: #000;
+  color: white;
+  min-height: 100vh;
+}
+
+/* Título e subtítulo */
+.titulo {
+  font-size: 2.8rem;
+  color: #00ff88;
+}
+.subtitulo {
+  color: #ccc;
+  margin-bottom: 50px;
+}
+
+/* ===== BOTÃO DE VOLTAR À HOME ===== */
+
+/* Botão para voltar à home externa */
+.home-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: linear-gradient(135deg, #00AD4A, #00ff88);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 173, 74, 0.3);
+  z-index: 10;
+}
+
+/* Efeito hover no botão de voltar */
+.sobre-container .home-button:hover {
+  background: linear-gradient(135deg, #00ff88, #00AD4A);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 173, 74, 0.4);
+}
+
+/* Efeito ativo no botão de voltar */
+.sobre-container .home-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 173, 74, 0.3);
+}
+
+/* Grid responsivo */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  padding: 0 20px;
+}
+@media (max-width: 1024px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+/* Card estilo CodeMyUI */
+.card {
+  position: relative;
+  background:linear-gradient(to bottom, black 35%, #00ff888f);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+}
+.card:hover {
+  transform: translateY(-8px);
+}
+
+/* Imagem do perfil */
+.card .avatar {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.card:hover .avatar {
+  transform: scale(1.05);
+}
+
+/* Overlay com nome e cargo */
+.card .info {
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 10px 0px;
+  text-align: center;
+  border-radius: 12px;
+  width: 100%;
+  margin-top: auto;
+  transition: all 0.3s;
+}
+.card:hover .info {
+  background: rgba(0,0,0,0.9);
+  transform: scale(1.02);
+}
+
+/* Texto info */
+.card h3 {
+  margin: 0 0 8px;
+  color: #00ff88;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.card p {
+  margin: 0;
+  color: #ddd;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}

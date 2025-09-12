@@ -1,0 +1,223 @@
+/* Estilos apenas para a tela de login */
+.tela-login {
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+}
+
+/* ===== BOTÃO DE VOLTAR À HOME ===== */
+
+/* Botão para voltar à home externa */
+.tela-login .home-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: linear-gradient(135deg, #00AD4A, #00ff88);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 173, 74, 0.3);
+  z-index: 10;
+}
+
+/* Efeito hover no botão de voltar */
+.tela-login .home-button:hover {
+  background: linear-gradient(135deg, #00ff88, #00AD4A);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 173, 74, 0.4);
+}
+
+/* Efeito ativo no botão de voltar */
+.tela-login .home-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 173, 74, 0.3);
+}
+
+.tela-login * {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.tela-login .login-container {
+  background-color: #111;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgb(0, 173, 75);
+  width: 100%;
+  max-width: 400px;
+}
+
+.tela-login .login-container h1 {
+  color: #00AD4A;
+  margin-bottom: 30px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.tela-login .form-group {
+  margin-bottom: 20px;
+}
+
+.tela-login label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.tela-login input[type="email"],
+.tela-login input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background-color: #222;
+  color: #fff;
+}
+
+.tela-login .forgot-password {
+  display: block;
+  text-align: right;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #00AD4A;
+  text-decoration: none;
+}
+
+.tela-login .forgot-password:hover {
+  text-decoration: underline;
+}
+
+.tela-login .login-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #00AD4A;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.tela-login .login-btn:hover {
+  background-color: #008f3b;
+}
+
+.tela-login .signup-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.tela-login .signup-link a {
+  color: #00AD4A;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.tela-login .signup-link a:hover {
+  text-decoration: underline;
+}
+
+/* ===== RESPONSIVIDADE LOGIN ===== */
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+  .tela-login .login-container {
+    padding: 30px;
+    max-width: 350px;
+  }
+  
+  .tela-login .login-container h1 {
+    font-size: 22px;
+  }
+  
+  .tela-login .home-button {
+    top: 15px;
+    left: 15px;
+    padding: 8px 16px;
+    font-size: 16px;
+  }
+}
+
+/* Celulares (até 768px) */
+@media (max-width: 768px) {
+  .tela-login {
+    padding: 20px;
+  }
+  
+  .tela-login .login-container {
+    padding: 25px;
+    max-width: 100%;
+    margin: 0 10px;
+  }
+  
+  .tela-login .login-container h1 {
+    font-size: 20px;
+    margin-bottom: 25px;
+  }
+  
+  .tela-login .home-button {
+    top: 10px;
+    left: 10px;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 20px;
+  }
+  
+  .tela-login input[type="email"],
+  .tela-login input[type="password"] {
+    padding: 12px;
+    font-size: 16px; /* Evita zoom no iOS */
+  }
+  
+  .tela-login .login-btn {
+    padding: 14px;
+    font-size: 16px;
+  }
+}
+
+/* Celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+  .tela-login {
+    padding: 10px;
+  }
+  
+  .tela-login .login-container {
+    padding: 20px;
+  }
+  
+  .tela-login .login-container h1 {
+    font-size: 18px;
+  }
+  
+  .tela-login .home-button {
+    top: 8px;
+    left: 8px;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 15px;
+  }
+  
+  .tela-login input[type="email"],
+  .tela-login input[type="password"] {
+    padding: 10px;
+  }
+  
+  .tela-login .login-btn {
+    padding: 12px;
+  }
+}
