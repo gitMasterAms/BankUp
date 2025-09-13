@@ -3,86 +3,86 @@ import SidebarLayout from "../components/SidebarLayout";
 import "../styles/Tabelas.css";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../config/api";
- 
+ 
 // Tabela de Cobranças com colunas solicitadas:
 // valor, descrição, até a data (validade), Multa, PixKey
 function CobrancaTabela() {
-  const navigate = useNavigate();
-  const [linhas, setLinhas] = useState([]);
-  const [pagadores, setPagadores] = useState([]);
- 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const headers = {
-          'Authorization': `Bearer ${token}`
-        };
- 
-        // Buscar cobranças
-        const paymentsResponse = await fetch(`${API_URL}/financial/payments`, {
-          headers
-        });
-        const paymentsData = await paymentsResponse.json();
-       
-        // Buscar pagadores
-        const pagadoresResponse = await fetch(`${API_URL}/financial/recurring`, {
-          headers
-        });
-        const pagadoresData = await pagadoresResponse.json();
- 
-        setPagadores(pagadoresData.map(item => ({
-          id: item.account_id,
-          nome: item.name
-        })));
- 
-        console.log('Dados recebidos:', paymentsData);
-        setLinhas(paymentsData.map(payment => {
-          console.log('Processando pagamento:', payment);
-          return {
-            id: payment.payment_id, // Campo usado para delete
-            pagadorId: payment.account_id,
-            valor: payment.amount,
-            descricao: payment.description,
-            validade: payment.due_date,
-            multa: payment.penalty,
-            pixKey: payment.pix_key
-          };
-        }));
- 
-      } catch (error) {
-        console.error('Erro ao carregar dados:', error);
-        setLinhas([]);
-        setPagadores([]);
-      }
-    };
- 
-    fetchData();
-  }, []);
- 
-  // Mapa de id -> nome do pagador para resolver rápido o nome na tabela
-  const pagadorIdParaNome = useMemo(() => {
-    const mapa = {};
-    for (const p of pagadores) {
-      mapa[p.id] = p.nome;
-    }
-    return mapa;
-  }, [pagadores]);
- 
-   function formatDateBR(dateString) {
-    if (!dateString) return "-";
-    const date = new Date(dateString);
-    if (isNaN(date)) return "-";
-   
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
- 
-    return `${day}/${month}/${year}`;
-  }
- 
-  return (
-    <SidebarLayout>
+  const navigate = useNavigate();
+  const [linhas, setLinhas] = useState([]);
+  const [pagadores, setPagadores] = useState([]);
+ 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const headers = {
+          'Authorization': `Bearer ${token}`
+        };
+ 
+        // Buscar cobranças
+        const paymentsResponse = await fetch(`${API_URL}/financial/payments`, {
+          headers
+        });
+        const paymentsData = await paymentsResponse.json();
+       
+        // Buscar pagadores
+        const pagadoresResponse = await fetch(`${API_URL}/financial/recurring`, {
+          headers
+        });
+        const pagadoresData = await pagadoresResponse.json();
+ 
+        setPagadores(pagadoresData.map(item => ({
+          id: item.account_id,
+          nome: item.name
+        })));
+ 
+        console.log('Dados recebidos:', paymentsData);
+        setLinhas(paymentsData.map(payment => {
+          console.log('Processando pagamento:', payment);
+          return {
+            id: payment.payment_id, // Campo usado para delete
+            pagadorId: payment.account_id,
+            valor: payment.amount,
+            descricao: payment.description,
+            validade: payment.due_date,
+            multa: payment.penalty,
+            pixKey: payment.pix_key
+          };
+        }));
+ 
+      } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+        setLinhas([]);
+        setPagadores([]);
+      }
+    };
+ 
+    fetchData();
+  }, []);
+ 
+  // Mapa de id -> nome do pagador para resolver rápido o nome na tabela
+  const pagadorIdParaNome = useMemo(() => {
+    const mapa = {};
+    for (const p of pagadores) {
+      mapa[p.id] = p.nome;
+    }
+    return mapa;
+  }, [pagadores]);
+ 
+   function formatDateBR(dateString) {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    if (isNaN(date)) return "-";
+   
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+ 
+    return `${day}/${month}/${year}`;
+  }
+ 
+  return (
+    <SidebarLayout>
       <div className="main-content">
         <h2>Cobranças</h2>
         <div style={{ marginBottom: 12 }}>
@@ -149,7 +149,7 @@ function CobrancaTabela() {
                             alert('ID da cobrança não encontrado');
                             return;
                           }
- 
+ 
                           const confirmDelete = confirm("Excluir esta cobrança?");
                           if (!confirmDelete) return;
                           
@@ -203,5 +203,5 @@ function CobrancaTabela() {
     </SidebarLayout>
   );
 }
- 
+ 
 export default CobrancaTabela;

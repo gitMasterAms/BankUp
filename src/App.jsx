@@ -60,7 +60,7 @@ function App() {
       {/* Define todas as rotas da aplicação */}
       <Routes>
         {/* Quando a URL for "/", mostra a Home pública */}
-        <Route path="/" element={<Home />} />
+         <Route path="/" element={<Home />} />
 
         {/* Quando a URL for "/login", mostra o componente Login */}
         <Route path="/login" element={<Login />} />

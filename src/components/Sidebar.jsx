@@ -41,7 +41,7 @@ function Sidebar() {
           <li>
             <button 
               className={`sidebar-button ${isActive('/notificacoes') ? 'active' : ''}`}
-              onClick={() => navigate('/notificacoes')}
+              /* onClick={() => navigate('/notificacoes') }*/
             >
               {/* ... SVG e texto ... */}
               Notificações
@@ -51,7 +51,7 @@ function Sidebar() {
           <li>
             <button 
               className={`sidebar-button ${isActive('/planos') ? 'active' : ''}`}
-              onClick={() => navigate('/planos')}
+              /* onClick={() => navigate('/planos')} */
             >
               {/* ... SVG e texto ... */}
               Seu plano
@@ -87,7 +87,7 @@ function Sidebar() {
           <li>
             <button 
               className={`sidebar-button ${isActive('/graficos') ? 'active' : ''}`}
-              onClick={() => navigate('/graficos')}
+              /* onClick={() => navigate('/graficos')} ... */
             >
               {/* ... SVG e texto ... */}
               Gráficos

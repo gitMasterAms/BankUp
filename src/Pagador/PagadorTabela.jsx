@@ -7,39 +7,39 @@ import { API_URL } from "../config/api";
 // Tabela de Pagadores com colunas solicitadas:
 // nome, descrição, cpf/cnpj, email, telefone
 function PagadorTabela() {
-  const navigate = useNavigate();
-  const [linhas, setLinhas] = useState([]);
+  const navigate = useNavigate();
+  const [linhas, setLinhas] = useState([]);
 
-  useEffect(() => {
-    const fetchPagadores = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`${API_URL}/financial/recurring`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        const data = await response.json();
-        setLinhas(data.map(item => ({
-          id: item.account_id,
-          nome: item.name,
-          descricao: item.description,
-          cpfCnpj: item.cpf_cnpj,
-          email: item.email,
-          telefone: item.phone
-        })));
-      } catch (error) {
-        console.error('Erro ao buscar pagadores:', error);
-        setLinhas([]);
-      }
-    };
-    
-    fetchPagadores();
-  }, []);
+  useEffect(() => {
+    const fetchPagadores = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_URL}/financial/recurring`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await response.json();
+        setLinhas(data.map(item => ({
+          id: item.account_id,
+          nome: item.name,
+          descricao: item.description,
+          cpfCnpj: item.cpf_cnpj,
+          email: item.email,
+          telefone: item.phone
+        })));
+      } catch (error) {
+        console.error('Erro ao buscar pagadores:', error);
+        setLinhas([]);
+      }
+    };
+    
+    fetchPagadores();
+  }, []);
 
 
-  return (
-    <SidebarLayout>
+  return (
+    <SidebarLayout>
       <div className="main-content">
         <h2>Pagadores</h2>
         <div style={{ marginBottom: 12 }}>
