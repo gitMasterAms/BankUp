@@ -93,11 +93,11 @@ function Sidebar() {
               Gráficos
             </button>
           </li>
-                  <li className="logout-item">
-          <Logout />
-        </li>
           
         </ul>
+      </div>
+      <div className="logout-item">
+        <Logout />
       </div>
 
     </div>
