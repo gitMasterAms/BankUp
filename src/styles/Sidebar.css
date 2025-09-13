@@ -1,6 +1,6 @@
 /* ===== ESTILOS DA SIDEBAR ===== */
 
-/* Container principal da sidebar */
+/* i.logout-item principal da sidebar */
 .sidebar {
   width: 220px;              /* Largura fixa da sidebar */
   min-height: 100vh;         /* Altura mínima da viewport */
@@ -144,7 +144,7 @@
 
 /* ===== ELEMENTOS DECORATIVOS DO LOGO ===== */
 
-/* Container das setas decorativas ao lado do logo */
+/* i.logout-item das setas decorativas ao lado do logo */
 .logo-arrows {
   display: flex;             /* Layout flexbox */
   align-items: flex-end;     /* Alinhamento na parte inferior */
@@ -176,48 +176,41 @@
 
 /* ===== FOOTER DA SIDEBAR ===== */
 
-/* Container do footer da sidebar */
+/* i.logout-item do footer da sidebar */
 /* footer removido */
 
-/* ===== CONTAINER DO LOGOUT ===== */
-
-/* Container do botão de logout */
-.logout-container {
-  margin-top: auto;             /* Fica no rodapé da sidebar */
-  padding: 10px;                /* Padding reduzido */
-  border-top: 1px solid #333;   /* Linha separadora sutil */
+/* ===== i.logout-item DO LOGOUT ===== */
+.logout-item .logout-button {
+  width: 100%;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, #ff4444, #cc0000);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 2px 4px rgba(255, 68, 68, 0.2);
 }
 
-/* Estilo do botão de logout dentro da sidebar */
-.logout-container .logout-button {
-  width: 100%;                  /* Largura total do container */
-  padding: 10px 14px;           /* Padding interno reduzido */
-  background: linear-gradient(135deg, #ff4444, #cc0000); /* Gradiente vermelho */
-  color: white;                 /* Cor do texto */
-  border: none;                 /* Remove bordas */
-  border-radius: 6px;           /* Bordas arredondadas menores */
-  cursor: pointer;              /* Cursor de ponteiro */
-  font-weight: 600;             /* Peso da fonte */
-  font-size: 13px;              /* Tamanho da fonte reduzido */
-  transition: all 0.3s ease;    /* Transição suave */
-  display: flex;                /* Layout flexbox */
-  align-items: center;          /* Alinhamento vertical */
-  justify-content: center;      /* Alinhamento horizontal */
-  gap: 6px;                     /* Espaçamento entre ícone e texto reduzido */
-  box-shadow: 0 2px 4px rgba(255, 68, 68, 0.2); /* Sombra sutil */
+.logout-item .logout-button:hover {
+  background: linear-gradient(135deg, #ff0000, #aa0000);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(255, 68, 68, 0.3);
 }
 
-/* Efeito hover no botão de logout */
-.logout-container .logout-button:hover {
-  background: linear-gradient(135deg, #ff0000, #aa0000); /* Gradiente mais escuro */
-  transform: translateY(-1px);  /* Movimento sutil para cima */
-  box-shadow: 0 4px 8px rgba(255, 68, 68, 0.3); /* Sombra mais intensa */
+.logout-item .logout-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(255, 68, 68, 0.2);
 }
 
-/* Efeito ativo no botão de logout */
-.logout-container .logout-button:active {
-  transform: translateY(0);     /* Volta à posição original */
-  box-shadow: 0 2px 4px rgba(255, 68, 68, 0.2); /* Sombra reduzida */
+.sidebar ul li.logout-item {
+  padding: 10px;
 }
 
 /* Botão de configurações no footer */
@@ -260,7 +253,7 @@
     font-size: 14px;
   }
   
-  .logout-container .logout-button {
+  .logout-item .logout-button {
     font-size: 12px;
     padding: 8px 12px;
   }
@@ -309,13 +302,14 @@
     padding: 12px 10px;       /* Área de toque maior ao redor */
   }
   
-  .logout-container {
-    padding: 8px;
-    margin-top: 15px;
-    order: 999;               /* Garante que logout fique no final */
+  .logout-item {
+  margin-top: auto;             /* Fica no rodapé da sidebar */
+  padding: 10px;                /* Padding reduzido */
+  border-top: 1px solid #333;   /* Linha separadora sutil */
+  order: 999;               /* Garante que logout fique no final */
   }
   
-  .logout-container .logout-button {
+  .logout-item .logout-button {
     font-size: 11px;
     padding: 6px 10px;
   }
@@ -363,7 +357,7 @@
     padding: 6px;
   }
   
-  .logout-container .logout-button {
+  .logout-item .logout-button {
     font-size: 10px;
     padding: 5px 8px;
   }

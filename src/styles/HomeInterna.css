@@ -11,15 +11,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px;
+  /* Remova esta linha para que o padding não limite a largura */
+  /* padding: 40px; */ 
+  padding: 24px; /* Adiciona um padding padrão para dar respiro */
   text-align: center;
 }
 
 /* Bloco hero que centraliza e limita a largura do conteúdo */
 .hero {
-  max-width: 820px;
   margin: 0 auto;
   padding: 24px 16px;
+  width: 100%;
 }
 
 /* Selo de destaque com leve transparência verde */
