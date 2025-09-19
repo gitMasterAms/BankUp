@@ -18,6 +18,7 @@ class PaymentsController {
       amount,
       description,
       due_date,
+      days_before_due_date,
       status,
       penalty,
       pix_key
@@ -52,12 +53,23 @@ class PaymentsController {
           return res.status(422).json({ msg: 'Chave PIX inválida.' });
         }
 
+          // --- Validação e ajuste do days_before_due_date ---
+          
+        if (days_before_due_date == null) {
+          days_before_due_date = 0; // se for null ou undefined
+        } else if (isNaN(Number(days_before_due_date))) {
+          return res.status(422).json({ msg: 'days_before_due_date deve ser um número.' });
+        } else {
+          days_before_due_date = Number(days_before_due_date); // garante que é number
+        }
+
     try {
       await this.paymentsService.register({
         account_id,
         amount,
       description,
       due_date,
+      days_before_due_date,
       status,
       penalty,
       pix_key

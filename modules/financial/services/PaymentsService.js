@@ -8,6 +8,8 @@ const { QrCodePix } = require('qrcode-pix');
 const qrcode = require('qrcode');
 const sendEmail = require('../../../utils/SendEmail');
 const EmailService = new sendEmail();
+const schedulePayment = require('../../../utils/schedulePayment');
+
 
 class PaymentsService {
   constructor(paymentsRepository, recurringService) {
@@ -25,6 +27,7 @@ class PaymentsService {
       amount,
       description,
       due_date,
+      days_before_due_date,
       status,
       penalty,
       pix_key }) {
@@ -36,8 +39,8 @@ class PaymentsService {
         throw new Error('CONTA_NAO_ENCONTRADA');
       }
 
-      // Cria o registro do pagamento sem o campo 'userId'.
-    await this.paymentsRepository.create({
+      // Criação do registro de pagamento
+      const paymentRecord = await this.paymentsRepository.create({
         account_id,
         amount,
         description,
@@ -45,53 +48,80 @@ class PaymentsService {
         status,
         penalty,
         pix_key
+      });   
+    
+        // Função para gerar e enviar o QR Code via e-mail
+      const sendPaymentNow = async () => {
+        try {
+          // Recupera dados atualizados do pagamento e conta
+          const account = await this.recurringService.getById(account_id);
+          const payment = await this.paymentsRepository.getById(paymentRecord.id);
+
+          // Gera QR Code PIX atualizado
+          const qrCodePix = QrCodePix({
+            version: '01',
+            key: pix_key,
+            name: account.name,
+            city: 'SAO PAULO',
+            transactionId: `BANKUP${Date.now()}`.slice(0,25),
+            message: payment.description,
+            cep: '99999999',
+            value: payment.amount,
+          });
+
+          const payload = qrCodePix.payload();
+          const qrBuffer = await qrcode.toBuffer(payload);
+
+          const title = 'Cobrança BANKUP - Pagamento via PIX';
+          const content = `
+            <p>Prezado usuário do BANKUP,</p>
+            <p>Você possui uma cobrança registrada em nossa plataforma. Para realizar o pagamento, utilize o QR Code ou o código PIX abaixo:</p>
+            
+            <div style="text-align: center; margin: 20px 0;">
+                <img src="cid:pixqrcode" alt="QR Code PIX" style="width: 200px; height: 200px;"/>
+            </div>
+
+            <p><strong>Código PIX (copia e cola):</strong></p>
+            <p style="word-break: break-all; background: #f4f4f4; padding: 10px; border-radius: 5px; color: #1a1a1a;">
+                ${payload}
+            </p>
+
+            <p>Valor: <strong>R$ ${payment.amount.toFixed(2)}</strong></p>
+            <p>Descrição: ${payment.description}</p>
+            <br>
+            <p>Caso já tenha realizado o pagamento, desconsidere este e-mail.</p>
+            <p>Atenciosamente,</p>
+            <p>Equipe BANKUP</p>
+          `;
+
+          await EmailService.sendEmail(account.email, title, content, [
+            {
+              filename: 'pix.png',
+              content: qrBuffer,
+              cid: 'pixqrcode'
+            }
+          ]);
+
+          // Futuro: envio de WhatsApp
+          // await WhatsAppService.sendMessage(account.phone, `Sua cobrança de R$${payment.amount.toFixed(2)} vence em breve!`);
+
+        } catch (err) {
+          console.error('Erro ao enviar e-mail agendado:', err);
+        }
+      };
+
+      if (process.env.NODE_ENV === 'development'){
+      await sendPaymentNow();
+      }
+
+      // Agendamento via cron
+      schedulePayment({
+        dueDate: due_date,
+        daysBefore: days_before_due_date,
+        callback: sendPaymentNow
       });
 
-      const qrCodePix =  QrCodePix({
-  version: '01',
-  key: pix_key,
-  name: recurringAccount.name,
-  city: 'SAO PAULO',
-  transactionId: `BANKUP${Date.now()}`.slice(0,25), 
-  message: description,
-  cep: '99999999',
-  value: amount,
-});
-
-    const payload = qrCodePix.payload();
-
-    // QR Code como buffer para embed via cid
-    const qrBuffer = await qrcode.toBuffer(payload);
-
-    const title = 'Cobrança BANKUP - Pagamento via PIX';
-    const content = `
-      <p>Prezado usuário do BANKUP,</p>
-      <p>Você possui uma cobrança registrada em nossa plataforma. Para realizar o pagamento, utilize o QR Code ou o código PIX abaixo:</p>
-      
-      <div style="text-align: center; margin: 20px 0;">
-          <img src="cid:pixqrcode" alt="QR Code PIX" style="width: 200px; height: 200px;"/>
-      </div>
-
-      <p><strong>Código PIX (copia e cola):</strong></p>
-      <p style="word-break: break-all; background: #f4f4f4; padding: 10px; border-radius: 5px; color: #1a1a1a;">
-          ${payload}
-      </p>
-
-      <p>Valor: <strong>R$ ${amount.toFixed(2)}</strong></p>
-      <p>Descrição: ${description}</p>
-      <br>
-      <p>Caso já tenha realizado o pagamento, desconsidere este e-mail.</p>
-      <p>Atenciosamente,</p>
-      <p>Equipe BANKUP</p>
-    `;
-
-    await EmailService.sendEmail(recurringAccount.email, title, content, [
-      {
-        filename: 'pix.png',
-        content: qrBuffer,
-        cid: 'pixqrcode'
-      }
-    ]);      
+      return paymentRecord;
 
     } catch (err) {
       console.error('PaymentsService.register ERRO:', err);
