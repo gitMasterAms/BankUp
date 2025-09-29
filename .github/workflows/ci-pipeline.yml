@@ -1,41 +1,27 @@
-# Nome do seu workflow. Aparecerá na aba "Actions" do GitHub.
 name: CI Pipeline para Back-End
 
-# Gatilho (trigger): Define quando este workflow deve ser executado.
 on:
-  # Executa sempre que um Pull Request for aberto, sincronizado ou reaberto
-  # tendo como alvo a branch "backMain".
   pull_request:
     branches: [ backMain ]
 
-# Trabalhos (Jobs): Define as tarefas que serão executadas.
 jobs:
-  # Nome do job. Pode ser qualquer nome descritivo.
   build-and-test:
-    # Máquina virtual onde o job será executado. "ubuntu-latest" é uma escolha comum e segura.
     runs-on: ubuntu-latest
-
-    # Passos (Steps): Sequência de ações que o job executará.
     steps:
-      # 1. Checkout do código: Baixa o código do seu repositório para a máquina virtual.
       - name: Checkout do Repositório
         uses: actions/checkout@v4
 
-      # 2. Configurar o ambiente Node.js: Instala a versão especificada do Node.
       - name: Configurar Node.js v20
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x' # Use a versão do Node do seu projeto.
-          cache: 'npm' # Habilita o cache de dependências para acelerar builds futuros.
+          node-version: '20.x' 
+          cache: 'npm' 
 
-      # 3. Instalar dependências: Executa "npm ci" que é mais rápido e seguro para CI.
       - name: Instalar Dependências
         run: npm ci
 
-      # 4. Executar o Lint: Verifica a qualidade e o estilo do código.
       - name: Rodar o Linter
         run: npm run lint
 
-      # 5. Executar os testes: Roda a suíte de testes do projeto.
       - name: Rodar os Testes
         run: npm run test
