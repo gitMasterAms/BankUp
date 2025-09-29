@@ -54,7 +54,7 @@ O BankUp surge como uma novidade no mercado, com o objetivo de revolucionar a fo
 
 | 📄 Documento              | 📝 Descrição                     | 📅 Data       |
 |---------------------------|----------------------------------|---------------|
-| [Planejamento](./time-documents/Reuni%C3%A3o%20geraL%201.pdf) | Esse documento contém de forma organizada a data de todas as spritns planejadas para o projeto  | Abril 2025 |
+| [Planejamento](https://github.com/gitMasterAms/BankUp/blob/frontMain/docs/planejamento.pdf) | Esse documento contém de forma organizada a data de todas as spritns planejadas para o projeto  | Abril 2025 |
 | [Divisão das equipes](./time-documents/Reuni%C3%A3o%20geraL%201.pdf) | Esse documento descreve o funcionamento e divisão das equipes do projeto  | Abril 2025 |
 | [Reunião geral](./time-documents/Reuni%C3%A3o%20geraL%201.pdf) | ATA | Setembro 2025 |
 
