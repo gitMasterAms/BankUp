@@ -1,5 +1,4 @@
 require('dotenv').config();
-const jwt = require('jsonwebtoken');
 
 class ProfileService{
  constructor(ProfileRepository, userRepository) {
