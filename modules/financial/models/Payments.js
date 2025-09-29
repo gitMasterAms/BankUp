@@ -1,9 +1,3 @@
-/**
- * models/Payments.js
- * * Define o schema da tabela 'Payments' usando o Sequelize.
- * * ATUALIZADO: O campo 'userId' foi removido, pois a referência ao usuário
- * * será feita através da tabela Recurring_Accounts.
- */
 module.exports = (sequelize, DataTypes) => {
   const Payment = sequelize.define('Payment', {
     payment_id: {
@@ -13,7 +7,6 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       defaultValue: DataTypes.UUIDV4
     },
-    // O campo userId foi removido daqui.
     account_id: { // Chave estrangeira para a tabela Recurring_Accounts
       type: DataTypes.UUID,
       allowNull: false
@@ -34,16 +27,33 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('pendente', 'concluido', 'vencido'),
       allowNull: false,
       defaultValue: 'pendente'
-    }, 
-    penalty: {
-      type: DataTypes.DECIMAL(5, 2),
-      allowNull: false
     },
-    
+    // Multa fixa por atraso
+    fine_amount: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
+      defaultValue: 0.00
+    },
+    // Juros mensal (%)
+    interest_rate: {
+      type: DataTypes.DECIMAL(5, 2),
+      allowNull: false,
+      defaultValue: 0.00
+    },
+    // Valor final calculado (opcional)
+    final_amount: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: true
+    },
+    // Data real de pagamento (opcional)
+    paid_at: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
     pix_key: {
       type: DataTypes.STRING(32),
       allowNull: false
-    },    
+    }
   }, {
     tableName: 'Payments',
     timestamps: true,
@@ -52,8 +62,6 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Payment.associate = (models) => {
-    // A associação com User foi removida daqui, pois não há mais chave direta.
-    // A associação com RecurringAccount permanece.
     Payment.belongsTo(models.RecurringAccount, {
       foreignKey: 'account_id',
       onDelete: 'CASCADE'

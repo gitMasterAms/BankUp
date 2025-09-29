@@ -18,14 +18,19 @@ class PaymentsController {
       amount,
       description,
       due_date,
-      days_before_due_date,
-      status,
-      penalty,
+       days_before_due_date,
+      status, // Opcional, pois tem defaultValue
+      fine_amount,      // <<< MUDANÇA: de 'penalty' para 'fine_amount'
+      interest_rate,    // <<< MUDANÇA: Novo campo
       pix_key
     } = req.body;
 
     // Validação dos dados de entrada
-       
+
+    if (days_before_due_date === undefined || isNaN(Number(days_before_due_date))) {
+      return res.status(422).json({ msg: 'O campo days_before_due_date é obrigatório e deve ser um número.' });
+    }
+    
     if (!validator.isUUID(account_id)) {
       return res.status(400).json({ msg: 'ID da conta recorrente inválido.' });
     }
@@ -33,46 +38,48 @@ class PaymentsController {
       return res.status(400).json({ msg: 'Descrição é obrigatória'});
     }
 
-    if (!account_id || !amount || !due_date || !penalty || !pix_key) {
-      return res.status(422).json({ msg: 'Preencha todos os campos obrigatórios!' });
+    // <<< MUDANÇA: Atualizada a verificação de campos obrigatórios
+    if (!account_id || !amount || !due_date || fine_amount === undefined || interest_rate === undefined || !pix_key) {
+      return res.status(422).json({ msg: 'Preencha todos os campos obrigatórios: account_id, amount, due_date, fine_amount, interest_rate, pix_key' });
     } 
 
     if (!validator.isDecimal(amount.toString())) {
-          return res.status(422).json({ msg: 'Valor da conta inválido.' });
-        }
+      return res.status(422).json({ msg: 'Valor da conta inválido.' });
+    }
     
-        if (!validator.isDecimal(penalty.toString())) {
-          return res.status(422).json({ msg: 'Valor da penalidade inválido.' });
-        }
-    
-        if (!validator.isDate(due_date)) {
-          return res.status(422).json({ msg: 'Data de vencimento inválida.' });
-        }
-    
-        if (!validator.isAlphanumeric(pix_key)) {
-          return res.status(422).json({ msg: 'Chave PIX inválida.' });
-        }
+    // <<< MUDANÇA: Nova validação para os campos de multa e juros
+    if (!validator.isDecimal(fine_amount.toString())) {
+      return res.status(422).json({ msg: 'Valor da multa (fine_amount) inválido.' });
+    }
 
-          // --- Validação e ajuste do days_before_due_date ---
-          
-        if (days_before_due_date == null) {
-          days_before_due_date = 0; // se for null ou undefined
-        } else if (isNaN(Number(days_before_due_date))) {
-          return res.status(422).json({ msg: 'days_before_due_date deve ser um número.' });
-        } else {
-          days_before_due_date = Number(days_before_due_date); // garante que é number
-        }
+    if (!validator.isDecimal(interest_rate.toString())) {
+        return res.status(422).json({ msg: 'Taxa de juros (interest_rate) inválida.' });
+    }
+    
+    if (!validator.isDate(due_date)) {
+      return res.status(422).json({ msg: 'Data de vencimento inválida.' });
+    }
+    
+    // ATENÇÃO: a validação isAlphanumeric pode ser muito restritiva para uma chave PIX
+    // (que pode ter '@', '.', '+', '-'). Considere uma validação mais flexível.
+    if (!pix_key || typeof pix_key !== 'string') {
+      return res.status(422).json({ msg: 'Chave PIX inválida.' });
+    }
+
+    // <<< MUDANÇA: Lógica para 'days_before_due_date' removida.
 
     try {
+      // <<< MUDANÇA: Passando os campos corretos para o serviço
       await this.paymentsService.register({
         account_id,
         amount,
-      description,
-      due_date,
-      days_before_due_date,
-      status,
-      penalty,
-      pix_key
+        description,
+        due_date,
+        days_before_due_date,
+        status, // Se não for enviado, o model usará 'pendente'
+        fine_amount,
+        interest_rate,
+        pix_key
       });
 
       return res.status(201).json({ msg: 'Pagamento registrado com sucesso.' });
@@ -100,7 +107,6 @@ class PaymentsController {
   getAllByRecurring = async (req, res) => {
     const {account_id} = req.params;
     try {
-      //console.log(account_id);
       const payments = await this.paymentsService.getAllByRecurring(account_id);
       return res.status(200).json(payments);
     } catch (err) {
@@ -111,7 +117,6 @@ class PaymentsController {
 
   getById = async (req, res) => {
     const { payment_id } = req.params;
-    console.log(payment_id);
     try {
       const payment = await this.paymentsService.getById(payment_id);
       if (!payment) return res.status(404).json({ msg: 'Pagamento não encontrado.' });
@@ -138,7 +143,6 @@ class PaymentsController {
   deleteById = async (req, res) => {
     const { payment_id } = req.params;
     try {
-      console.log('Tentando deletar payment_id:', payment_id);
       const deleted = await this.paymentsService.deleteById(payment_id);
       if (!deleted) return res.status(404).json({ msg: 'Pagamento não encontrado para exclusão.' });
       return res.status(200).json({ msg: 'Pagamento excluído com sucesso.' });
