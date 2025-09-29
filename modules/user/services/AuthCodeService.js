@@ -162,15 +162,17 @@ class AuthCodeService {
             }
 
             switch (authCode.type) {
-                case 'login_verification':
+                case 'login_verification':{
                     const token = jwt.sign({ id: userId }, process.env.SECRET, {
                         expiresIn: '1d',
                     });
-                    return { token, profile_complete: user.profile_complete };
+                    return { token, profile_complete: user.profile_complete }
+                }
                 
-                case 'password_reset':
+                case 'password_reset':{
                     const resetToken = jwt.sign({ id: userId, scope: 'reset_password' }, process.env.SECRET);
-                    return { resetToken };
+                    return { resetToken }
+                }
 
                 default:
                     throw new Error('TIPO_DE_CODIGO_INVALIDO');

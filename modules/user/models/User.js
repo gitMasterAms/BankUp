@@ -1,7 +1,4 @@
 // models/userModel.js
-const { DataTypes, UUIDV4 } = require('sequelize'); // Importando UUIDV4  para o ID único
-                                            
-
 module.exports = (sequelizeInstance, DataTypes) => { // sequelizeInstance é o 'sequelize' passado
   const User = sequelizeInstance.define('User', {
     id: {
