@@ -96,7 +96,7 @@ export default function SobreNos() {
   const navigate = useNavigate();
   return (
     <div className="sobre-container">
-      <h2 className="titulo">NOSSO TIME</h2>
+      <h2 className="titulo"> <span className="highlight">NOSSO TIME</span></h2>
       <p className="subtitulo">Turma do 2° ano de Analise e Desenvolvimento de Sistemas da Fatec Taubaté</p>
       <div className="voltar-home">
         <button className="home-button" onClick={() => navigate("/")}>← Voltar à Página Inicial</button>

@@ -23,13 +23,13 @@ body {
   display: none;
 }
 
-.logo {
-  font-size: 1.5em;
-  font-weight: bold;
+/* Tamanho da imagem de logo */
+.logo-img {
+  height: 30px;
+  width: auto;
+  display: block;
 }
-.logo span {
-  color: #00ff90;
-}
+ 
  
 .menu a {
   margin-left: 20px;
@@ -39,13 +39,15 @@ body {
 }
 .menu .btn {
   padding: 6px 12px;
-  border: 1px solid #fff;
+  border: 1px solid #00ff90;
   border-radius: 5px;
 }
 .menu .btn-secundario {
   background-color: #00ff90;
   color: #000;
   border: none;
+  font-size: 22px;
+  font-weight: 580;
 }
 
 .hero {
