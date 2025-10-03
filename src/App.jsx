@@ -26,6 +26,9 @@ import HomeInterna from './HomeInterna.jsx';
 // Importa a página de cobrança (form/tela)
 import Cobranca from './cobrança/indexCobranca.jsx';
 
+// Importa a página de perfil
+import Perfil from './Perfil/perfil.jsx';
+
 // Tabelas (novas rotas)
 // - Tabela de pagadores
 import PagadorTabela from './Pagador/PagadorTabela.jsx';
@@ -94,6 +97,9 @@ function App() {
 
         {/* Tabela de cobranças (lista) */}
         <Route path="/tabela/cobrancas" element={<CobrancaTabela />} />
+
+        {/* Página de perfil do usuário - exibe informações do cadastro e cadadicional */}
+        <Route path="/perfil" element={<Perfil />} />
 
 
       </Routes>

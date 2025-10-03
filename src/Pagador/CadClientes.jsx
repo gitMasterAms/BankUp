@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import SidebarLayout from "../components/SidebarLayout"; // Layout com sidebar responsiva
-import "./CadClientes.css"; // Estilos específicos para esta página (arquivo está na mesma pasta)
+import SidebarLayout from "../components/SidebarLayout";
 import { useNavigate, useLocation } from "react-router-dom";
 import { API_URL } from "../config/api";
+import "../cobrança/Cobranca.css";
 
 /**
  * Componente CadastrarCliente - Formulário para cadastro de novos clientes
@@ -122,81 +122,84 @@ function CadastrarCliente() {
 
   return (
     <SidebarLayout>
-        <div className="cadastro-container">
-          {/* Título da página */}
-          <h2>Dados do Cliente</h2>
-          
-          {/* Informação explicativa para o usuário */}
-          <p className="info">
-            Ao criar um cliente você deve criar uma cobrança para que este receba a
-            notificação devida
-          </p>
+      <main className="cobranca-content">
+        <div className="cobranca-form-wrapper">
+          <div className="cobranca-header">
+            <h1>Cadastro do Pagador</h1>
+            <p className="cobranca-tip">Preencha os dados e salve para listar na tabela.</p>
+          </div>
 
-          {/* Formulário de cadastro */}
-          <form className="form-cadastro" onSubmit={handleSubmit}>
-            {/* Primeira linha: Nome e Categoria */}
-            <div className="form-row">
-              <input
-                type="text"
-                name="nome"
-                placeholder="Nome Completo"
-                value={formData.nome}
-                onChange={handleChange}
-              />
-            
-            </div>
+          <div className="cobranca-form-container">
+            <form onSubmit={handleSubmit} className="cobranca-form">
+              <div className="form-fields">
+                <div className="form-column">
+                  <div className="form-group">
+                    <label>Nome</label>
+                    <input
+                      type="text"
+                      name="nome"
+                      value={formData.nome}
+                      onChange={handleChange}
+                      placeholder="Nome completo"
+                    />
+                  </div>
 
-            {/* Descrição */}
-            <div className="form-row">
-              <input
-                type="text"
-                name="descricao"
-                placeholder="Descrição"
-                value={formData.descricao}
-                onChange={handleChange}
-              />
-            </div>
+                  <div className="form-group">
+                    <label>Descrição</label>
+                    <input
+                      type="text"
+                      name="descricao"
+                      value={formData.descricao}
+                      onChange={handleChange}
+                      placeholder="Descrição do pagador"
+                    />
+                  </div>
+                </div>
 
-            {/* Segunda linha: CPF/CNPJ */}
-            <div className="form-row">
-              <input
-                type="text"
-                name="cpfCnpj"
-                placeholder="CPF/CNPJ"
-                value={formData.cpfCnpj}
-                onChange={handleChange}
-              />
-            </div>
+                <div className="form-column">
+                  <div className="form-group">
+                    <label>CPF/CNPJ</label>
+                    <input
+                      type="text"
+                      name="cpfCnpj"
+                      value={formData.cpfCnpj}
+                      onChange={handleChange}
+                      placeholder="Somente números"
+                    />
+                  </div>
 
-            {/* Terceira linha: Email */}
-            <div className="form-row">
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </div>
+                  <div className="form-group">
+                    <label>Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="email@exemplo.com"
+                    />
+                  </div>
 
-            {/* Quarta linha: Telefone */}
-            <div className="form-row">
-              <input
-                type="text"
-                name="telefone"
-                placeholder="Telefone"
-                value={formData.telefone}
-                onChange={handleChange}
-              />
-            </div>
+                  <div className="form-group">
+                    <label>Telefone</label>
+                    <input
+                      type="text"
+                      name="telefone"
+                      value={formData.telefone}
+                      onChange={handleChange}
+                      placeholder="(00) 00000-0000"
+                    />
+                  </div>
+                </div>
+              </div>
 
-            {/* Botões de ação do formulário */}
-            <div className="form-actions">
-              <button type="submit" className="btn-salvar">Salvar</button>
-              <button type="button" className="btn-cancelar" onClick={handleCancel}>Cancelar</button>
-            </div>
-          </form>
+              <div className="form-actions">
+                <button type="submit" className="btn-salvar">SALVAR</button>
+                <button type="button" className="btn-cancelar" onClick={handleCancel}>CANCELAR</button>
+              </div>
+            </form>
+          </div>
         </div>
+      </main>
     </SidebarLayout>
   );
 }
