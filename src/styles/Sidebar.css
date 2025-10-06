@@ -13,6 +13,7 @@
 
 /* Estilo do logo da aplicação */
 .sidebar .logo {
+  cursor: pointer;
   font-size: 22px;           /* Tamanho da fonte */
   font-weight: bold;         /* Peso da fonte */
   margin-bottom: 20px;       /* Margem inferior */

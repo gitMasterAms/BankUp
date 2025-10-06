@@ -19,7 +19,7 @@ function Sidebar() {
   return (
     <div className="sidebar">
       {/* Logo da aplicação */}
-      <div className="logo">
+      <div className="logo" onClick={(e) => { e.preventDefault(); navigate('/'); setMenuAberto(false); }}>
         Bank<span>Up</span>
       </div>
 
