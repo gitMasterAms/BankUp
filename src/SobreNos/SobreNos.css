@@ -8,12 +8,13 @@
 
 /* Título e subtítulo */
 .titulo {
-  font-size: 2.8rem;
+  font-size: 70px;
   color: #00ff88;
 }
 .subtitulo {
   color: #ccc;
   margin-bottom: 50px;
+  font-size: 25px;
 }
 
 /* Palavra em destaque com brilho sutil em verde */
