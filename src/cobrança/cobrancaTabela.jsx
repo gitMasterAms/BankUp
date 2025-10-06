@@ -95,7 +95,7 @@ function CobrancaTabela() {
                 <th>Cliente</th>
                 <th>Valor</th>
                 <th>Descrição</th>
-                <th>Até a data</th>
+                <th>Vencimento</th>
                 <th>Multa</th>
                 <th>PixKey</th>
                 <th style={{ width: 90 }}>Ações</th>

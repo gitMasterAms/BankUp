@@ -123,11 +123,17 @@ function CobrancaForm() {
     const editState = location.state;
     if (editState && editState.editId && editState.cobranca) {
       const { cobranca } = editState;
+      // Converter data americana para brasileira se necessário
+      let validadeBR = cobranca.validade || '';
+      if (/^\d{4}-\d{2}-\d{2}$/.test(validadeBR)) {
+        const [ano, mes, dia] = validadeBR.split('-');
+        validadeBR = `${dia}/${mes}/${ano}`;
+      }
       setFormData({
         pagadorId: cobranca.pagadorId || '',
         valor: cobranca.valor || '',
         descricao: cobranca.descricao || '',
-        validade: cobranca.validade || '',
+        validade: validadeBR,
         multa: cobranca.multa || '',
         pixKey: cobranca.pixKey || ''
       });
@@ -182,7 +188,7 @@ function CobrancaForm() {
               </div>
  
               <div className="form-group">
-                <label>Até a data (validade)</label>
+                <label>Vencimento</label>
                 <input
                   type="text"
                   name="validade"
