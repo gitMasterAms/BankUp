@@ -1,6 +1,15 @@
+.cadastro-pagina {
+  font-family: Arial, sans-serif;
+  background-color: #000;
+  color: #fff;
+  margin: 0;
+  padding: 16px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-
-/* Estilo para a tela de cadastro - escopo isolado */
 
 /* Wrapper principal que centraliza o formulário na tela */
 .cadastro-wrapper {

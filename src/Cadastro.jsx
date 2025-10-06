@@ -83,14 +83,16 @@ function Cadastro() {
   };
 
   return (
-    <div className="cadastro-wrapper">
-      {/* Botão para voltar à home externa */}
+    <div className="cadastro-pagina">
+       {/* Botão para voltar à home externa */}
       <button 
         className="home-button"
         onClick={() => navigate('/')}
       >
         ← Voltar à Página Inicial
       </button>
+    <div className="cadastro-wrapper">
+     
       
       <form className="cadastro-form">
         <h2 className="cadastro-titulo">Criar Conta</h2>
@@ -153,6 +155,7 @@ function Cadastro() {
         </p>
       </form>
     </div>
+  </div>
   );
 }
 
