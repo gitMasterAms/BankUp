@@ -22,7 +22,7 @@ function Sidebar() {
     <div className="sidebar">
       {/* Logo da aplicação */}
       <div className="logo">
-        Bank<span>Up</span>
+        <img src="/imagens/logo.png" alt="BankUp" className="logo-image" />
       </div>
 
       <div className="menu-items"> {/* Adicionado: Envolve os botões em uma div */}

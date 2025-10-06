@@ -25,6 +25,13 @@
   justify-content: flex-start; /* Alinhamento horizontal */
 }
 
+/* Imagem do logo */
+.sidebar .logo .logo-image {
+  display: block;
+  max-width: 120px;
+  height: auto;
+}
+
 /* Lista de navegação */
 .sidebar ul {
   list-style: none;          /* Remove marcadores da lista */
@@ -35,19 +42,16 @@
 /* Itens da lista de navegação */
 .sidebar ul li {
   display: flex;             /* Layout flexbox */
-  align-items: center;       /* Alinhamento vertical */
+  align-items: stretch;      /* Permite o botão ocupar toda a altura */
   justify-content: flex-start; /* Alinhamento horizontal */
-  gap: 10px;                 /* Espaçamento entre ícone e texto */
-  padding: 10px;             /* Espaçamento interno */
-  cursor: pointer;           /* Cursor de ponteiro */
-  transition: background 0.2s; /* Transição suave para hover */
+  gap: 0;                    /* Espaçamento entre itens */
+  padding: 0;                /* Sem padding para o li, o botão cuida disso */
+  margin-bottom: 10px;       /* Espaçamento entre itens */
 }
 
 /* Efeito hover nos itens da lista */
-.sidebar ul li:hover {
-  background: #222;          /* Cor de fundo no hover */
-  border-radius: 5px;        /* Bordas arredondadas */
-}
+/* Hover no li desativado: o efeito fica no botão */
+sidebar ul li:hover { }
 
 /* ===== ESTILOS PARA LINKS DO SIDEBAR ===== */
 
@@ -67,7 +71,7 @@
 }
 
 /* Efeito hover nos links */
-.sidebar-link:hover {
+sidebar-link:hover {
   color: #00ff88;            /* Cor verde no hover */
 }
 
@@ -78,21 +82,30 @@
   display: flex;             /* Layout flexbox */
   align-items: center;       /* Alinhamento vertical */
   gap: 10px;                 /* Espaçamento entre ícone e texto */
-  color: white;              /* Cor do texto */
+  color: #ffffff;            /* Cor do texto */
   text-decoration: none;     /* Remove sublinhado */
   width: 100%;               /* Largura total */
-  padding: 0;                /* Remove padding */
-  background: none;          /* Remove fundo */
-  border: none;              /* Remove bordas */
+  padding: 10px 12px;        /* Área clicável confortável */
+  background: #000000;       /* Fundo preto */
+  border: none;
+  border-radius: 6px;        /* Bordas arredondadas */
   font-size: inherit;        /* Herda tamanho da fonte */
   font-family: inherit;      /* Herda família da fonte */
   cursor: pointer;           /* Cursor de ponteiro */
   text-align: left;          /* Alinhamento do texto à esquerda */
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
 /* Efeito hover nos botões */
 .sidebar-button:hover {
-  color: #00ff88;            /* Cor verde no hover */
+  background: #00ff88;       /* Transição do preto para o verde */
+  color: #111111;            /* Texto escuro para contraste */
+  border-color: #00cc6f;     /* Borda levemente mais escura no hover */
+}
+
+/* Ícone acompanha a cor do texto do botão */
+.sidebar-button .icon {
+  color: inherit;
 }
 
 /* ===== BOTÕES ATIVOS ===== */
@@ -101,7 +114,7 @@
 .sidebar-button.active {
   background: linear-gradient(135deg, rgba(0, 255, 136, 0.08), rgba(0, 173, 74, 0.03));
   color: #00ff88;            /* Cor verde mais vibrante */
-  border-left: 5px solid #00ff88; /* Borda esquerda verde mais grossa */
+  border-left: 13px solid #00ff88; /* Borda esquerda verde mais grossa */
   box-shadow: 0 0 20px rgba(0, 255, 136, 0.3), 0 0 20px rgba(0, 255, 136, 0.1); /* Glow sutil nas bordas */
   position: relative;
   padding-left: 15px;        /* Espaçamento interno da borda */
@@ -135,7 +148,7 @@
 
 /* Título para separar seções do menu */
 .section-title {
-  font-size: 12px;           /* Tamanho pequeno da fonte */
+  font-size: 15px;           /* Tamanho pequeno da fonte */
   text-transform: uppercase; /* Texto em maiúsculas */
   margin: 15px 0 5px 10px;   /* Margens para espaçamento */
   color: #00ff88;            /* Cor verde do tema */
