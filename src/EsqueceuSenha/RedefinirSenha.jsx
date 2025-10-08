@@ -10,6 +10,8 @@ function RedefinirSenha() {
   const [salvando, setSalvando] = useState(false);
   const navigate = useNavigate();
   const capsLockOn = useCapsLock();
+  // Modo simulado para navegar sem backend. Quando true, não faz requisições reais.
+  const MOCK = true;
 
   const email = localStorage.getItem('reset_email');
   const resetToken = localStorage.getItem('reset_token');
@@ -33,7 +35,21 @@ function RedefinirSenha() {
 
     try {
       setSalvando(true);
-      // Envia a nova senha; alguns backends esperam um token temporário
+
+      if (MOCK) {
+        // Simulação: apenas valida dados e finaliza fluxo
+        setTimeout(() => {
+          alert('Senha redefinida (simulada) com sucesso!');
+          localStorage.removeItem('reset_email');
+          localStorage.removeItem('reset_token');
+          localStorage.removeItem('reset_code');
+          navigate('/login');
+          setSalvando(false);
+        }, 700);
+        return;
+      }
+
+      // Fluxo real (quando tiver backend)
       const resposta = await fetch(`${API_URL}/user/reset-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -42,9 +58,9 @@ function RedefinirSenha() {
 
       if (resposta.ok) {
         alert('Senha redefinida com sucesso!');
-        // Limpa artefatos do fluxo
         localStorage.removeItem('reset_email');
         localStorage.removeItem('reset_token');
+        localStorage.removeItem('reset_code');
         navigate('/login');
       } else {
         const erro = await resposta.json();
@@ -54,7 +70,7 @@ function RedefinirSenha() {
       console.error('Erro ao redefinir senha:', err);
       alert('Erro de conexão com o servidor.');
     } finally {
-      setSalvando(false);
+      if (!MOCK) setSalvando(false);
     }
   };
 

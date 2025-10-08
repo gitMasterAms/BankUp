@@ -7,6 +7,8 @@ function EsquecerSenha() {
   const [email, setEmail] = useState('');
   const [enviando, setEnviando] = useState(false);
   const navigate = useNavigate();
+  // Modo simulado para navegar sem backend. Quando true, não faz requisições reais.
+  const MOCK = true;
 
   const handleEnviar = async (e) => {
     e.preventDefault();
@@ -18,7 +20,23 @@ function EsquecerSenha() {
 
     try {
       setEnviando(true);
-      // Envia solicitação para iniciar fluxo de recuperação
+
+      if (MOCK) {
+        // Simulação: gera um código fixo (ou aleatório) e salva localmente
+        const mockCode = '123456';
+        localStorage.setItem('reset_email', email);
+        localStorage.setItem('reset_code', mockCode);
+
+        // Pequeno atraso para simular rede
+        setTimeout(() => {
+          alert(`Código enviado (simulado). Use: ${mockCode}`);
+          navigate('/verificar-email');
+          setEnviando(false);
+        }, 600);
+        return;
+      }
+
+      // Fluxo real (quando tiver backend): envia email para obter código
       const resposta = await fetch(`${API_URL}/user/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -26,10 +44,8 @@ function EsquecerSenha() {
       });
 
       if (resposta.ok) {
-        // Guarda email para as próximas etapas
         localStorage.setItem('reset_email', email);
         alert('Enviamos um código de verificação para seu e-mail.');
-        // Avança para tela de verificação de código
         navigate('/verificar-email');
       } else {
         const erro = await resposta.json();
@@ -39,7 +55,7 @@ function EsquecerSenha() {
       console.error('Erro ao solicitar recuperação:', err);
       alert('Erro de conexão com o servidor.');
     } finally {
-      setEnviando(false);
+      if (!MOCK) setEnviando(false);
     }
   };
 

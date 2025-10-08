@@ -7,6 +7,8 @@ function VerificarCodigo() {
   const [codigo, setCodigo] = useState('');
   const [validando, setValidando] = useState(false);
   const navigate = useNavigate();
+  // Modo simulado para navegar sem backend. Quando true, não faz requisições reais.
+  const MOCK = true;
 
   const email = localStorage.getItem('reset_email');
 
@@ -21,7 +23,26 @@ function VerificarCodigo() {
 
     try {
       setValidando(true);
-      // Verifica o código enviado por e-mail para fluxo de recuperação
+
+      if (MOCK) {
+        // Simulação: confere com o código salvo no passo anterior
+        const esperado = localStorage.getItem('reset_code');
+        setTimeout(() => {
+          if (codigo === esperado) {
+            // Gera um token temporário simulado
+            const temp = 'mock-reset-token';
+            localStorage.setItem('reset_token', temp);
+            alert('Código verificado (simulado).');
+            navigate('/redefinir-senha');
+          } else {
+            alert('Código inválido (simulado).');
+          }
+          setValidando(false);
+        }, 600);
+        return;
+      }
+
+      // Fluxo real (quando tiver backend)
       const resposta = await fetch(`${API_URL}/user/verify-reset-code`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -30,7 +51,6 @@ function VerificarCodigo() {
 
       if (resposta.ok) {
         const data = await resposta.json();
-        // Alguns backends retornam um token temporário para redefinir
         if (data.resetToken) {
           localStorage.setItem('reset_token', data.resetToken);
         }
@@ -44,7 +64,7 @@ function VerificarCodigo() {
       console.error('Erro ao verificar código de recuperação:', err);
       alert('Erro de conexão com o servidor.');
     } finally {
-      setValidando(false);
+      if (!MOCK) setValidando(false);
     }
   };
 
@@ -56,6 +76,14 @@ function VerificarCodigo() {
     }
 
     try {
+      if (MOCK) {
+        // Simulação: gera outro código e salva
+        const novo = '654321';
+        localStorage.setItem('reset_code', novo);
+        setTimeout(() => alert(`Novo código (simulado): ${novo}`), 400);
+        return;
+      }
+
       const r = await fetch(`${API_URL}/user/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
