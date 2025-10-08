@@ -49,10 +49,6 @@
   margin-bottom: 10px;       /* Espaçamento entre itens */
 }
 
-/* Efeito hover nos itens da lista */
-/* Hover no li desativado: o efeito fica no botão */
-sidebar ul li:hover { }
-
 /* ===== ESTILOS PARA LINKS DO SIDEBAR ===== */
 
 /* Links de navegação (para páginas existentes) */
@@ -71,7 +67,7 @@ sidebar ul li:hover { }
 }
 
 /* Efeito hover nos links */
-sidebar-link:hover {
+.sidebar-link:hover {
   color: #00ff88;            /* Cor verde no hover */
 }
 

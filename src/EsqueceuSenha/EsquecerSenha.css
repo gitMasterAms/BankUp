@@ -1,0 +1,9 @@
+.tela-login .login-container h1 {
+  margin-bottom: 6px;
+}
+
+.tela-login .login-container p {
+  color: #555;
+  font-size: 0.95rem;
+}
+
