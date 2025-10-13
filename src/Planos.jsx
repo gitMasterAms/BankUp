@@ -5,24 +5,24 @@ import './styles/Planos.css'; // Importando o CSS exclusivo da página de planos
 function Planos() {
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   const profileComplete = localStorage.getItem('profile_complete');
+useEffect(() => {
+  const token = localStorage.getItem('token');
+  const profileComplete = localStorage.getItem('profile_complete');
 
-  //   // Se não tiver token, redireciona para /login
-  //   if (!token) {
-  //     navigate('/login');
-  //     return;
-  //   }
+  // Se não tiver token, redireciona para /login
+    if (!token) {
+      navigate('/login');
+        return;
+      }
 
-  //   // Se o perfil não estiver completo, redireciona para /cadAdicional
-  //   if (profileComplete === 'false') {
-  //     navigate('/cadAdicional');
-  //     return;
-  //   }
+  // Se o perfil não estiver completo, redireciona para /cadAdicional
+    if (profileComplete === 'false') {
+        navigate('/cadAdicional');
+        return;
+      }
 
-  //   // Se tudo estiver certo, o usuário permanece na página de planos
-  // }, [navigate]);
+// Se tudo estiver certo, o usuário permanece na página de planos
+        }, [navigate]);
 
   return (
     <div className="precos-wrapper">
