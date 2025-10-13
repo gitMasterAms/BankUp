@@ -154,7 +154,8 @@ function CobrancaTabela() {
                           if (!confirmDelete) return;
                           
                           console.log('Tentando deletar pagamento com ID:', linha.id);
-                          
+                                  const token = localStorage.getItem('token');
+
                           fetch(`${API_URL}/financial/payments/${linha.id}`, {
                             method: 'DELETE',
                             headers: {
@@ -176,7 +177,8 @@ function CobrancaTabela() {
                             try {
                               const errorData = JSON.parse(text);
                               errorMessage = errorData.msg || errorMessage;
-                            } catch (e) {
+                            }
+                            catch {
                               errorMessage = text || errorMessage;
                             }
                             
