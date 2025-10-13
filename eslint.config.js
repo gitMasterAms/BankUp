@@ -8,7 +8,7 @@ import pluginReactRefresh from "eslint-plugin-react-refresh";
 export default [
   // Configuração principal para arquivos JavaScript e JSX
   {
-    files: ["**/*.{js,jsx,mjs,cjs,css}"], // Aplica a todos os arquivos JS/JSX em qualquer pasta
+    files: ["**/*.{js,jsx,mjs,cjs}"], // Aplica a todos os arquivos JS/JSX em qualquer pasta
     plugins: {
       react: pluginReact,
       "react-hooks": pluginReactHooks,

@@ -21,47 +21,46 @@ function Perfil() {
     const fetchUserData = async () => {
       const token = localStorage.getItem('token');
       
-      // COMENTADO TEMPORARIAMENTE PARA VISUALIZAÇÃO DA TELA SEM LOGIN
-      // if (!token) {
-      //   alert('Usuário não autenticado. Faça login novamente.');
-      //   navigate('/login');
-      //   return;
-      // }
+       if (!token) {
+         alert('Usuário não autenticado. Faça login novamente.');
+          navigate('/login');
+          return;
+       }
 
       try {
-        // COMENTADO TEMPORARIAMENTE PARA VISUALIZAÇÃO DA TELA SEM LOGIN
-        // // Busca dados básicos do usuário (email)
-        // const userResponse = await fetch(`${API_URL}/user/check`, {
-        //   method: 'GET',
-        //   headers: {
-        //     'Authorization': `Bearer ${token}`,
-        //   },
-        // });
+      
+        // Busca dados básicos do usuário (email)
+          const userResponse = await fetch(`${API_URL}/user/check`, {
+           method: 'GET',
+           headers: {
+             'Authorization': `Bearer ${token}`,
+           },
+          });
 
-        // if (userResponse.ok) {
-        //   const userInfo = await userResponse.json();
-        //   setUserData(prev => ({ ...prev, email: userInfo.email || '' }));
-        // }
+           if (userResponse.ok) {
+            const userInfo = await userResponse.json();
+              setUserData(prev => ({ ...prev, email: userInfo.email || '' }));
+          }
 
-        // // Busca dados do perfil (informações adicionais)
-        // const profileResponse = await fetch(`${API_URL}/user/profile`, {
-        //   method: 'GET',
-        //   headers: {
-        //     'Authorization': `Bearer ${token}`,
-        //   },
-        // });
+        // Busca dados do perfil (informações adicionais)
+          const profileResponse = await fetch(`${API_URL}/user/profile`, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          });
 
-        // if (profileResponse.ok) {
-        //   const profileData = await profileResponse.json();
-        //   setUserData(prev => ({
-        //     ...prev,
-        //     name: profileData.name || '',
-        //     cpf_cnpj: profileData.cpf_cnpj || '',
-        //     phone: profileData.phone || '',
-        //     address: profileData.address || '',
-        //     birthdate: profileData.birthdate || ''
-        //   }));
-        // }
+          if (profileResponse.ok) {
+            const profileData = await profileResponse.json();
+              setUserData(prev => ({
+         ...prev,
+              name: profileData.name || '',
+              cpf_cnpj: profileData.cpf_cnpj || '',
+              phone: profileData.phone || '',
+              address: profileData.address || '',
+              birthdate: profileData.birthdate || ''
+            }));
+          }
 
         // DADOS DE EXEMPLO PARA VISUALIZAÇÃO DA TELA
         setUserData({
