@@ -7,77 +7,78 @@ import { API_URL } from './config/api';
 
 function Cadastro() {
 const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [confirmarSenha, setConfirmarSenha] = useState('');
-  const navigate = useNavigate();
-  
-  // Hook para detectar se o Caps Lock está ativado
-  const capsLockOn = useCapsLock();
+const [senha, setSenha] = useState('');
+const [confirmarSenha, setConfirmarSenha] = useState('');
+const navigate = useNavigate();
 
-  // Verifica se o usuário já tem um token válido salvo
-  useEffect(() => {
-    const token = localStorage.getItem('token');
+ // Hook para detectar se o Caps Lock está ativado
+ const capsLockOn = useCapsLock();
 
-    if (token) {
-      fetch(`${API_URL}/user/check`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (data.valid === true) {
-            navigate('/home');
-          }
-        })
-        .catch(err => {
-          console.log('Erro ao verificar o token:', err);
-        });
-    }
-  }, [navigate]);
+ // Verifica se o usuário já tem um token válido salvo
+ useEffect(() => {
+   const token = localStorage.getItem('token');
 
-  const verificarEmail = async () => {
-    if (!email.includes('@') || !email.includes('.')) {
-      alert('Por favor, insira um e-mail válido.');
-      return;
-    }
+    if (token) {
+      fetch(`${API_URL}/user/check`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+})
+     .then(res => res.json())
+          .then(data => {
+            if (data.valid === true) {
+              navigate('/home');
+            }
+       })
+            .catch(err => {
+            console.log('Erro ao verificar o token:', err);
+        });
+}
+   }, [navigate]);
 
-    if (senha.length < 6) {
-      alert('A senha deve ter pelo menos 6 caracteres.');
-      return;
-    }
+const verificarEmail = async () => {
+   if (!email.includes('@') || !email.includes('.')) {
+      alert('Por favor, insira um e-mail válido.');
+      return;
+    }
 
-    if (senha !== confirmarSenha) {
-      alert('As senhas não coincidem!');
-      return;
-    }
+    if (senha.length < 6) {
+        alert('A senha deve ter pelo menos 6 caracteres.');
+        return;
+    }
 
-    try {
-      const resposta = await fetch(`${API_URL}/user/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password: senha,
-          confirmpassword: confirmarSenha,
-        }),
-      });
+      if (senha !== confirmarSenha) {
+      alert('As senhas não coincidem!');
+      return;
+    }
 
-      if (resposta.ok) {
-        alert('Cadastro realizado com sucesso!');
-        navigate('/login');
-      } else {
-        const erro = await resposta.json();
-        alert(erro.msg || 'Erro ao cadastrar. Verifique os dados.');
-      }
-    } catch (erro) {
-      console.error('Erro na requisição:', erro);
-      alert('Erro de conexão com o servidor. Verifique se o backend está rodando.');
-    }
-  };
+try {
+      const resposta = await fetch(`${API_URL}/user/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password: senha,
+          confirmpassword: confirmarSenha,
+        }),
+      });
+
+if (resposta.ok) {
+        alert('Cadastro realizado com sucesso!');
+        navigate('/login');
+      }
+      else {
+        const erro = await resposta.json();
+        alert(erro.msg || 'Erro ao cadastrar. Verifique os dados.');
+      }
+    } catch (erro) {
+      console.error('Erro na requisição:', erro);
+      alert('Erro de conexão com o servidor. Verifique se o backend está rodando.');
+  }
+  };
 
   return (
     <div className="tela-login">
