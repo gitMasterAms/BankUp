@@ -9,6 +9,7 @@ const qrcode = require('qrcode');
 const sendEmail = require('../../../utils/SendEmail');
 const EmailService = new sendEmail();
 const schedulePayment = require('../../../utils/schedulePayment');
+const { initZap, sendZapText, sendZapImage } = require('../../../utils/SendZap');
 
 
 class PaymentsService {
@@ -102,11 +103,24 @@ class PaymentsService {
             }
           ]);
 
+          const mensagemWhats = `
+Olá ${account.name}! 💰
+Você possui uma cobrança de R$ ${payment.amount.toFixed(2)}.
+Descrição: ${payment.description}
+
+Código PIX: ${payload}
+`;
+
+    // envia mensagem de texto
+    await sendZapText(account.phone, mensagemWhats);
+    // envia imagem do QR Code
+    await sendZapImage(account.phone, qrBase64, 'QR Code PIX - BANKUP 💳');
+
           // Futuro: envio de WhatsApp
           // await WhatsAppService.sendMessage(account.phone, `Sua cobrança de R$${payment.amount.toFixed(2)} vence em breve!`);
 
         } catch (err) {
-          console.error('Erro ao enviar e-mail agendado:', err);
+          console.error('Erro ao enviar cobrança (e-mail/WhatsApp):', err);
         }
       };
 

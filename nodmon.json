@@ -1,0 +1,6 @@
+{
+  "watch": ["src", "app.js"],
+  "ignore": ["token, tokens, zap-session", "node_modules"],
+  "ext": "js,json",
+  "exec": "node app.js"
+}
