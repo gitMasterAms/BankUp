@@ -44,6 +44,35 @@
   color: #fff;
 }
 
+/* Telas grandes: centraliza e limita largura de tabelas para evitar linhas muito longas */
+@media (min-width: 1440px) {
+  .main-content {
+    padding-left: 40px;
+    padding-right: 40px;
+    display: flex;
+    justify-content: center;
+  }
+  .tabela-wrapper {
+    width: 100%;
+    max-width: 1320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 1920px) {
+  .tabela-wrapper {
+    max-width: 1400px;
+  }
+}
+
+/* 21:9: reforça contenção de largura */
+@media (min-aspect-ratio: 21/9) and (min-width: 1440px) {
+  .tabela-wrapper {
+    max-width: 1320px;
+  }
+}
+
 /* Botões de ação simples */
 .btn-acao {
   background: #222;

@@ -48,6 +48,41 @@ body {
   padding: 0;
 }
 
+/* ===== RESPONSIVIDADE PARA TELAS GRANDES (NOTEBOOKS E TVs) ===== */
+
+/* Notebooks grandes (1440px - 1919px) */
+@media (min-width: 1440px) and (max-width: 1919px) {
+  .content-area {
+    align-items: center; /* permite centralizar conteúdo interno que use largura fixa */
+  }
+}
+
+/* TVs e monitores grandes (1920px - 2559px) */
+@media (min-width: 1920px) and (max-width: 2559px) {
+  .content-area {
+    padding-left: 24px;
+    padding-right: 24px;
+    align-items: center;
+  }
+}
+
+/* TVs 4K e monitores muito grandes (2560px+) */
+@media (min-width: 2560px) {
+  .content-area {
+    padding-left: 40px;
+    padding-right: 40px;
+    align-items: center;
+  }
+}
+
+/* 21:9 reforça contenção de largura do conteúdo principal */
+@media (min-aspect-ratio: 21/9) and (min-width: 1440px) {
+  .content-area > * {
+    max-width: 1320px;
+    width: 100%;
+  }
+}
+
 /* Hamburger - hidden on desktop */
 .hamburger-button {
   display: none;
@@ -59,7 +94,114 @@ body {
 }
 
 /* ===== Responsive (mobile) ===== */
-@media (max-width: 768px) {
+
+/* Tablets em portrait (481px - 767px) */
+@media (min-width: 481px) and (max-width: 767px) {
+  .layout-container {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .content-area {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .sidebar-wrapper {
+    position: fixed;
+    left: -220px;
+    transition: left 0.3s ease;
+  }
+
+  .sidebar-wrapper.open {
+    left: 0;
+  }
+
+  .content-area {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  /* Show hamburger only on mobile */
+  .hamburger-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    width: 42px;
+    height: 42px;
+    z-index: 1100;
+    background: #111;
+    color: #00ff88;
+    border: 1px solid #222;
+    border-radius: 6px;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .sidebar-open .hamburger-button {
+    left: calc(min(80vw, 320px) - 50px);
+  }
+
+  .hamburger-button:active {
+    transform: scale(0.98);
+  }
+
+  .sidebar-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 80%;
+    max-width: 320px;
+    transform: translateX(-105%);
+    transition: transform 0.3s ease;
+    z-index: 1050;
+    overflow: hidden;
+    will-change: transform;
+  }
+
+  .sidebar-wrapper.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-wrapper .sidebar {
+    position: static !important;
+    left: auto !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+  }
+
+  .backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1040;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    display: block;
+  }
+
+  .backdrop.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .content-area {
+    padding: 0px 0px;
+  }
+}
+
+/* Celulares (até 480px) */
+@media (max-width: 480px) {
   .layout-container {
     position: relative;
     width: 100%;
@@ -95,7 +237,7 @@ body {
     justify-content: center;
     position: fixed;
     top: 10px;
-    left: 10px; /* canto da tela quando fechado */
+    left: 10px;
     width: 40px;
     height: 40px;
     z-index: 1100;
@@ -109,16 +251,14 @@ body {
     transition: background 0.2s ease, transform 0.2s ease;
   }
 
-  /* Quando a sidebar estiver aberta, encosta o botão perto da borda direita da própria sidebar */
   .sidebar-open .hamburger-button {
-    left: calc(min(80vw, 320px) - 48px); /* 8px de margem interna (40px botão + 8px) */
+    left: calc(min(80vw, 320px) - 48px);
   }
 
   .hamburger-button:active {
     transform: scale(0.98);
   }
 
-  /* Slide-in sidebar wrapper */
   .sidebar-wrapper {
     position: fixed;
     top: 0;
@@ -126,10 +266,10 @@ body {
     height: 100vh;
     width: 80%;
     max-width: 320px;
-    transform: translateX(-105%); /* garante que suma 100% + margem */
+    transform: translateX(-105%);
     transition: transform 0.3s ease;
     z-index: 1050;
-    overflow: hidden; /* evita qualquer brilho/borda aparecer */
+    overflow: hidden;
     will-change: transform;
   }
 
@@ -137,7 +277,6 @@ body {
     transform: translateX(0);
   }
 
-  /* Override inner Sidebar mobile rules coming from Sidebar.css */
   .sidebar-wrapper .sidebar {
     position: static !important;
     left: auto !important;
@@ -145,7 +284,6 @@ body {
     min-height: 100vh !important;
   }
 
-  /* Backdrop */
   .backdrop {
     position: fixed;
     inset: 0;
@@ -162,8 +300,27 @@ body {
     pointer-events: auto;
   }
 
-  /* Content pushes under fixed elements */
   .content-area {
     padding: 0px 0px;
+  }
+}
+
+/* Celulares muito pequenos (até 320px) */
+@media (max-width: 320px) {
+  .hamburger-button {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+    top: 8px;
+    left: 8px;
+  }
+
+  .sidebar-wrapper {
+    width: 85%;
+    max-width: 280px;
+  }
+
+  .sidebar-open .hamburger-button {
+    left: calc(min(85vw, 280px) - 44px);
   }
 }

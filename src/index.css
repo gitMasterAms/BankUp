@@ -210,8 +210,122 @@ body {
 
 /* ===== RESPONSIVIDADE GLOBAL ===== */
 
-/* Tablets (768px - 1024px) */
-@media (max-width: 1024px) {
+/* Telas muito grandes (2560px+) */
+@media (min-width: 2560px) {
+  .cabecalho {
+    padding: 32px 120px;
+  }
+  
+  .hero,
+  .aprenda,
+  .chega-de-calote {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+  
+  .hero,
+  .aprenda-grid {
+    max-width: 1800px;
+  }
+  
+  .hero h1 {
+    font-size: 4rem;
+  }
+  
+  .hero p {
+    font-size: 1.5rem;
+  }
+  
+  .apr-card {
+    padding: 80px;
+  }
+}
+
+/* Telas grandes (1920px - 2559px) */
+@media (min-width: 1920px) and (max-width: 2559px) {
+  .cabecalho {
+    padding: 28px 80px;
+  }
+  
+  .hero,
+  .aprenda-grid {
+    max-width: 1400px;
+  }
+  
+  .apr-card {
+    padding: 60px;
+  }
+}
+
+/* Laptops grandes (1440px - 1919px) */
+@media (min-width: 1440px) and (max-width: 1919px) {
+  .cabecalho {
+    padding: 24px 64px;
+  }
+  
+  .hero,
+  .aprenda,
+  .chega-de-calote,
+  .rodape {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  .hero,
+  .aprenda-grid {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .hero h1 {
+    font-size: 3rem;
+    max-width: 24ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .hero p {
+    max-width: 70ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .aprenda-grid {
+    gap: 80px;
+  }
+}
+
+/* Laptops (1024px - 1439px) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .cabecalho {
+    padding: 20px 40px;
+  }
+  
+  .hero {
+    padding: 50px 30px;
+  }
+  
+  .hero h1 {
+    font-size: 2.8em;
+  }
+  
+  .hero p {
+    font-size: 1.2em;
+  }
+  
+  .aprenda-grid {
+    gap: 50px;
+    max-width: 900px;
+  }
+  
+  .apr-card {
+    padding: 40px;
+  }
+}
+
+/* Tablets em landscape (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
   .cabecalho {
     padding: 15px 20px;
   }
@@ -414,5 +528,163 @@ body {
   
   .apr-card p {
     font-size: 0.9em;
+  }
+}
+
+/* ===== RESPONSIVIDADE PARA TELAS GRANDES (NOTEBOOKS E TVs) ===== */
+
+/* Notebooks grandes (1440px - 1919px) */
+@media (min-width: 1440px) and (max-width: 1919px) {
+  .cabecalho {
+    padding: 24px 64px;
+  }
+
+  .menu a {
+    margin-left: 24px;
+  }
+
+  /* Limita largura de leitura e centraliza blocos principais */
+  .hero,
+  .aprenda,
+  .chega-de-calote,
+  .rodape {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .hero,
+  .aprenda-grid {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    max-width: 24ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero p {
+    max-width: 70ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .aprenda-grid {
+    gap: 80px;
+  }
+}
+
+/* TVs e monitores grandes (1920px - 2559px) */
+@media (min-width: 1920px) and (max-width: 2559px) {
+  .cabecalho {
+    padding: 28px 80px;
+  }
+
+  .hero,
+  .aprenda,
+  .chega-de-calote {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+
+  .hero,
+  .aprenda-grid {
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero h1 {
+    font-size: 3.5rem;
+    max-width: 28ch;
+  }
+
+  .hero p {
+    font-size: 1.3rem;
+    max-width: 75ch;
+  }
+
+  .aprenda-grid {
+    gap: 100px;
+  }
+
+  .apr-card {
+    padding: 60px;
+  }
+}
+
+/* TVs 4K e monitores muito grandes (2560px+) */
+@media (min-width: 2560px) {
+  .cabecalho {
+    padding: 32px 120px;
+  }
+
+  .hero,
+  .aprenda,
+  .chega-de-calote {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+
+  .hero,
+  .aprenda-grid {
+    max-width: 1800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero h1 {
+    font-size: 4rem;
+    max-width: 32ch;
+  }
+
+  .hero p {
+    font-size: 1.5rem;
+    max-width: 80ch;
+  }
+
+  .aprenda-grid {
+    gap: 120px;
+  }
+
+  .apr-card {
+    padding: 80px;
+  }
+}
+
+/* ===== PROPORÇÕES DE TELA (16:10 e 21:9) ===== */
+/* 16:10 costuma ter mais altura útil; mantemos largura controlada e aumentamos respiro lateral */
+@media (min-aspect-ratio: 16/10) and (min-width: 1280px) {
+  .hero,
+  .aprenda,
+  .chega-de-calote {
+    padding-left: max(40px, 6vw);
+    padding-right: max(40px, 6vw);
+  }
+
+  .aprenda-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+/* 21:9 é ultrawide; reforça centralização e espaçamento para evitar linhas longas */
+@media (min-aspect-ratio: 21/9) and (min-width: 1440px) {
+  .hero,
+  .aprenda-grid {
+    max-width: 1320px;
+  }
+
+  .hero {
+    padding-left: max(40px, 8vw);
+    padding-right: max(40px, 8vw);
+  }
+
+  .hero h1,
+  .hero p {
+    margin-left: auto;
+    margin-right: auto;
   }
 }

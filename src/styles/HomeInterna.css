@@ -30,6 +30,73 @@
   width: 100%;
 }
 
+/* ===== RESPONSIVIDADE PARA TELAS GRANDES (NOTEBOOKS E TVs) ===== */
+
+/* Notebooks grandes (1440px - 1919px) */
+@media (min-width: 1440px) and (max-width: 1919px) {
+  .hero {
+    max-width: 1200px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  .hero h1 {
+    font-size: 48px;
+  }
+  .subtitle {
+    max-width: 70ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* TVs e monitores grandes (1920px - 2559px) */
+@media (min-width: 1920px) and (max-width: 2559px) {
+  .hero {
+    max-width: 1400px;
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+  .hero h1 {
+    font-size: 56px;
+  }
+  .subtitle {
+    font-size: 20px;
+    max-width: 75ch;
+  }
+}
+
+/* TVs 4K e monitores muito grandes (2560px+) */
+@media (min-width: 2560px) {
+  .hero {
+    max-width: 1800px;
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+  .hero h1 {
+    font-size: 64px;
+  }
+  .subtitle {
+    font-size: 24px;
+    max-width: 80ch;
+  }
+}
+
+/* Ajustes por proporção: 16:10 e 21:9 */
+@media (min-aspect-ratio: 16/10) and (min-width: 1280px) {
+  .hero {
+    padding-left: max(40px, 6vw);
+    padding-right: max(40px, 6vw);
+  }
+}
+
+@media (min-aspect-ratio: 21/9) and (min-width: 1440px) {
+  .hero {
+    max-width: 1320px;
+    padding-left: max(40px, 8vw);
+    padding-right: max(40px, 8vw);
+  }
+}
+
 /* Selo de destaque com leve transparência verde */
 .badge {
   display: inline-block;
@@ -119,14 +186,94 @@
 
 /* ===== RESPONSIVIDADE HOME INTERNA ===== */
 
-/* Tablets (768px - 1024px) */
-@media (max-width: 1024px) {
+/* Telas muito grandes (2560px+) */
+@media (min-width: 2560px) {
+  .hero {
+    max-width: 1800px;
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+  
+  .hero h1 {
+    font-size: 64px;
+  }
+  
+  .subtitle {
+    font-size: 24px;
+    max-width: 80ch;
+  }
+  
+  .benefits {
+    font-size: 1.2em;
+  }
+}
+
+/* Telas grandes (1920px - 2559px) */
+@media (min-width: 1920px) and (max-width: 2559px) {
+  .hero {
+    max-width: 1400px;
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+  
+  .hero h1 {
+    font-size: 56px;
+  }
+  
+  .subtitle {
+    font-size: 20px;
+    max-width: 75ch;
+  }
+}
+
+/* Laptops grandes (1440px - 1919px) */
+@media (min-width: 1440px) and (max-width: 1919px) {
+  .hero {
+    max-width: 1200px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  .hero h1 {
+    font-size: 48px;
+  }
+  
+  .subtitle {
+    max-width: 70ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Laptops (1024px - 1439px) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .home-content {
+    padding: 10px 0px;
+  }
+  
+  .hero {
+    max-width: 900px;
+    padding: 50px 30px;
+  }
+  
+  .hero h1 {
+    font-size: 42px;
+  }
+  
+  .subtitle {
+    font-size: 18px;
+  }
+}
+
+/* Tablets em landscape (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
   .home-content {
     padding: 10px 0px;
   }
   
   .hero {
     max-width: 700px;
+    padding: 40px 20px;
   }
   
   .hero h1 {
@@ -138,8 +285,8 @@
   }
 }
 
-/* Celulares (até 768px) */
-@media (max-width: 768px) {
+/* Tablets em portrait (481px - 767px) */
+@media (min-width: 481px) and (max-width: 767px) {
   .home-content {
     padding: 10px 0px;
     margin-left: 0;
@@ -147,7 +294,43 @@
   
   .hero {
     max-width: 100%;
-    padding: 30px 10px;
+    padding: 35px 16px;
+  }
+  
+  .badge {
+    padding: 6px 12px;
+    font-size: 0.95em;
+  }
+  
+  .hero h1 {
+    font-size: 32px;
+    line-height: 1.2;
+  }
+  
+  .subtitle {
+    font-size: 16px;
+    margin-bottom: 22px;
+  }
+  
+  .benefits {
+    font-size: 0.95em;
+  }
+  
+  .benefits li {
+    margin: 6px 0;
+  }
+}
+
+/* Celulares (até 480px) */
+@media (max-width: 480px) {
+  .home-content {
+    padding: 10px 0px;
+    margin-left: 0;
+  }
+  
+  .hero {
+    max-width: 100%;
+    padding: 30px 12px;
   }
   
   .badge {
@@ -174,19 +357,15 @@
   }
 }
 
-/* Celulares pequenos (até 480px) */
-@media (max-width: 480px) {
-  .home-content {
-    padding: 10px 0px;
-  }
-  
+/* Celulares pequenos (até 360px) */
+@media (max-width: 360px) {
   .hero {
-    padding: 15px 5px;
+    padding: 25px 10px;
   }
   
   .badge {
     padding: 4px 8px;
-    font-size: 0.8em;
+    font-size: 0.85em;
   }
   
   .hero h1 {
@@ -200,5 +379,55 @@
   
   .benefits {
     font-size: 0.85em;
+  }
+}
+
+/* Celulares muito pequenos (até 320px) */
+@media (max-width: 320px) {
+  .hero {
+    padding: 20px 8px;
+  }
+  
+  .badge {
+    padding: 3px 6px;
+    font-size: 0.8em;
+  }
+  
+  .hero h1 {
+    font-size: 22px;
+  }
+  
+  .subtitle {
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  
+  .benefits {
+    font-size: 0.8em;
+  }
+}
+
+/* Orientação landscape em dispositivos móveis */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero {
+    padding: 15px 16px;
+  }
+  
+  .hero h1 {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  
+  .subtitle {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  
+  .benefits {
+    font-size: 0.85em;
+  }
+  
+  .benefits li {
+    margin: 3px 0;
   }
 }
