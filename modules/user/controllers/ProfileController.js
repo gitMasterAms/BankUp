@@ -42,7 +42,6 @@ class ProfileController {
   update = async (req, res) => {
     const userId = req.id;
     let data = req.body;
-    console.log(data);
 
     try {
       await this.ProfileService.update({ userId, data });

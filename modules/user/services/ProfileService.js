@@ -36,25 +36,41 @@ class ProfileService {
 
   async update({ userId, data }) {
   try {
+    const existingUser = await this.userRepository.getById(userId);
+    if (!existingUser) {
+      throw new Error('USUARIO_NAO_ENCONTRADO');
+    }
+
     const existingProfile = await this.ProfileRepository.findProfileByUserId(userId);
-    if (!existingProfile) {
-      throw new Error('PERFIL_NAO_EXISTE');
+
+    const { name, email, cpf_cnpj, phone, address, birthdate } = data;
+
+    // valida CPF somente se vier no update
+    if (cpf_cnpj && cpf_cnpj !== existingProfile.cpf_cnpj) {
+      const existingCpfCnpj = await this.ProfileRepository.findByCpfCnpj(cpf_cnpj);
+      if (existingCpfCnpj && existingCpfCnpj.userId !== userId) {
+        throw new Error('CPFCNPJ_JA_EXISTE');
+      }
     }
 
-    const { name, cpf_cnpj, phone, address, birthdate } = data;
+    // atualiza apenas os campos passados
+    const updatedData = {
+      name: name ?? existingProfile.name,
+      cpf_cnpj: cpf_cnpj ?? existingProfile.cpf_cnpj,
+      phone: phone ?? existingProfile.phone,
+      address: address ?? existingProfile.address,
+      birthdate: birthdate ?? existingProfile.birthdate
+    };
 
-    const existingCpfCnpj = await this.ProfileRepository.findByCpfCnpj(cpf_cnpj);
-    if (existingCpfCnpj && existingCpfCnpj.userId !== userId) {
-      throw new Error('CPFCNPJ_JA_EXISTE');
-    }
+    await this.ProfileRepository.update(userId, updatedData);
 
-    await this.ProfileRepository.update(userId, {
-      name,
-      cpf_cnpj,
-      phone,
-      address,
-      birthdate
-    });
+    const updatedProfile = await this.ProfileRepository.findProfileByUserId(userId);
+
+    return {
+      ...updatedProfile.dataValues,
+      email: existingUser.email
+    };
+
   } catch (err) {
     console.error('ProfileService.update ERRO:', err);
     throw err;
@@ -62,10 +78,11 @@ class ProfileService {
 }
 
 
+
+
  async getProfile(userId) {
   try {
     const user = await this.userRepository.getById(userId);
-    console.log('User encontrado:', user.email);
 
     const profile = await this.ProfileRepository.findProfileByUserId(userId);
 
