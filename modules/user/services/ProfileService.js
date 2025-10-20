@@ -62,15 +62,43 @@ class ProfileService {
 }
 
 
-  async getProfile(userId) {
-    try {
-      const profile = await this.ProfileRepository.findProfileByUserId(userId);
-      return profile;
-    } catch (err) {
-      console.error('ProfileService.getProfile ERRO:', err);
-      throw err;
-    }
+ async getProfile(userId) {
+  try {
+    const user = await this.userRepository.getById(userId);
+    console.log('User encontrado:', user.email);
+
+    const profile = await this.ProfileRepository.findProfileByUserId(userId);
+
+    // junta tudo num único objeto
+    const result = {
+      ...profile,   // espalha os campos do profile
+      email: user.email
+    };
+
+    return result;
+  } catch (err) {
+    console.error('ProfileService.getProfile ERRO:', err);
+    throw err;
   }
+}
+async getProfile(userId) {
+  try {
+    const user = await this.userRepository.getById(userId);
+    const profile = await this.ProfileRepository.findProfileByUserId(userId);
+
+    // junta tudo num único objeto
+    const result = {
+      ...profile.dataValues,   // espalha os campos do profile
+      email: user.email
+    };
+
+    return result;
+  } catch (err) {
+    console.error('ProfileService.getProfile ERRO:', err);
+    throw err;
+  }
+}
+
 }
 
 module.exports = ProfileService;
