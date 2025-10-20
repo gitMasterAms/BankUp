@@ -25,7 +25,7 @@ function Header() {
 
       {/* Menu de navegação */}
       <nav className={`menu ${menuAberto ? 'open' : ''}`}>
-      <a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/home'); setMenuAberto(false); }}>Home</a>
+      {/*<a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/home'); setMenuAberto(false); }}>Home</a>*/}
         <a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/sobre'); setMenuAberto(false); }}>Sobre nós</a> 
         <a href="#serviços" className="btn" onClick={() => setMenuAberto(false)}>Serviços</a>
         <a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/planos'); setMenuAberto(false); }}>Planos</a>

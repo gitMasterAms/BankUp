@@ -24,8 +24,8 @@ function CobrancaTabela() {
           headers
         });
         const paymentsData = await paymentsResponse.json();
-       
-        // Buscar pagadores
+
+        // Buscar pagadores (escopo do usuário logado)
         const pagadoresResponse = await fetch(`${API_URL}/financial/recurring`, {
           headers
         });
@@ -36,8 +36,13 @@ function CobrancaTabela() {
           nome: item.name
         })));
  
+        // Filtrar pagamentos apenas dos pagadores do usuário atual
+        const allowedAccountIds = new Set(pagadoresData.map(p => p.account_id));
+
         console.log('Dados recebidos:', paymentsData);
-        setLinhas(paymentsData.map(payment => {
+        setLinhas(paymentsData
+          .filter(payment => allowedAccountIds.has(payment.account_id))
+          .map(payment => {
           console.log('Processando pagamento:', payment);
           return {
             id: payment.payment_id, // Campo usado para delete
