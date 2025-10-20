@@ -23,13 +23,15 @@ class AuthCodeService {
      * Esta função é o primeiro passo do fluxo 2FA.
      * @param {object} data - Contém userId, email e type ('login_verification', 'password_reset', etc.).
      */
-    async sendCode({ userId, email, type }) {
+    async sendCode({ email, type }) {
         try {
             // 1. Valida se o usuário e o e-mail correspondem no banco de dados.
-            const user = await this.UserRepository.getById(userId);
+            const user = await this.UserRepository.findByEmail(email);
             if (!user || user.email !== email) {
                 throw new Error('ID_EMAIL_INCOMPATIVEIS');
             }
+
+            const userId = user.id;
 
             const existingCode = await this.AuthCodeRepository.findByUserId({ userId });
             const now = new Date();
@@ -98,7 +100,7 @@ class AuthCodeService {
 
             await EmailService.sendEmail(email, title, content);
 
-            return { message: "Código enviado com sucesso." };
+            return { userId, message: "Código enviado com sucesso." };
 
         } catch (err) {
             if (process.env.NODE_ENV !== 'production') {

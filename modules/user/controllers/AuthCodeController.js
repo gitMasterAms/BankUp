@@ -6,9 +6,9 @@ class AuthCodeController {
         this.authCodeService = authCodeService;
     }
     sendCode = async (req, res) => {
-    const {userId, email, type} = req.body;
+    const {email, type} = req.body;
 
-    if (!userId || !email || !type) {
+    if ( !email || !type) {
       return res.status(422).json({msg: 'Envie todos os dados obrigatórios'});
     }
     const VALID_TYPES = ['login_verification', 'password_reset'];
@@ -22,7 +22,7 @@ class AuthCodeController {
     }
 
     try {
-      const result = await this.authCodeService.sendCode({ userId, email, type });
+      const result = await this.authCodeService.sendCode({ email, type });
       return res.status(200).json({msg: 'Verificação por email efetuada com sucesso!', ...result});
     } catch (err) {
       //  if (err.message === 'CODIGO_NAO_ENCONTRADO') {
