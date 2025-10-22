@@ -13,6 +13,7 @@ class PaymentsController {
    * Rota para registrar um novo pagamento.
    */
   register = async (req, res) => {
+    const userId = req.id;
     const {
       account_id,
       amount,
@@ -73,6 +74,7 @@ class PaymentsController {
     try {
       // <<< MUDANÇA: Passando os campos corretos para o serviço
       await this.paymentsService.register({
+        userId,
         account_id,
         amount,
         description,
@@ -96,11 +98,13 @@ class PaymentsController {
     }
   };
 
-  getAll = async(req, res) =>{     
+  getAll = async(req, res) =>{
+    
+    const userId = req.id;
     try {
-      const contas = await this.paymentsService.getAll();
+      const contas = await this.paymentsService.findAll(userId);
       return res.status(200).json(contas);
-    } catch (err) {
+    } catch (err) { 
       console.error('Erro ao buscar contas:', err);
       return res.status(500).json({ msg: 'Erro ao buscar contas.' });
     }

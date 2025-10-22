@@ -14,8 +14,8 @@ class PaymentsRepository {
     return await this.Payment.findAll({ where: { account_id } });
   }
 
-  async findAll() {
-    return await this.Payment.findAll();
+  async findAll(userId) {
+    return await this.Payment.findAll({ where: { userId: userId } });
   }
 
   async findById(payment_id) {

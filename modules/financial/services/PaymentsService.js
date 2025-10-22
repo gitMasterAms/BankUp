@@ -13,6 +13,7 @@ class PaymentsService {
   }
 
   async register({
+    userId,
     account_id,
     amount,
     description,
@@ -30,6 +31,7 @@ class PaymentsService {
       }
 
       const paymentRecord = await this.paymentsRepository.create({
+        userId,
         account_id,
         amount,
         description,
@@ -109,9 +111,11 @@ class PaymentsService {
     return await this.paymentsRepository.findByAccountId(account_id);
   }
 
-  async getAll() {
-    return await this.paymentsRepository.findAll();
-  }
+
+ findAll(userId) {
+  return this.paymentsRepository.findAll(userId);
+}
+
 
   async getById(payment_id) {
     return await this.paymentsRepository.findById(payment_id);

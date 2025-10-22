@@ -7,7 +7,11 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       defaultValue: DataTypes.UUIDV4
     },
-    account_id: { // Chave estrangeira para a tabela Recurring_Accounts
+    userId: { // 🔗 FK para o usuário que criou o pagamento
+      type: DataTypes.UUID,
+      allowNull: false
+    },
+    account_id: { // FK para a conta recorrente
       type: DataTypes.UUID,
       allowNull: false
     },
@@ -28,24 +32,20 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 'pendente'
     },
-    // Multa fixa por atraso
     fine_amount: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
       defaultValue: 0.00
     },
-    // Juros mensal (%)
     interest_rate: {
       type: DataTypes.DECIMAL(5, 2),
       allowNull: false,
       defaultValue: 0.00
     },
-    // Valor final calculado (opcional)
     final_amount: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: true
     },
-    // Data real de pagamento (opcional)
     paid_at: {
       type: DataTypes.DATE,
       allowNull: true
@@ -61,9 +61,16 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at'
   });
 
+  // 🔗 Associações
   Payment.associate = (models) => {
+    // Pagamento pertence a uma conta recorrente
     Payment.belongsTo(models.RecurringAccount, {
       foreignKey: 'account_id',
+      onDelete: 'CASCADE'
+    });
+
+    Payment.belongsTo(models.User, {
+      foreignKey: 'userId',
       onDelete: 'CASCADE'
     });
   };
