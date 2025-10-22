@@ -1,34 +1,51 @@
+/* Reset básico para garantir que não haja margens ou padding indesejados */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background: #0a0a0a;
+}
+
 /* Layout container */
 .layout-container {
   display: flex;
-  min-height: 100vh;
+  width: 100dvw;
+  height: 100vh;
   background: #0a0a0a;
+  overflow: hidden;
 }
 
 /* Sidebar column (desktop) */
 .sidebar-wrapper {
   flex: 0 0 220px;
-  width: 220px;
-  position: sticky;
-  top: 0;
-  height: 100vh;
+  background: #0a0a0a;
+  height: 100%;
   z-index: 1;
 }
 
 /* Ensure inner Sidebar respects wrapper sizing and neutralize conflicting rules */
 .sidebar-wrapper .sidebar {
   width: 100%;
-  min-height: 100vh;
+  height: 100%;
   position: static;
   left: auto;
 }
 
 /* Content area */
 .content-area {
-  flex: 1 1 auto;
-  width: 100%;
-  padding: 16px;
+  flex: 1;
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
   color: #fff;
+  display: flex;
+  flex-direction: column;
+  background: #0a0a0a;
+  padding: 0;
 }
 
 /* Hamburger - hidden on desktop */
@@ -44,7 +61,31 @@
 /* ===== Responsive (mobile) ===== */
 @media (max-width: 768px) {
   .layout-container {
-    display: block;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .content-area {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .sidebar-wrapper {
+    position: fixed;
+    left: -220px;
+    transition: left 0.3s ease;
+  }
+
+  .sidebar-wrapper.open {
+    left: 0;
+  }
+
+  .content-area {
+    width: 100%;
+    margin-left: 0;
   }
 
   /* Show hamburger only on mobile */
@@ -53,8 +94,8 @@
     align-items: center;
     justify-content: center;
     position: fixed;
-    top: 12px;
-    left: 12px;
+    top: 10px;
+    left: 10px; /* canto da tela quando fechado */
     width: 40px;
     height: 40px;
     z-index: 1100;
@@ -66,6 +107,11 @@
     line-height: 1;
     cursor: pointer;
     transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  /* Quando a sidebar estiver aberta, encosta o botão perto da borda direita da própria sidebar */
+  .sidebar-open .hamburger-button {
+    left: calc(min(80vw, 320px) - 48px); /* 8px de margem interna (40px botão + 8px) */
   }
 
   .hamburger-button:active {
@@ -80,9 +126,11 @@
     height: 100vh;
     width: 80%;
     max-width: 320px;
-    transform: translateX(-100%);
+    transform: translateX(-105%); /* garante que suma 100% + margem */
     transition: transform 0.3s ease;
     z-index: 1050;
+    overflow: hidden; /* evita qualquer brilho/borda aparecer */
+    will-change: transform;
   }
 
   .sidebar-wrapper.open {
@@ -116,8 +164,6 @@
 
   /* Content pushes under fixed elements */
   .content-area {
-    padding: 16px 12px;
+    padding: 0px 0px;
   }
 }
-
-

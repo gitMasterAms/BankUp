@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useInput } from './components/Input';
 import './styles/CadAdicional.css';
 import { API_URL } from './config/api';
 
 function CadAdicional() {
-  const [name, setName] = useState('');
-  const [cpfCnpj, setCpfCnpj] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
+  const [nameProps] = useInput();
+  const [cpfCnpjProps] = useInput("", "###.###.###-##");
+  const [phoneProps] = useInput("", "(##) #####-####");
+  const [addressProps] = useInput();
   const [birthdate, setBirthdate] = useState('');
 
   const navigate = useNavigate();
@@ -24,11 +25,11 @@ function CadAdicional() {
     }
 
     const dados = {
-      name,
-      cpf_cnpj: cpfCnpj,
-      phone,
-      address,
-      birthdate,
+      name: nameProps.value,
+      cpf_cnpj: cpfCnpjProps.value,
+      phone: phoneProps.value,
+      address: addressProps.value,
+      birthdate: birthdate,
     };
 
     try {
@@ -65,16 +66,16 @@ function CadAdicional() {
           <h2 className="cadastro-titulo">Cadastro Adicional</h2>
 
           <label htmlFor="name">Nome</label>
-          <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+          <input type="text" id="name" value={nameProps.value} onChange={nameProps.onChange} required />
 
           <label htmlFor="cpf_cnpj">CPF/CNPJ</label>
-          <input type="text" id="cpf_cnpj" value={cpfCnpj} onChange={(e) => setCpfCnpj(e.target.value)} required />
+          <input type="text" id="cpf_cnpj" value={cpfCnpjProps.value} onChange={cpfCnpjProps.onChange} required />
 
           <label htmlFor="phone">Telefone</label>
-          <input type="text" id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+          <input type="text" id="phone" value={phoneProps.value} onChange={phoneProps.onChange} required />
 
           <label htmlFor="address">Endereço</label>
-          <input type="text" id="address" value={address} onChange={(e) => setAddress(e.target.value)} required />
+          <input type="text" id="address" value={addressProps.value} onChange={addressProps.onChange} required />
 
           <label htmlFor="birthdate">Data de Nascimento</label>
           <input type="date" id="birthdate" value={birthdate} onChange={(e) => setBirthdate(e.target.value)} required />

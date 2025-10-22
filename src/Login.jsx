@@ -132,7 +132,7 @@ function Login() {
               show={capsLockOn && document.activeElement?.id === 'password'} 
               className="login-caps-warning"
             />
-            <a href="#" className="forgot-password">Esqueceu a senha?</a>
+            <a href="#" className="forgot-password" onClick={(e) => { e.preventDefault(); /* Rota para a tela de recuperar senha */ navigate('/esquecer-senha'); }}>Esqueceu a senha?</a>
           </div>
 
           <button type="submit" className="login-btn">Entrar</button>

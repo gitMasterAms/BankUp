@@ -13,6 +13,8 @@ import ScrollToTop from './components/ScrollToTop';
 import Login from './Login.jsx';
 import Cadastro from './Cadastro.jsx';
 import Token from './Token.jsx';
+import EsquecerSenha from './EsqueceuSenha/EsquecerSenha.jsx';
+import RedefinirSenha from './EsqueceuSenha/RedefinirSenha.jsx';
 import Planos from './Planos.jsx';
 import CadAdicional from './CadAdicional.jsx';
 import SobreNos from './SobreNos/SobreNos.jsx';
@@ -26,6 +28,9 @@ import HomeInterna from './HomeInterna.jsx';
 // Importa a página de cobrança (form/tela)
 import Cobranca from './cobrança/indexCobranca.jsx';
 
+// Importa a página de perfil
+import Perfil from './Perfil/perfil.jsx';
+
 // Tabelas (novas rotas)
 // - Tabela de pagadores
 import PagadorTabela from './Pagador/PagadorTabela.jsx';
@@ -34,6 +39,7 @@ import CobrancaTabela from './cobrança/cobrancaTabela.jsx';
 
 // Importa os estilos globais
 import './index.css';
+
 
 // Componente que representa a página inicial ("/")
 function Home() {
@@ -60,7 +66,7 @@ function App() {
       {/* Define todas as rotas da aplicação */}
       <Routes>
         {/* Quando a URL for "/", mostra a Home pública */}
-        <Route path="/" element={<Home />} />
+         <Route path="/" element={<Home />} />
 
         {/* Quando a URL for "/login", mostra o componente Login */}
         <Route path="/login" element={<Login />} />
@@ -70,6 +76,14 @@ function App() {
 
         {/* Quando a URL for "/token", mostra o componente Token */}
         <Route path="/token" element={<Token />} />
+
+        {/* Recuperação de Senha */}
+        {/* 1) Tela para informar e-mail e enviar código */}
+        <Route path="/esquecer-senha" element={<EsquecerSenha />} />
+        {/* 2) Tela para digitar o código recebido por e-mail */}
+        <Route path="/verificar-email" element={<Token />} />
+        {/* 3) Tela para cadastrar nova senha após verificar código */}
+        <Route path="/redefinir-senha" element={<RedefinirSenha />} />
 
         {/* Quando a URL for "/planos", mostra o componente Planos */}
         <Route path="/planos" element={<Planos />} />
@@ -94,6 +108,9 @@ function App() {
 
         {/* Tabela de cobranças (lista) */}
         <Route path="/tabela/cobrancas" element={<CobrancaTabela />} />
+
+        {/* Página de perfil do usuário - exibe informações do cadastro e cadadicional */}
+        <Route path="/perfil" element={<Perfil />} />
 
 
       </Routes>

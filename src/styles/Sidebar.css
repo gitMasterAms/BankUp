@@ -1,6 +1,6 @@
 /* ===== ESTILOS DA SIDEBAR ===== */
 
-/* Container principal da sidebar */
+/* i.logout-item principal da sidebar */
 .sidebar {
   width: 220px;              /* Largura fixa da sidebar */
   min-height: 100vh;         /* Altura mínima da viewport */
@@ -9,6 +9,9 @@
   padding: 20px 10px;        /* Espaçamento interno */
   display: flex;             /* Layout flexbox */
   flex-direction: column;    /* Direção vertical */
+  position: sticky;          /* Mantém a sidebar colada no topo no desktop */
+  top: 0;                    /* Topo */
+  justify-content: flex-start; /* Garante itens iniciando no topo */
 }
 
 /* Estilo do logo da aplicação */
@@ -22,6 +25,13 @@
   justify-content: flex-start; /* Alinhamento horizontal */
 }
 
+/* Imagem do logo */
+.sidebar .logo .logo-image {
+  display: block;
+  max-width: 120px;
+  height: auto;
+}
+
 /* Lista de navegação */
 .sidebar ul {
   list-style: none;          /* Remove marcadores da lista */
@@ -32,18 +42,11 @@
 /* Itens da lista de navegação */
 .sidebar ul li {
   display: flex;             /* Layout flexbox */
-  align-items: center;       /* Alinhamento vertical */
+  align-items: stretch;      /* Permite o botão ocupar toda a altura */
   justify-content: flex-start; /* Alinhamento horizontal */
-  gap: 10px;                 /* Espaçamento entre ícone e texto */
-  padding: 10px;             /* Espaçamento interno */
-  cursor: pointer;           /* Cursor de ponteiro */
-  transition: background 0.2s; /* Transição suave para hover */
-}
-
-/* Efeito hover nos itens da lista */
-.sidebar ul li:hover {
-  background: #222;          /* Cor de fundo no hover */
-  border-radius: 5px;        /* Bordas arredondadas */
+  gap: 0;                    /* Espaçamento entre itens */
+  padding: 0;                /* Sem padding para o li, o botão cuida disso */
+  margin-bottom: 10px;       /* Espaçamento entre itens */
 }
 
 /* ===== ESTILOS PARA LINKS DO SIDEBAR ===== */
@@ -75,21 +78,30 @@
   display: flex;             /* Layout flexbox */
   align-items: center;       /* Alinhamento vertical */
   gap: 10px;                 /* Espaçamento entre ícone e texto */
-  color: white;              /* Cor do texto */
+  color: #ffffff;            /* Cor do texto */
   text-decoration: none;     /* Remove sublinhado */
   width: 100%;               /* Largura total */
-  padding: 0;                /* Remove padding */
-  background: none;          /* Remove fundo */
-  border: none;              /* Remove bordas */
+  padding: 10px 12px;        /* Área clicável confortável */
+  background: #000000;       /* Fundo preto */
+  border: none;
+  border-radius: 6px;        /* Bordas arredondadas */
   font-size: inherit;        /* Herda tamanho da fonte */
   font-family: inherit;      /* Herda família da fonte */
   cursor: pointer;           /* Cursor de ponteiro */
   text-align: left;          /* Alinhamento do texto à esquerda */
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
 /* Efeito hover nos botões */
 .sidebar-button:hover {
-  color: #00ff88;            /* Cor verde no hover */
+  background: #00ff88;       /* Transição do preto para o verde */
+  color: #111111;            /* Texto escuro para contraste */
+  border-color: #00cc6f;     /* Borda levemente mais escura no hover */
+}
+
+/* Ícone acompanha a cor do texto do botão */
+.sidebar-button .icon {
+  color: inherit;
 }
 
 /* ===== BOTÕES ATIVOS ===== */
@@ -98,13 +110,13 @@
 .sidebar-button.active {
   background: linear-gradient(135deg, rgba(0, 255, 136, 0.08), rgba(0, 173, 74, 0.03));
   color: #00ff88;            /* Cor verde mais vibrante */
-  border-left: 5px solid #00ff88; /* Borda esquerda verde mais grossa */
+  border-left: 13px solid #00ff88; /* Borda esquerda verde mais grossa */
   box-shadow: 0 0 20px rgba(0, 255, 136, 0.3), 0 0 20px rgba(0, 255, 136, 0.1); /* Glow sutil nas bordas */
   position: relative;
   padding-left: 15px;        /* Espaçamento interno da borda */
 }
 
-Ícone dos botões ativos
+/* Ícone dos botões ativos */
 .sidebar-button.active .icon {
   color: #00ff88;            /* Ícone verde mais vibrante */
   filter: drop-shadow(0 0 2px rgba(0, 255, 136, 0.3)); /* Brilho sutil no ícone */
@@ -132,7 +144,7 @@
 
 /* Título para separar seções do menu */
 .section-title {
-  font-size: 12px;           /* Tamanho pequeno da fonte */
+  font-size: 15px;           /* Tamanho pequeno da fonte */
   text-transform: uppercase; /* Texto em maiúsculas */
   margin: 15px 0 5px 10px;   /* Margens para espaçamento */
   color: #00ff88;            /* Cor verde do tema */
@@ -141,7 +153,7 @@
 
 /* ===== ELEMENTOS DECORATIVOS DO LOGO ===== */
 
-/* Container das setas decorativas ao lado do logo */
+/* i.logout-item das setas decorativas ao lado do logo */
 .logo-arrows {
   display: flex;             /* Layout flexbox */
   align-items: flex-end;     /* Alinhamento na parte inferior */
@@ -173,48 +185,41 @@
 
 /* ===== FOOTER DA SIDEBAR ===== */
 
-/* Container do footer da sidebar */
+/* i.logout-item do footer da sidebar */
 /* footer removido */
 
-/* ===== CONTAINER DO LOGOUT ===== */
-
-/* Container do botão de logout */
-.logout-container {
-  margin-top: 20px;             /* Margem superior menor */
-  padding: 10px;                /* Padding reduzido */
-  border-top: 1px solid #333;   /* Linha separadora sutil */
+/* ===== i.logout-item DO LOGOUT ===== */
+.logout-item .logout-button {
+  width: 100%;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, #ff4444, #cc0000);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 2px 4px rgba(255, 68, 68, 0.2);
 }
 
-/* Estilo do botão de logout dentro da sidebar */
-.logout-container .logout-button {
-  width: 100%;                  /* Largura total do container */
-  padding: 10px 14px;           /* Padding interno reduzido */
-  background: linear-gradient(135deg, #ff4444, #cc0000); /* Gradiente vermelho */
-  color: white;                 /* Cor do texto */
-  border: none;                 /* Remove bordas */
-  border-radius: 6px;           /* Bordas arredondadas menores */
-  cursor: pointer;              /* Cursor de ponteiro */
-  font-weight: 600;             /* Peso da fonte */
-  font-size: 13px;              /* Tamanho da fonte reduzido */
-  transition: all 0.3s ease;    /* Transição suave */
-  display: flex;                /* Layout flexbox */
-  align-items: center;          /* Alinhamento vertical */
-  justify-content: center;      /* Alinhamento horizontal */
-  gap: 6px;                     /* Espaçamento entre ícone e texto reduzido */
-  box-shadow: 0 2px 4px rgba(255, 68, 68, 0.2); /* Sombra sutil */
+.logout-item .logout-button:hover {
+  background: linear-gradient(135deg, #ff0000, #aa0000);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(255, 68, 68, 0.3);
 }
 
-/* Efeito hover no botão de logout */
-.logout-container .logout-button:hover {
-  background: linear-gradient(135deg, #ff0000, #aa0000); /* Gradiente mais escuro */
-  transform: translateY(-1px);  /* Movimento sutil para cima */
-  box-shadow: 0 4px 8px rgba(255, 68, 68, 0.3); /* Sombra mais intensa */
+.logout-item .logout-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(255, 68, 68, 0.2);
 }
 
-/* Efeito ativo no botão de logout */
-.logout-container .logout-button:active {
-  transform: translateY(0);     /* Volta à posição original */
-  box-shadow: 0 2px 4px rgba(255, 68, 68, 0.2); /* Sombra reduzida */
+.sidebar ul li.logout-item {
+  padding: 10px;
 }
 
 /* Botão de configurações no footer */
@@ -257,7 +262,7 @@
     font-size: 14px;
   }
   
-  .logout-container .logout-button {
+  .logout-item .logout-button {
     font-size: 12px;
     padding: 8px 12px;
   }
@@ -277,10 +282,10 @@
 /* Celulares (até 768px) */
 @media (max-width: 768px) {
   .sidebar {
-    width: 100%;
+    width: 100%;              /* evita causar overflow horizontal */
     position: fixed;
     top: 0;
-    left: -100%;
+    left: -100%;              /* fora da tela quando fechada */
     z-index: 1000;
     transition: left 0.3s ease;
   }
@@ -290,21 +295,30 @@
   }
   
   .sidebar .logo {
-    font-size: 18px;
-    margin-bottom: 15px;
+    font-size: 20px;          /* Logo levemente maior no mobile */
+    margin-bottom: 18px;
+    order: 0;                 /* Força o logo como primeiro */
+    align-self: flex-start;
   }
   
   .sidebar-button {
-    font-size: 13px;
-    padding: 8px;
+    font-size: 16px;          /* Texto maior para toque */
+    padding: 12px 10px;       /* Altura maior */
+    min-height: 48px;         /* Altura mínima confortável */
   }
   
-  .logout-container {
-    padding: 8px;
-    margin-top: 15px;
+  .sidebar ul li {
+    padding: 12px 10px;       /* Área de toque maior ao redor */
   }
   
-  .logout-container .logout-button {
+  .logout-item {
+  margin-top: auto;             /* Fica no rodapé da sidebar */
+  padding: 10px;                /* Padding reduzido */
+  border-top: 1px solid #333;   /* Linha separadora sutil */
+  order: 999;               /* Garante que logout fique no final */
+  }
+  
+  .logout-item .logout-button {
     font-size: 11px;
     padding: 6px 10px;
   }
@@ -352,7 +366,7 @@
     padding: 6px;
   }
   
-  .logout-container .logout-button {
+  .logout-item .logout-button {
     font-size: 10px;
     padding: 5px 8px;
   }

@@ -42,8 +42,8 @@ const membros = [
     linkedin: "https://www.linkedin.com/in/kevin-ara%C3%BAjo-a99278383/"
   },
   {
-    nome: "Thais Simon",
-    cargo: "Dev Mobile",
+    nome: "Thaís Simon",
+    cargo: "PO Frontend/Dev Mobile",
     foto: "/imagens/FotosLink/Thais-Simon.png",
     linkedin: "https://www.linkedin.com/in/thais-simon/"
   },
@@ -56,31 +56,31 @@ const membros = [
   },
   {
     nome: "Tais Ferreira",
-    cargo: "Data Scientist",
+    cargo: "PO Backend",
     foto: "/imagens/FotosLink/TaisFerreira.jpg",
-    linkedin: "https://www.linkedin.com/in/ta%C3%ADs-ferreira-de-faria-"
+    linkedin: "https://www.linkedin.com/in/ta%C3%ADs-ferreira-de-faria-949606338?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
   },
   {
     nome: "Gustavo Nerone",
-    cargo: "Dev Team Backend",
+    cargo: "Dev Team Infraestrutura",
     foto: "/imagens/FotosLink/Gustavo.jpg",
     linkedin: "https://www.linkedin.com/in/gustavo-nerone-de-carvalho-6a2ba42b6/"
   },
   {
     nome: "Nicolas Gmack",
-    cargo: "PO Backend",
+    cargo: "Dev Team Backend",
     foto: "/imagens/FotosLink/Nicolas.jpg",
     linkedin: "https://www.linkedin.com/in/nicolasgmack"
   },
   {
-    nome: "Cláudio Henrrique",
-    cargo: "Data Scientist",
+    nome: "Claudio Henrrique",
+    cargo: "Dev Mobile/QA",
     foto: "/imagens/FotosLink/Claudio.jpg",
-    linkedin: "https://www.linkedin.com/in/nicolasgmack"
+    linkedin: "https://www.linkedin.com/in/claudio-henrique-49a224337/"
   },
   {
     nome: "Maria Imaculada",
-    cargo: "PO Frontend UI/UX Designer",
+    cargo: "UI/UX Designer",
     foto: "/imagens/FotosLink/MariaImaculada.jpg",
     linkedin: "https://www.linkedin.com/in/maria-castilho-silva-3aa493383/"
   },
@@ -96,7 +96,7 @@ export default function SobreNos() {
   const navigate = useNavigate();
   return (
     <div className="sobre-container">
-      <h2 className="titulo">NOSSO TIME</h2>
+      <h2 className="titulo"> <span className="highlight">NOSSO TIME</span></h2>
       <p className="subtitulo">Turma do 2° ano de Analise e Desenvolvimento de Sistemas da Fatec Taubaté</p>
       <div className="voltar-home">
         <button className="home-button" onClick={() => navigate("/")}>← Voltar à Página Inicial</button>

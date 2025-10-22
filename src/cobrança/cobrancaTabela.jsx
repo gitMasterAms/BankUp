@@ -1,16 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react";
-import Sidebar from "../components/Sidebar";
+import SidebarLayout from "../components/SidebarLayout";
 import "../styles/Tabelas.css";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../config/api";
-
+ 
 // Tabela de Cobranças com colunas solicitadas:
 // valor, descrição, até a data (validade), Multa, PixKey
 function CobrancaTabela() {
   const navigate = useNavigate();
   const [linhas, setLinhas] = useState([]);
   const [pagadores, setPagadores] = useState([]);
-
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -18,26 +18,31 @@ function CobrancaTabela() {
         const headers = {
           'Authorization': `Bearer ${token}`
         };
-
+ 
         // Buscar cobranças
         const paymentsResponse = await fetch(`${API_URL}/financial/payments`, {
           headers
         });
         const paymentsData = await paymentsResponse.json();
-        
-        // Buscar pagadores
+
+        // Buscar pagadores (escopo do usuário logado)
         const pagadoresResponse = await fetch(`${API_URL}/financial/recurring`, {
           headers
         });
         const pagadoresData = await pagadoresResponse.json();
-
+ 
         setPagadores(pagadoresData.map(item => ({
           id: item.account_id,
           nome: item.name
         })));
+ 
+        // Filtrar pagamentos apenas dos pagadores do usuário atual
+        const allowedAccountIds = new Set(pagadoresData.map(p => p.account_id));
 
         console.log('Dados recebidos:', paymentsData);
-        setLinhas(paymentsData.map(payment => {
+        setLinhas(paymentsData
+          .filter(payment => allowedAccountIds.has(payment.account_id))
+          .map(payment => {
           console.log('Processando pagamento:', payment);
           return {
             id: payment.payment_id, // Campo usado para delete
@@ -49,17 +54,17 @@ function CobrancaTabela() {
             pixKey: payment.pix_key
           };
         }));
-
+ 
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
         setLinhas([]);
         setPagadores([]);
       }
     };
-
+ 
     fetchData();
   }, []);
-
+ 
   // Mapa de id -> nome do pagador para resolver rápido o nome na tabela
   const pagadorIdParaNome = useMemo(() => {
     const mapa = {};
@@ -68,10 +73,21 @@ function CobrancaTabela() {
     }
     return mapa;
   }, [pagadores]);
-
+ 
+   function formatDateBR(dateString) {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    if (isNaN(date)) return "-";
+   
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+ 
+    return `${day}/${month}/${year}`;
+  }
+ 
   return (
-    <div className="page-with-sidebar">
-      <Sidebar />
+    <SidebarLayout>
       <div className="main-content">
         <h2>Cobranças</h2>
         <div style={{ marginBottom: 12 }}>
@@ -84,7 +100,7 @@ function CobrancaTabela() {
                 <th>Cliente</th>
                 <th>Valor</th>
                 <th>Descrição</th>
-                <th>Até a data</th>
+                <th>Vencimento</th>
                 <th>Multa</th>
                 <th>PixKey</th>
                 <th style={{ width: 90 }}>Ações</th>
@@ -101,7 +117,7 @@ function CobrancaTabela() {
                   <td>{pagadorIdParaNome[linha.pagadorId] || "-"}</td>
                   <td>{linha.valor}</td>
                   <td>{linha.descricao}</td>
-                  <td>{linha.validade}</td>
+                  <td>{formatDateBR(linha.validade)}</td>
                   <td>{linha.multa}</td>
                   <td>{linha.pixKey}</td>
                   <td>
@@ -113,14 +129,14 @@ function CobrancaTabela() {
                         onClick={() => {
                           const cobranca = linhas.find(c => c.id === linha.id);
                           if (cobranca) {
-                            navigate("/cobranca", { 
-                              state: { 
+                            navigate("/cobranca", {
+                              state: {
                                 editId: linha.id,
                                 cobranca: {
                                   ...cobranca,
                                   pagador: pagadorIdParaNome[cobranca.pagadorId]
                                 }
-                              } 
+                              }
                             });
                           }
                         }}
@@ -138,18 +154,13 @@ function CobrancaTabela() {
                             alert('ID da cobrança não encontrado');
                             return;
                           }
-
+ 
                           const confirmDelete = confirm("Excluir esta cobrança?");
                           if (!confirmDelete) return;
                           
-                          const token = localStorage.getItem('token');
-                          if (!token) {
-                            alert('Erro: Token não encontrado');
-                            return;
-                          }
-
                           console.log('Tentando deletar pagamento com ID:', linha.id);
-                          
+                                  const token = localStorage.getItem('token');
+
                           fetch(`${API_URL}/financial/payments/${linha.id}`, {
                             method: 'DELETE',
                             headers: {
@@ -171,7 +182,8 @@ function CobrancaTabela() {
                             try {
                               const errorData = JSON.parse(text);
                               errorMessage = errorData.msg || errorMessage;
-                            } catch (e) {
+                            }
+                            catch {
                               errorMessage = text || errorMessage;
                             }
                             
@@ -195,10 +207,8 @@ function CobrancaTabela() {
           </table>
         </div>
       </div>
-    </div>
+    </SidebarLayout>
   );
 }
-
+ 
 export default CobrancaTabela;
-
-

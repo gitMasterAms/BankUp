@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
+import SidebarLayout from "../components/SidebarLayout";
 import { useNavigate } from "react-router-dom";
 import "../styles/Tabelas.css";
 import { API_URL } from "../config/api"; 
@@ -38,10 +38,8 @@ function PagadorTabela() {
   }, []);
 
 
-
   return (
-    <div className="page-with-sidebar">
-      <Sidebar />
+    <SidebarLayout>
       <div className="main-content">
         <h2>Pagadores</h2>
         <div style={{ marginBottom: 12 }}>
@@ -122,10 +120,8 @@ function PagadorTabela() {
           </table>
         </div>
       </div>
-    </div>
+    </SidebarLayout>
   );
 }
 
 export default PagadorTabela;
-
-

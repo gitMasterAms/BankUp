@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import SidebarLayout from "../components/SidebarLayout"; // Layout com sidebar responsiva
-import "./CadClientes.css"; // Estilos específicos para esta página (arquivo está na mesma pasta)
+import SidebarLayout from "../components/SidebarLayout";
+import { useInput } from "../components/Input";
 import { useNavigate, useLocation } from "react-router-dom";
 import { API_URL } from "../config/api";
+import "../cobrança/Cobranca.css";
 
 /**
  * Componente CadastrarCliente - Formulário para cadastro de novos clientes
@@ -18,16 +19,14 @@ import { API_URL } from "../config/api";
  * - Campos para dados pessoais e de contato
  */
 function CadastrarCliente() {
+  const [nameProps, setName] = useInput();
+  const [descriptionProps, setDescription] = useInput();
+  const [cpfCnpjProps, setCpfCnpj] = useInput("", "###.###.###-##");
+  const [emailProps, setEmail] = useInput();
+  const [telephoneProps, setTelephone] = useInput("", "(##) #####-####");
+  
   const navigate = useNavigate();
   const location = useLocation();
-  // Estado para armazenar os dados do formulário
-  const [formData, setFormData] = useState({
-    nome: "",           // Nome completo do cliente
-    descricao: "",      // Descrição do pagador
-    cpfCnpj: "",        // CPF ou CNPJ do cliente
-    email: "",          // Email de contato
-    telefone: ""        // Telefone de contato
-  });
 
   const handleCancel = () => {
     navigate('/tabela/pagadores');
@@ -47,13 +46,11 @@ function CadastrarCliente() {
           }
         });
         const data = await response.json();
-        setFormData({
-          nome: data.name || "",
-          descricao: data.description || "",
-          cpfCnpj: data.cpf_cnpj || "",         
-          email: data.email || "",          
-          telefone: data.phone || "",
-        });
+        setName(data.name || "");
+        setDescription(data.description || "");
+        setCpfCnpj(data.cpf_cnpj || "");
+        setEmail(data.email || "");
+        setTelephone(data.phone || "");
       } catch (error) {
         console.error('Erro ao buscar pagador:', error);
       }
@@ -61,14 +58,6 @@ function CadastrarCliente() {
 
     fetchPagador();
   }, [location.state]);
-
-  /**
-   * Função para atualizar os valores do formulário conforme o usuário digita
-   * @param {Event} e - Evento de mudança no input
-   */
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   /**
    * Função para lidar com o envio do formulário
@@ -81,17 +70,17 @@ function CadastrarCliente() {
     const editId = location.state && location.state.editId;
     
     // Validação básica dos campos obrigatórios
-    if (!formData.nome || !formData.cpfCnpj || !formData.email || !formData.telefone) {
+    if (!nameProps.value || !descriptionProps.value || !cpfCnpjProps.value || !emailProps.value || !telephoneProps.value) {
       alert('Por favor, preencha todos os campos obrigatórios!');
       return;
     }
 
     const pagadorData = {
-      name: formData.nome,
-      description: formData.descricao || '', // Garante que description não seja undefined
-      cpf_cnpj: formData.cpfCnpj,
-      email: formData.email,
-      phone: formData.telefone
+      name: nameProps.value,
+      description: descriptionProps.value || '', // Garante que description não seja undefined
+      cpf_cnpj: cpfCnpjProps.value,
+      email: emailProps.value,
+      phone: telephoneProps.value
     };
 
     try {
@@ -122,81 +111,84 @@ function CadastrarCliente() {
 
   return (
     <SidebarLayout>
-        <div className="cadastro-container">
-          {/* Título da página */}
-          <h2>Dados do Cliente</h2>
-          
-          {/* Informação explicativa para o usuário */}
-          <p className="info">
-            Ao criar um cliente você deve criar uma cobrança para que este receba a
-            notificação devida
-          </p>
+      <main className="cobranca-content">
+        <div className="cobranca-form-wrapper">
+          <div className="cobranca-header">
+            <h1>Cadastro do Pagador</h1>
+            <p className="cobranca-tip">Preencha os dados e salve para listar na tabela.</p>
+          </div>
 
-          {/* Formulário de cadastro */}
-          <form className="form-cadastro" onSubmit={handleSubmit}>
-            {/* Primeira linha: Nome e Categoria */}
-            <div className="form-row">
-              <input
-                type="text"
-                name="nome"
-                placeholder="Nome Completo"
-                value={formData.nome}
-                onChange={handleChange}
-              />
-            
-            </div>
+          <div className="cobranca-form-container">
+            <form onSubmit={handleSubmit} className="cobranca-form">
+              <div className="form-fields">
+                <div className="form-column">
+                  <div className="form-group">
+                    <label>Nome</label>
+                    <input
+                      type="text"
+                      name="nome"
+                      value={nameProps.value}
+                      onChange={nameProps.onChange}
+                      placeholder="Nome completo"
+                    />
+                  </div>
 
-            {/* Descrição */}
-            <div className="form-row">
-              <input
-                type="text"
-                name="descricao"
-                placeholder="Descrição"
-                value={formData.descricao}
-                onChange={handleChange}
-              />
-            </div>
+                  <div className="form-group">
+                    <label>Descrição</label>
+                    <input
+                      type="text"
+                      name="descricao"
+                      value={descriptionProps.value}
+                      onChange={descriptionProps.onChange}
+                      placeholder="Descrição do pagador"
+                    />
+                  </div>
+                </div>
 
-            {/* Segunda linha: CPF/CNPJ */}
-            <div className="form-row">
-              <input
-                type="text"
-                name="cpfCnpj"
-                placeholder="CPF/CNPJ"
-                value={formData.cpfCnpj}
-                onChange={handleChange}
-              />
-            </div>
+                <div className="form-column">
+                  <div className="form-group">
+                    <label>CPF/CNPJ</label>
+                    <input
+                      type="text"
+                      name="cpfCnpj"
+                      value={cpfCnpjProps.value}
+                      onChange={cpfCnpjProps.onChange}
+                      placeholder="Somente números"
+                    />
+                  </div>
 
-            {/* Terceira linha: Email */}
-            <div className="form-row">
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </div>
+                  <div className="form-group">
+                    <label>Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={emailProps.value}
+                      onChange={emailProps.onChange}
+                      placeholder="email@exemplo.com"
+                    />
+                  </div>
 
-            {/* Quarta linha: Telefone */}
-            <div className="form-row">
-              <input
-                type="text"
-                name="telefone"
-                placeholder="Telefone"
-                value={formData.telefone}
-                onChange={handleChange}
-              />
-            </div>
+                  <div className="form-group">
+                    <label>Telefone</label>
+                    <input
+                      type="text"
+                      name="telefone"
+                      value={telephoneProps.value}
+                      onChange={telephoneProps.onChange}
+                      placeholder="(00) 00000-0000"
+                    />
+                  </div>
+                </div>
+              </div>
 
-            {/* Botões de ação do formulário */}
-            <div className="form-actions">
-              <button type="submit" className="btn-salvar">Salvar</button>
-              <button type="button" className="btn-cancelar" onClick={handleCancel}>Cancelar</button>
-            </div>
-          </form>
+              <div className="form-actions">
+                <button type="submit" className="btn-salvar">SALVAR</button>
+                <button type="button" className="btn-cancelar" onClick={handleCancel}>CANCELAR</button>
+              </div>
+            </form>
+          </div>
         </div>
+      </main>
     </SidebarLayout>
   );
 }

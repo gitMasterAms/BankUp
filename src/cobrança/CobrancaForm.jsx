@@ -2,52 +2,78 @@ import React, { useEffect, useState } from 'react';
 import './Cobranca.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { API_URL } from "../config/api";
-
+import CurrencyInput from "../components/CurrencyInput";
+import PercentInput from "../components/PercentInput";
+ 
 function CobrancaForm() {
   const navigate = useNavigate();
   const location = useLocation();
   const [formData, setFormData] = useState({
-    // pagadorId é necessário para o backend relacionar a cobrança ao cliente
-    // Preenchemos via select abaixo a partir de localStorage("pagadores")
     pagadorId: '',
-    valor: '',
+    valor: 0,
     descricao: '',
     validade: '',
-    multa: '',
+    multa: 0,
     pixKey: ''
   });
-
-  // Lista de clientes (pagadores) para popular o select
+ 
   const [pagadores, setPagadores] = useState([]);
-
+ 
+  // Função para formatar data como dd/mm/aaaa ao digitar
+  const formatarDataInput = (value) => {
+    const numeric = value.replace(/\D/g, '');
+    let formatted = '';
+    if (numeric.length <= 2) {
+      formatted = numeric;
+    } else if (numeric.length <= 4) {
+      formatted = `${numeric.slice(0, 2)}/${numeric.slice(2)}`;
+    } else {
+      formatted = `${numeric.slice(0, 2)}/${numeric.slice(2, 4)}/${numeric.slice(4, 8)}`;
+    }
+    return formatted;
+  };
+ 
+  // Função para converter dd/mm/aaaa para yyyy-mm-dd
+  const converterParaISO = (data) => {
+    const [dia, mes, ano] = data.split('/');
+    if (!dia || !mes || !ano) return '';
+    return `${ano}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`;
+  };
+ 
+  // Atualiza o state com máscara no campo de data
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+ 
+    const newValue = name === 'validade'
+      ? formatarDataInput(value)
+      : value;
+ 
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: newValue
     }));
   };
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+ 
     try {
       const token = localStorage.getItem('token');
       const editId = location.state && location.state.editId;
-      
+ 
       const paymentData = {
         account_id: formData.pagadorId,
-        amount: parseFloat(formData.valor),
+        amount: Number(formData.valor) || 0,
         description: formData.descricao,
-        due_date: formData.validade,
+        due_date: converterParaISO(formData.validade),
         pix_key: formData.pixKey,
-        penalty: parseFloat(formData.multa)
+        penalty: Number(formData.multa) || 0
       };
-
-      const url = editId 
+ 
+      const url = editId
         ? `${API_URL}/financial/payments/${editId}`
         : `${API_URL}/financial/payments`;
-
+ 
       const response = await fetch(url, {
         method: editId ? 'PUT' : 'POST',
         headers: {
@@ -56,7 +82,7 @@ function CobrancaForm() {
         },
         body: JSON.stringify(paymentData)
       });
-
+ 
       if (response.ok) {
         alert('Cobrança cadastrada com sucesso!');
         navigate('/tabela/cobrancas');
@@ -68,14 +94,12 @@ function CobrancaForm() {
       alert('Erro ao cadastrar cobrança');
     }
   };
-
+ 
   const handleCancel = () => {
     navigate('/tabela/cobrancas');
   };
-
-  // Preencher para edição se vier editId
+ 
   useEffect(() => {
-    // Carrega a lista de pagadores da API
     const fetchPagadores = async () => {
       try {
         const token = localStorage.getItem('token');
@@ -95,34 +119,38 @@ function CobrancaForm() {
         setPagadores([]);
       }
     };
-
+ 
     fetchPagadores();
-    
-    // Se houver estado de edição, preencher o formulário
+ 
     const editState = location.state;
     if (editState && editState.editId && editState.cobranca) {
       const { cobranca } = editState;
+      // Converter data americana para brasileira se necessário
+      let validadeBR = cobranca.validade || '';
+      if (/^\d{4}-\d{2}-\d{2}$/.test(validadeBR)) {
+        const [ano, mes, dia] = validadeBR.split('-');
+        validadeBR = `${dia}/${mes}/${ano}`;
+      }
       setFormData({
         pagadorId: cobranca.pagadorId || '',
-        valor: cobranca.valor || '',
+        valor: typeof cobranca.valor === 'number' ? cobranca.valor : Number(cobranca.valor) || 0,
         descricao: cobranca.descricao || '',
-        validade: cobranca.validade || '',
-        multa: cobranca.multa || '',
+        validade: validadeBR,
+        multa: typeof cobranca.multa === 'number' ? cobranca.multa : Number(String(cobranca.multa).replace(/[^\d.,-]/g, '').replace('.', '').replace(',', '.')) || 0,
         pixKey: cobranca.pixKey || ''
       });
     }
   }, [location.state]);
-
+ 
   return (
     <div className="cobranca-form-wrapper">
       <div className="cobranca-header">
         <h1>Cadastro de Cobrança</h1>
         <p className="cobranca-tip">Preencha os dados e salve para listar na tabela.</p>
       </div>
-
+ 
       <div className="cobranca-form-container">
         <form onSubmit={handleSubmit} className="cobranca-form">
-          {/* Seleção do cliente (pagador) - necessário para o backend associar a cobrança */}
           <div className="form-group">
             <label>Selecionar cliente</label>
             <select
@@ -137,72 +165,66 @@ function CobrancaForm() {
               ))}
             </select>
           </div>
-
-          {/* Campos do formulário essenciais para cobrança */}
-
-          {/* Campos do formulário */}
+ 
           <div className="form-fields">
             <div className="form-column">
               <div className="form-group">
                 <label>Valor</label>
-                <input 
-                  type="text" 
-                  name="valor" 
+                <CurrencyInput
+                  name="valor"
                   value={formData.valor}
-                  onChange={handleInputChange}
+                  onValueChange={(num) => setFormData(prev => ({ ...prev, valor: num }))}
                   placeholder="R$ 0,00"
                 />
               </div>
-
+ 
               <div className="form-group">
                 <label>Descrição</label>
-                <input 
-                  type="text" 
-                  name="descricao" 
+                <input
+                  type="text"
+                  name="descricao"
                   value={formData.descricao}
                   onChange={handleInputChange}
                 />
               </div>
-
+ 
               <div className="form-group">
-                <label>Até a data (validade)</label>
-                <input 
-                  type="text" 
-                  name="validade" 
+                <label>Vencimento</label>
+                <input
+                  type="text"
+                  name="validade"
                   value={formData.validade}
                   onChange={handleInputChange}
                   placeholder="dd/mm/aaaa"
+                  maxLength={10}
                 />
               </div>
             </div>
-
+ 
             <div className="form-column">
               <div className="form-group">
                 <label>Multa</label>
-                <input 
-                  type="text" 
-                  name="multa" 
+                <PercentInput
+                  name="multa"
                   value={formData.multa}
-                  onChange={handleInputChange}
+                  onValueChange={(num) => setFormData(prev => ({ ...prev, multa: num }))}
                   placeholder="ex.: 2%"
                 />
               </div>
-
+ 
               <div className="form-group">
                 <label>PixKey</label>
-                <input 
-                  type="text" 
-                  name="pixKey" 
+                <input
+                  type="text"
+                  name="pixKey"
                   value={formData.pixKey}
                   onChange={handleInputChange}
                   placeholder="chave pix"
                 />
               </div>
-
             </div>
           </div>
-
-          {/* Botões de ação */}
+ 
           <div className="form-actions">
             <button type="submit" className="btn-salvar">
               SALVAR
@@ -216,5 +238,5 @@ function CobrancaForm() {
     </div>
   );
 }
-
+ 
 export default CobrancaForm;

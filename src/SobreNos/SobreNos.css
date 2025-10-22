@@ -8,13 +8,24 @@
 
 /* Título e subtítulo */
 .titulo {
-  font-size: 2.8rem;
+  font-size: 70px;
   color: #00ff88;
 }
 .subtitulo {
   color: #ccc;
   margin-bottom: 50px;
+  font-size: 25px;
 }
+
+/* Palavra em destaque com brilho sutil em verde */
+
+.highlight {
+  color: #00ff88; /* ALTERADO: Cor do "BankUp" mudou para verde neon (#00ff88) */
+  text-shadow: 0 2px 10px rgba(0, 255, 136, 0.35); /* ALTERADO: Sombra ajustada para nova cor */
+  /* Animação contínua de brilho suave */
+  animation: glow 2600ms ease-in-out infinite alternate;
+}
+
 
 /* ===== BOTÃO DE VOLTAR À HOME ===== */
 
