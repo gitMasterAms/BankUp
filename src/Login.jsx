@@ -66,7 +66,7 @@ function Login() {
       // Salva email e userId localmente
       localStorage.setItem('email', email);
       localStorage.setItem('userId', userId);
-
+      const type = 'login_verification';
       // 2. Enviar código com userId, email e type
       const sendCodeRes = await fetch(`${API_URL}/user/send-code`, {
         method: 'POST',
@@ -74,12 +74,13 @@ function Login() {
         body: JSON.stringify({
           userId,
           email,
-          type: 'login_verification',
+          type,
         }),
       });
 
       if (sendCodeRes.ok) {
         alert('Código de verificação enviado.');
+        localStorage.setItem('type', type);
         navigate('/token');
       } else {
         const erro = await sendCodeRes.json();
