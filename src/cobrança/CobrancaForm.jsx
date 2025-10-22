@@ -2,16 +2,18 @@ import React, { useEffect, useState } from 'react';
 import './Cobranca.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { API_URL } from "../config/api";
+import CurrencyInput from "../components/CurrencyInput";
+import PercentInput from "../components/PercentInput";
  
 function CobrancaForm() {
   const navigate = useNavigate();
   const location = useLocation();
   const [formData, setFormData] = useState({
     pagadorId: '',
-    valor: '',
+    valor: 0,
     descricao: '',
     validade: '',
-    multa: '',
+    multa: 0,
     pixKey: ''
   });
  
@@ -61,11 +63,11 @@ function CobrancaForm() {
  
       const paymentData = {
         account_id: formData.pagadorId,
-        amount: parseFloat(formData.valor),
+        amount: Number(formData.valor) || 0,
         description: formData.descricao,
         due_date: converterParaISO(formData.validade),
         pix_key: formData.pixKey,
-        penalty: parseFloat(formData.multa)
+        penalty: Number(formData.multa) || 0
       };
  
       const url = editId
@@ -131,10 +133,10 @@ function CobrancaForm() {
       }
       setFormData({
         pagadorId: cobranca.pagadorId || '',
-        valor: cobranca.valor || '',
+        valor: typeof cobranca.valor === 'number' ? cobranca.valor : Number(cobranca.valor) || 0,
         descricao: cobranca.descricao || '',
         validade: validadeBR,
-        multa: cobranca.multa || '',
+        multa: typeof cobranca.multa === 'number' ? cobranca.multa : Number(String(cobranca.multa).replace(/[^\d.,-]/g, '').replace('.', '').replace(',', '.')) || 0,
         pixKey: cobranca.pixKey || ''
       });
     }
@@ -168,11 +170,10 @@ function CobrancaForm() {
             <div className="form-column">
               <div className="form-group">
                 <label>Valor</label>
-                <input
-                  type="text"
+                <CurrencyInput
                   name="valor"
                   value={formData.valor}
-                  onChange={handleInputChange}
+                  onValueChange={(num) => setFormData(prev => ({ ...prev, valor: num }))}
                   placeholder="R$ 0,00"
                 />
               </div>
@@ -203,11 +204,10 @@ function CobrancaForm() {
             <div className="form-column">
               <div className="form-group">
                 <label>Multa</label>
-                <input
-                  type="text"
+                <PercentInput
                   name="multa"
                   value={formData.multa}
-                  onChange={handleInputChange}
+                  onValueChange={(num) => setFormData(prev => ({ ...prev, multa: num }))}
                   placeholder="ex.: 2%"
                 />
               </div>
