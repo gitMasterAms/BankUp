@@ -1,3 +1,6 @@
+/* eslint-env jest */
+
+
 // AuthCodeController.test.js
 
 const AuthCodeController = require('../modules/user/controllers/AuthCodeController'); // <-- AJUSTE O CAMINHO se necessário

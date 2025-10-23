@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+const fetch = require("node-fetch");
 
 // Configurações
 const WABA_ID = "1921799088668149";       // ID da sua conta WhatsApp Business

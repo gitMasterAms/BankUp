@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 // UserController.test.js
 
 const UserController = require('../modules/user/controllers/UserController'); // Ajuste o caminho se necessário

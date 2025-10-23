@@ -5,35 +5,43 @@ class AuthCodeController {
     constructor(authCodeService){
         this.authCodeService = authCodeService;
     }
-    sendCode = async (req, res) => {
-    const {userId, email, type} = req.body;
+   sendCode = async (req, res) => {
+    const {email, type} = req.body;
 
-    if (!userId || !email || !type) {
-      return res.status(422).json({msg: 'Envie todos os dados obrigatórios'});
+    if ( !email || !type) {
+        return res.status(422).json({msg: 'Envie todos os dados obrigatórios'});
     }
     const VALID_TYPES = ['login_verification', 'password_reset'];
 
     if (!type || !VALID_TYPES.includes(type)) {
-    return res.status(400).json({ error: 'Tipo inválido' });
+        return res.status(400).json({ error: 'Tipo inválido' });
     }
 
     if (!validator.isEmail(email)) {
-          return res.status(422).json({ msg: 'O email informado não é válido!' });
+        return res.status(422).json({ msg: 'O email informado não é válido!' });
     }
 
     try {
-      const result = await this.authCodeService.sendCode({ userId, email, type });
-      return res.status(200).json({msg: 'Verificação por email efetuada com sucesso!', ...result});
+        // Se o serviço for bem-sucedido, ele retorna rapidamente (sem esperar pelo e-mail).
+        const result = await this.authCodeService.sendCode({ email, type });
+        return res.status(200).json({msg: 'Verificação por email efetuada com sucesso!', ...result});
     } catch (err) {
-      //  if (err.message === 'CODIGO_NAO_ENCONTRADO') {
-      //    return res.status(401).json({ msg: 'Código de autenticação inválido!' });
-      //  }
-      //  if(err.message === 'IDS_NAO_CONFEREM'){
-      //   return res.status(401).json({msg: 'Código não pertence ao usuário informado.'});
-      //  }
-      return res.status(500).json({ msg: 'Erro interno no Servidor', err: err.message });
+        // Se cair aqui, é erro de validação (cooldown, bloqueio) ou erro de DB, não timeout de e-mail.
+        // Isso é o comportamento correto.
+        // O código de tratamento de erro comentado (como CODIGO_NAO_ENCONTRADO) deve ser descomentado
+        // e refinado para garantir o status HTTP correto (401, 403, 404, etc.)
+        
+        // Exemplo de refinamento (se aplicável ao seu projeto):
+        if (err.message.includes('BLOQUEIO_TEMPORARIO')) {
+             return res.status(429).json({ msg: err.message }); // 429 Too Many Requests
+        }
+        if (err.message.includes('COOLDOWN')) {
+             return res.status(429).json({ msg: err.message });
+        }
+        
+        return res.status(500).json({ msg: 'Erro interno no Servidor', err: err.message });
     }
-  }
+}
 
   // CONTROLLER ATUALIZADO
     verifyCodeAndGetToken = async (req, res) => {
