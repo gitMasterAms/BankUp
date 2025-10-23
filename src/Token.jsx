@@ -5,91 +5,79 @@ import { API_URL } from './config/api';
 
 function Token() {
   const [codigo, setCodigo] = useState('');
+  const [verificando, setVerificando] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setVerificando(true);
 
     const userId = localStorage.getItem('userId');
+    const type = localStorage.getItem('type');
 
-    if (!userId) {
-      alert('Usuário não identificado. Faça login novamente.');
+    if (!userId || !type) {
+      alert('Sessão de verificação inválida. Por favor, tente novamente.');
       navigate('/login');
       return;
     }
 
     try {
-  const resposta = await fetch(`${API_URL}/user/verify-code`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      userId,
-      twoFactorCode: codigo,
-    }),
-  });
+      const resposta = await fetch(`${API_URL}/user/verify-code`, { 
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, twoFactorCode: codigo }),
+      });
 
-  if (resposta.ok) {
-    const data = await resposta.json();
-    const token = data.token;
-    const profileComplete = data.profile_complete; // Supondo que a resposta tenha esse campo
+      const data = await resposta.json();
 
-    // Salva o token e o profile_complete no localStorage
-    localStorage.setItem('token', token);
-    localStorage.setItem('profile_complete', profileComplete); // Salva se o perfil está completo
+      if (resposta.ok) {
+        alert('Código verificado com sucesso!');
 
-    alert('Código verificado com sucesso!');
+        if (type === 'password_reset') {
+          
+          if(data.resetToken) {
+            localStorage.setItem('resetToken', data.resetToken);
+          }
+          localStorage.removeItem('type')
+          navigate('/redefinir-senha');
 
-    // Verifica se o perfil está completo
-    if (profileComplete === false) {
-      navigate('/cadAdicional'); // Redireciona para o cadastro adicional
-    } else {
-      navigate('/home'); // Redireciona para a página de home
-    }
-  } else {
-    const erro = await resposta.json();
-    alert(erro.msg || 'Código inválido.');
-  }
-} catch (err) {
+        } else {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('profile_complete', data.profile_complete);
+          localStorage.removeItem('userId');
+          localStorage.removeItem('type');
+          
+          navigate(data.profile_complete ? '/home' : '/cadAdicional');
+        }
+      } else {
+        alert(data.msg || 'Código inválido ou expirado.');
+      }
+    } catch (err) {
       console.error('Erro ao verificar código:', err);
       alert('Erro de conexão com o servidor.');
+    } finally {
+      setVerificando(false);
     }
   };
 
-  // Função para reenviar código
   const reenviarCodigo = async () => {
     const userId = localStorage.getItem('userId');
-    const email = localStorage.getItem('email');
+    const type = localStorage.getItem('type');
 
-    if (!userId || !email) {
-      alert('Usuário não identificado. Faça login novamente.');
-      navigate('/login');
+    if (!userId || !type) {
+      alert('Não foi possível identificar a sessão para reenviar o código.');
       return;
     }
 
     try {
-      const resposta = await fetch(`${API_URL}/user/send-code`, {
+      await fetch(`${API_URL}/user/send-code`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId,
-          email,
-          type: 'login_verification',
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, type }),
       });
-
-      if (resposta.ok) {
-        alert('Código reenviado para seu e-mail.');
-      } else {
-        const erro = await resposta.json();
-        alert(erro.msg || 'Erro ao reenviar código.');
-      }
+      alert('Um novo código foi enviado para seu e-mail.');
     } catch (err) {
-      console.error('Erro ao reenviar código:', err);
-      alert('Erro de conexão com o servidor.');
+      alert('Erro ao reenviar código.');
     }
   };
 
@@ -97,9 +85,7 @@ function Token() {
     <div className="tela-token">
       <div className="token-container">
         <h2 className="token-titulo">Verificação de Segurança</h2>
-        <p className="token-subtexto">
-          Enviamos um código para seu e-mail. Digite-o abaixo para continuar.
-        </p>
+        <p className="token-subtexto">Enviamos um código para seu e-mail. Digite-o abaixo para continuar.</p>
         <form onSubmit={handleSubmit}>
           <label htmlFor="codigo">Código de Verificação</label>
           <input
@@ -110,9 +96,10 @@ function Token() {
             onChange={(e) => setCodigo(e.target.value)}
             required
           />
-          <button type="submit" className="btn-verificar">Verificar</button>
+          <button type="submit" className="btn-verificar" disabled={verificando}>
+            {verificando ? 'Verificando...' : 'Verificar'}
+          </button>
         </form>
-
         <button onClick={reenviarCodigo} className="btn-reenviar">
           Reenviar código
         </button>
