@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import SidebarLayout from "../components/SidebarLayout";
+import { useInput } from "../components/Input";
 import { useNavigate, useLocation } from "react-router-dom";
 import { API_URL } from "../config/api";
 import "../cobrança/Cobranca.css";
@@ -18,16 +19,14 @@ import "../cobrança/Cobranca.css";
  * - Campos para dados pessoais e de contato
  */
 function CadastrarCliente() {
+  const [nameProps, setName] = useInput();
+  const [descriptionProps, setDescription] = useInput();
+  const [cpfCnpjProps, setCpfCnpj] = useInput("", "###.###.###-##");
+  const [emailProps, setEmail] = useInput();
+  const [telephoneProps, setTelephone] = useInput("", "(##) #####-####");
+  
   const navigate = useNavigate();
   const location = useLocation();
-  // Estado para armazenar os dados do formulário
-  const [formData, setFormData] = useState({
-    nome: "",           // Nome completo do cliente
-    descricao: "",      // Descrição do pagador
-    cpfCnpj: "",        // CPF ou CNPJ do cliente
-    email: "",          // Email de contato
-    telefone: ""        // Telefone de contato
-  });
 
   const handleCancel = () => {
     navigate('/tabela/pagadores');
@@ -47,13 +46,11 @@ function CadastrarCliente() {
           }
         });
         const data = await response.json();
-        setFormData({
-          nome: data.name || "",
-          descricao: data.description || "",
-          cpfCnpj: data.cpf_cnpj || "",         
-          email: data.email || "",          
-          telefone: data.phone || "",
-        });
+        setName(data.name || "");
+        setDescription(data.description || "");
+        setCpfCnpj(data.cpf_cnpj || "");
+        setEmail(data.email || "");
+        setTelephone(data.phone || "");
       } catch (error) {
         console.error('Erro ao buscar pagador:', error);
       }
@@ -61,14 +58,6 @@ function CadastrarCliente() {
 
     fetchPagador();
   }, [location.state]);
-
-  /**
-   * Função para atualizar os valores do formulário conforme o usuário digita
-   * @param {Event} e - Evento de mudança no input
-   */
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   /**
    * Função para lidar com o envio do formulário
@@ -81,17 +70,17 @@ function CadastrarCliente() {
     const editId = location.state && location.state.editId;
     
     // Validação básica dos campos obrigatórios
-    if (!formData.nome || !formData.cpfCnpj || !formData.email || !formData.telefone) {
+    if (!nameProps.value || !descriptionProps.value || !cpfCnpjProps.value || !emailProps.value || !telephoneProps.value) {
       alert('Por favor, preencha todos os campos obrigatórios!');
       return;
     }
 
     const pagadorData = {
-      name: formData.nome,
-      description: formData.descricao || '', // Garante que description não seja undefined
-      cpf_cnpj: formData.cpfCnpj,
-      email: formData.email,
-      phone: formData.telefone
+      name: nameProps.value,
+      description: descriptionProps.value || '', // Garante que description não seja undefined
+      cpf_cnpj: cpfCnpjProps.value,
+      email: emailProps.value,
+      phone: telephoneProps.value
     };
 
     try {
@@ -138,8 +127,8 @@ function CadastrarCliente() {
                     <input
                       type="text"
                       name="nome"
-                      value={formData.nome}
-                      onChange={handleChange}
+                      value={nameProps.value}
+                      onChange={nameProps.onChange}
                       placeholder="Nome completo"
                     />
                   </div>
@@ -149,8 +138,8 @@ function CadastrarCliente() {
                     <input
                       type="text"
                       name="descricao"
-                      value={formData.descricao}
-                      onChange={handleChange}
+                      value={descriptionProps.value}
+                      onChange={descriptionProps.onChange}
                       placeholder="Descrição do pagador"
                     />
                   </div>
@@ -162,8 +151,8 @@ function CadastrarCliente() {
                     <input
                       type="text"
                       name="cpfCnpj"
-                      value={formData.cpfCnpj}
-                      onChange={handleChange}
+                      value={cpfCnpjProps.value}
+                      onChange={cpfCnpjProps.onChange}
                       placeholder="Somente números"
                     />
                   </div>
@@ -173,8 +162,8 @@ function CadastrarCliente() {
                     <input
                       type="email"
                       name="email"
-                      value={formData.email}
-                      onChange={handleChange}
+                      value={emailProps.value}
+                      onChange={emailProps.onChange}
                       placeholder="email@exemplo.com"
                     />
                   </div>
@@ -184,8 +173,8 @@ function CadastrarCliente() {
                     <input
                       type="text"
                       name="telefone"
-                      value={formData.telefone}
-                      onChange={handleChange}
+                      value={telephoneProps.value}
+                      onChange={telephoneProps.onChange}
                       placeholder="(00) 00000-0000"
                     />
                   </div>
