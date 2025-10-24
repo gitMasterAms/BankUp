@@ -9,10 +9,10 @@ function CaloteSection() {
       </p>
 
       <div className="imagens-calote">
-        <div className="fundoOval">
+        <div className="fundoOval hidden">
           <img className="mao" src="/imagens/dinheiroMao.png" alt="Dinheiro na mão" />
         </div>
-        <div className="fundoOval">
+        <div className="fundoOval hidden">
           <img className="pessoa" src="/imagens/pessoaFeliz.png" alt="Pessoa feliz" />
         </div>
         <div className="fundoOval">
