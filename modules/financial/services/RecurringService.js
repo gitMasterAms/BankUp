@@ -14,22 +14,39 @@ class RecurringService {
   /**
    * Registra uma nova conta recorrente.
    */
-  async register({ userId, name,      description,      cpf_cnpj,      email,      phone }) {
-    try {
-      await this.recurringRepository.create({
-       userId,
-        name,
-        description,
-        cpf_cnpj,
-        email,
-        phone
-      });     
-
-    } catch (err) {
-      console.error('RecurringService.register ERRO:', err);
-      throw err;
+ async register({ userId, name, description, cpf_cnpj, email, phone }) {
+  try {
+    // Verifica se o CPF/CNPJ já está cadastrado
+    const existingCpf = await this.recurringRepository.findByCpfCnpj(cpf_cnpj);
+    if (existingCpf) {
+      const error = new Error('CPF_CNPJ_DUPLICADO');
+      throw error;
     }
+
+    // Verifica se o email já está cadastrado
+    const existingEmail = await this.recurringRepository.findByEmail(email);
+    if (existingEmail) {
+      const error = new Error('EMAIL_DUPLICADO');
+      throw error;
+    }
+
+    // Cria o novo registro
+    await this.recurringRepository.create({
+      userId,
+      name,
+      description,
+      cpf_cnpj,
+      email,
+      phone
+    });
+
+  } catch (err) {
+    console.error('RecurringService.register ERRO:', err);
+    throw err;
   }
+}
+
+
 
   /**
    * Busca todas as contas de um usuário.
