@@ -19,14 +19,20 @@ class PaymentsController {
       amount,
       description,
       due_date,
-       days_before_due_date,
+      days_before_due_date,
       status, // Opcional, pois tem defaultValue
       fine_amount,      // <<< MUDANÇA: de 'penalty' para 'fine_amount'
-      interest_rate,    // <<< MUDANÇA: Novo campo
-      pix_key
+      interest_rate,    
+      pix_key,
+      is_recurring, // boolean (true/false)
+      installments
     } = req.body;
 
     let processedDays = days_before_due_date;
+
+    if (is_recurring === true && (!installments || installments <= 1)) {
+        return res.status(422).json({ msg: 'Para cobranças recorrentes, o número de parcelas (installments) deve ser maior que 1.' });
+    }
 
     // Validação dos dados de entrada
 
@@ -83,7 +89,9 @@ class PaymentsController {
         status, // Se não for enviado, o model usará 'pendente'
         fine_amount,
         interest_rate,
-        pix_key
+        pix_key,
+        is_recurring,
+        installments
       });
 
       return res.status(201).json({ msg: 'Pagamento registrado com sucesso.' });
