@@ -15,6 +15,14 @@ class RecurringRepository {
     return await this.Recurring.findOne({ where: { account_id } });
   }
 
+  async findByCpfCnpj(cpf_cnpj) {
+    return await this.Recurring.findOne({ where: { cpf_cnpj } });
+  }
+
+  async findByEmail(email) {
+    return await this.Recurring.findOne({ where: { email } });
+  }
+
   async deleteById(account_id) {
     return await this.Recurring.destroy({ where: { account_id } });
   }

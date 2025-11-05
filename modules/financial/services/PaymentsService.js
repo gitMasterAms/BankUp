@@ -2,7 +2,6 @@ require('dotenv').config();
 const { QrCodePix } = require('qrcode-pix');
 const qrcode = require('qrcode');
 const sendEmail = require('../../../utils/SendEmail');
-const EmailService = new sendEmail();
 const schedulePayment = require('../../../utils/schedulePayment');
 const moment = require('moment');
 
@@ -10,6 +9,65 @@ class PaymentsService {
   constructor(paymentsRepository, recurringService) {
     this.paymentsRepository = paymentsRepository;
     this.recurringService = recurringService;
+    this.emailService = new sendEmail();
+  }
+
+  async sendPaymentEmail(paymentId, accountId, pixKey) {
+    try {
+      const account = await this.recurringService.getById(accountId);
+      const payment = await this.paymentsRepository.findById(paymentId);
+
+      if (!account || !payment) {
+        console.error(`Conta (${accountId}) ou Pagamento (${paymentId}) não encontrado para envio de e-mail.`);
+        return;
+      }
+
+      const pixValue = (payment.final_amount && parseFloat(payment.final_amount) > 0)
+        ? parseFloat(payment.final_amount)
+        : parseFloat(payment.amount);
+
+      const qrCodePix = QrCodePix({
+        version: '01',
+        key: pixKey,
+        name: account.name,
+        city: 'SAO PAULO',
+        transactionId: `BANKUP${Date.now()}`.slice(0, 25),
+        message: payment.description,
+        cep: '99999999',
+        value: pixValue,
+      });
+
+      const payload = qrCodePix.payload();
+      const qrBuffer = await qrcode.toBuffer(payload);
+      const title = 'Cobrança BANKUP - Pagamento via PIX';
+      const content = `
+        <p>Prezado usuário do BANKUP,</p>
+        <p>Você possui uma cobrança registrada em nossa plataforma. Para realizar o pagamento, utilize o QR Code ou o código PIX abaixo:</p>
+        <div style="text-align: center; margin: 20px 0;">
+            <img src="cid:pixqrcode" alt="QR Code PIX" style="width: 200px; height: 200px;"/>
+        </div>
+        <p><strong>Código PIX (copia e cola):</strong></p>
+        <p style="word-break: break-all; background: #f4f4f4; padding: 10px; border-radius: 5px; color: #1a1a1a;">
+            ${payload}
+        </p>
+        <p>Valor: <strong>R$ ${pixValue.toFixed(2)}</strong></p>
+        <p>Descrição: ${payment.description}</p>
+        <br>
+        <p>Caso já tenha realizado o pagamento, desconsidere este e-mail.</p>
+        <p>Atenciosamente,</p>
+        <p>Equipe BANKUP</p>
+      `;
+      await this.emailService.sendEmail(account.email, title, content, [
+        {
+          filename: 'pix.png',
+          content: qrBuffer,
+          cid: 'pixqrcode'
+        }
+      ]);
+      console.log(`E-mail de cobrança enviado para ${account.email} (PaymentID: ${paymentId})`);
+    } catch (err) {
+      console.error(`Erro ao enviar e-mail agendado para Payment ${paymentId}:`, err);
+    }
   }
 
   async register({
@@ -22,85 +80,55 @@ class PaymentsService {
     status,
     fine_amount,
     interest_rate,
-    pix_key
+    pix_key,
+    is_recurring = false,
+    installments = 1
   }) {
     try {
       const recurringAccount = await this.recurringService.getById(account_id);
-      if (!recurringAccount || recurringAccount.account_id !== account_id) {
+      if (!recurringAccount) {
         throw new Error('CONTA_NAO_ENCONTRADA');
       }
 
-      const paymentRecord = await this.paymentsRepository.create({
-        userId,
-        account_id,
-        amount,
-        description,
-        due_date,
-        status,
-        fine_amount,
-        interest_rate,
-        pix_key
-      });
+      const totalPayments = is_recurring ? parseInt(installments, 10) : 1;
+      const createdPaymentRecords = [];
 
-      const sendPaymentNow = async () => {
-        try {
-          const account = await this.recurringService.getById(account_id);
-          const payment = await this.paymentsRepository.getById(paymentRecord.payment_id);
-          const pixValue = (payment.final_amount && parseFloat(payment.final_amount) > 0)
-            ? parseFloat(payment.final_amount)
-            : parseFloat(payment.amount);
+      for (let i = 0; i < totalPayments; i++) {
+        const installmentDueDate = moment(due_date).add(i, 'months').toDate();
+        const installmentDescription = totalPayments > 1
+          ? `${description} (Parcela ${i + 1}/${totalPayments})`
+          : description;
 
-          const qrCodePix = QrCodePix({
-            version: '01',
-            key: pix_key,
-            name: account.name,
-            city: 'SAO PAULO',
-            transactionId: `BANKUP${Date.now()}`.slice(0, 25),
-            message: payment.description,
-            cep: '99999999',
-            value: pixValue,
-          });
+        const paymentRecord = await this.paymentsRepository.create({
+          userId,
+          account_id,
+          amount,
+          description: installmentDescription,
+          due_date: installmentDueDate,
+          status: status || 'pendente',
+          fine_amount,
+          interest_rate,
+          pix_key
+        });
 
-          const payload = qrCodePix.payload();
-          const qrBuffer = await qrcode.toBuffer(payload);
-          const title = 'Cobrança BANKUP - Pagamento via PIX';
-          const content = `
-            <p>Prezado usuário do BANKUP,</p>
-            <p>Você possui uma cobrança registrada em nossa plataforma. Para realizar o pagamento, utilize o QR Code ou o código PIX abaixo:</p>
-            <div style="text-align: center; margin: 20px 0;">
-                <img src="cid:pixqrcode" alt="QR Code PIX" style="width: 200px; height: 200px;"/>
-            </div>
-            <p><strong>Código PIX (copia e cola):</strong></p>
-            <p style="word-break: break-all; background: #f4f4f4; padding: 10px; border-radius: 5px; color: #1a1a1a;">
-                ${payload}
-            </p>
-            <p>Valor: <strong>R$ ${pixValue.toFixed(2)}</strong></p>
-            <p>Descrição: ${payment.description}</p>
-            <br>
-            <p>Caso já tenha realizado o pagamento, desconsidere este e-mail.</p>
-            <p>Atenciosamente,</p>
-            <p>Equipe BANKUP</p>
-          `;
-          await EmailService.sendEmail(account.email, title, content, [
-            {
-              filename: 'pix.png',
-              content: qrBuffer,
-              cid: 'pixqrcode'
-            }
-          ]);
-        } catch (err) {
-          console.error('Erro ao enviar e-mail agendado:', err);
+        if (i === 0 && process.env.NODE_ENV === 'development') {
+          await this.sendPaymentEmail(paymentRecord.payment_id, account_id, pix_key);
         }
-      };
-      if (process.env.NODE_ENV === 'development') {
-        await sendPaymentNow();
+
+        schedulePayment({
+          dueDate: installmentDueDate,
+          daysBefore: days_before_due_date,
+          callback: () => this.sendPaymentEmail(
+            paymentRecord.payment_id,
+            account_id,
+            pix_key
+          )
+        });
+
+        createdPaymentRecords.push(paymentRecord);
       }
-      schedulePayment({
-        dueDate: due_date,
-        daysBefore: days_before_due_date,
-        callback: sendPaymentNow
-      });
-      return paymentRecord;
+
+      return createdPaymentRecords;
     } catch (err) {
       console.error('PaymentsService.register ERRO:', err);
       throw err;
@@ -112,9 +140,9 @@ class PaymentsService {
   }
 
 
- findAll(userId) {
-  return this.paymentsRepository.findAll(userId);
-}
+  findAll(userId) {
+    return this.paymentsRepository.findAll(userId);
+  }
 
 
   async getById(payment_id) {
@@ -196,7 +224,7 @@ class PaymentsService {
           </p>
         `;
 
-        await EmailService.sendEmail(account.email, title, content, [{
+        await this.emailService.sendEmail(account.email, title, content, [{
           filename: 'pix.png', content: qrBuffer, cid: 'pixqrcode'
         }]);
         console.log(`Notificação para ${account.email} enviada com sucesso.`);
