@@ -96,18 +96,73 @@ export default function SobreNos() {
   const navigate = useNavigate();
   return (
     <div className="sobre-container">
-      <h2 className="titulo"> <span className="highlight">NOSSO TIME</span></h2>
-      
-      <p className="subtitulo2"> O BankUp é uma plataforma web criada para automatizar pagamentos e cobranças, buscando reduzir a inadimplência no Brasil e oferecer previsibilidade orçamentária a empreendedores e autônomos. O projeto visa democratizar o acesso a ferramentas de gestão financeira.
-        <br /><br />
-                  O método adotado foi a criação de uma plataforma intuitiva que automatiza cobranças, integrando notificações por WhatsApp/e-mail e pagamentos via Pix. A simplicidade e a automação de tarefas repetitivas são pilares, atendendo pequenos negócios com recursos limitados.
-        <br /><br />
-                  Como resultado, o BankUp proporciona uma gestão de recebíveis mais prática e eficiente, contribuindo diretamente para a redução da inadimplência e a otimização dos processos de cobrança. Seu propósito é remover barreiras técnicas e financeiras, permitindo que qualquer negócio profissionalize sua gestão.</p>
-      <p className="subtitulo">Turma de Analise e Desenvolvimento de Sistemas da Fatec Taubaté 2025</p>
       <div className="voltar-home">
         <button className="home-button" onClick={() => navigate("/")}>← Voltar à Página Inicial</button>
       </div>
 
+      {/* Seção About Us / Sobre Nós */}
+      <section className="sobre-section">
+        <div className="sobre-content">
+          <h2 className="titulo"> <span className="highlight">NOSSO TIME</span></h2>
+          <p className="sobre-texto">
+            O BankUp é uma plataforma web criada para automatizar pagamentos e cobranças, buscando reduzir a inadimplência no Brasil e oferecer previsibilidade orçamentária a empreendedores e autônomos. O projeto visa democratizar o acesso a ferramentas de gestão financeira.
+          </p>
+        </div>
+        <div className="sobre-image">
+          <div className="team-photo-placeholder">
+            <div className="team-grid-preview">
+              {membros.slice(0, 9).map((m, index) => (
+                <div 
+                  key={index}
+                  className="preview-avatar"
+                  style={{ backgroundImage: `url(${m.foto})` }}
+                ></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Seção Nossa Missão - Imagem à esquerda, texto à direita */}
+      <section className="missao-section">
+        <div className="missao-content">
+          <h2 className="missao-heading">Nossa Missão: Democratizar o Acesso à Gestão Financeira</h2>
+          <p className="missao-texto">
+            Acreditamos não apenas em crescer, mas em crescer melhor. E crescer melhor significa alinhar o sucesso do seu negócio com o sucesso dos seus clientes. Win-win!
+          </p>
+        </div>
+        <div className="missao-image">
+          <img 
+            src="/imagens/grafico.png" 
+            alt="Gráfico de crescimento" 
+            className="missao-imagem"
+          />
+        </div>
+      </section>
+
+      {/* Seção Nossa História */}
+      <section className="historia-section">
+        <div className="historia-content">
+          <h2 className="historia-heading">Nossa História</h2>
+          <p className="historia-texto">
+            O método adotado foi a criação de uma plataforma intuitiva que automatiza cobranças, integrando notificações por WhatsApp/e-mail e pagamentos via Pix. A simplicidade e a automação de tarefas repetitivas são pilares, atendendo pequenos negócios com recursos limitados.
+            <br /><br />
+            Como resultado, o BankUp proporciona uma gestão de recebíveis mais prática e eficiente, contribuindo diretamente para a redução da inadimplência e a otimização dos processos de cobrança. Seu propósito é remover barreiras técnicas e financeiras, permitindo que qualquer negócio profissionalize sua gestão.
+          </p>
+        </div>
+        <div className="historia-image">
+          <img 
+            src="/imagens/Sergtec.png" 
+            alt="Sergtec" 
+            className="historia-imagem"
+          />
+        </div>
+      </section>
+
+      {/* Subtítulo mantido */}
+      <p className="subtitulo">Turma de Analise e Desenvolvimento de Sistemas da Fatec Taubaté 2025</p>
+
+      {/* Cards do time mantidos */}
       <div className="grid">
         {membros.map((m, index) => (
           <div

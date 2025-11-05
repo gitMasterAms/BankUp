@@ -1,9 +1,166 @@
 .sobre-container {
-  text-align: center;
-  padding: 60px 20px;
+  padding: 80px 40px 60px;
   background: #000;
   color: white;
   min-height: 100vh;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Seção About Us / Sobre Nós */
+.sobre-section {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  margin-bottom: 100px;
+  padding: 40px 0;
+}
+
+.sobre-content {
+  flex: 1;
+  text-align: left;
+}
+
+.sobre-content .titulo {
+  font-size: 70px;
+  margin-bottom: 30px;
+  line-height: 1.1;
+}
+
+.sobre-texto {
+  color: #dbdbdb;
+  font-size: 20px;
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+.sobre-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.team-photo-placeholder {
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 4/3;
+  background: #111;
+  border-radius: 20px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+}
+
+.team-grid-preview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  width: 100%;
+}
+
+.preview-avatar {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid rgba(0, 255, 136, 0.3);
+}
+
+/* Seção Missão - Imagem à esquerda, texto à direita */
+.missao-section {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  margin-bottom: 100px;
+  padding: 40px 0;
+  flex-direction: row;
+}
+
+.missao-section .missao-image {
+  order: -1;
+}
+
+.missao-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.missao-imagem {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 20px;
+  object-fit: contain;
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.15);
+}
+
+.missao-content {
+  flex: 1;
+  text-align: left;
+}
+
+.missao-heading {
+  font-size: 48px;
+  color: #00ff88;
+  margin-bottom: 30px;
+  line-height: 1.2;
+}
+
+.missao-texto {
+  color: #dbdbdb;
+  font-size: 20px;
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+/* Seção História */
+.historia-section {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  margin-bottom: 100px;
+  padding: 40px 0;
+}
+
+.historia-content {
+  flex: 1;
+  text-align: left;
+}
+
+.historia-heading {
+  font-size: 48px;
+  color: #00ff88;
+  margin-bottom: 30px;
+  line-height: 1.2;
+}
+
+.historia-texto {
+  color: #dbdbdb;
+  font-size: 20px;
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+.historia-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.historia-imagem {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 20px;
+  object-fit: contain;
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.15);
 }
 
 /* Título e subtítulo */
@@ -11,17 +168,13 @@
   font-size: 70px;
   color: #00ff88;
 }
+
 .subtitulo {
   color: #efefef;
-  margin-bottom: 50px;
+  margin: 60px auto 50px;
   font-size: 25px;
-}
-.subtitulo2 {
-  color: #dbdbdbde;
-  margin: 10vh auto 50px; /* empurra para mais perto do centro da tela e centraliza horizontalmente */
-  font-size: 23px;
-  max-width: 1200px; /* limita largura para melhor leitura */
-  text-align: center; /* garante centralização do texto */
+  text-align: center;
+  max-width: 1200px;
 }
 /* Palavra em destaque com brilho sutil em verde */
 
@@ -80,13 +233,73 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
-  padding: 0 20px;
+  padding: 40px 0 0;
+  margin-top: 60px;
 }
+
+/* Responsividade para seções */
 @media (max-width: 1024px) {
-  .grid { grid-template-columns: repeat(2, 1fr); }
+  .sobre-section,
+  .missao-section,
+  .historia-section {
+    flex-direction: column;
+    gap: 40px;
+  }
+  
+  .missao-section .missao-image {
+    order: 0;
+  }
+  
+  .sobre-content,
+  .missao-content,
+  .historia-content {
+    text-align: center;
+  }
+  
+  .sobre-texto,
+  .missao-texto,
+  .historia-texto {
+    max-width: 100%;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .sobre-content .titulo,
+  .missao-heading,
+  .historia-heading {
+    font-size: 40px;
+  }
 }
+
 @media (max-width: 768px) {
-  .grid { grid-template-columns: 1fr; }
+  .sobre-container {
+    padding: 80px 20px 60px;
+  }
+  
+  .sobre-content .titulo {
+    font-size: 50px;
+  }
+  
+  .missao-heading,
+  .historia-heading {
+    font-size: 32px;
+  }
+  
+  .sobre-texto,
+  .missao-texto,
+  .historia-texto {
+    font-size: 18px;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .team-grid-preview {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* Card estilo CodeMyUI */
