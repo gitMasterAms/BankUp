@@ -24,6 +24,7 @@ function CobrancaTabela() {
           headers
         });
         const paymentsData = await paymentsResponse.json();
+        console.log(paymentsData)
 
         // Buscar pagadores (escopo do usuário logado)
         const pagadoresResponse = await fetch(`${API_URL}/financial/recurring`, {
@@ -50,7 +51,7 @@ function CobrancaTabela() {
             valor: payment.amount,
             descricao: payment.description,
             validade: payment.due_date,
-            multa: payment.penalty,
+            multa: payment.fine_amount,
             pixKey: payment.pix_key
           };
         }));

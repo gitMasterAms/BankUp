@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/login.css';
 import CapsLockWarning, { useCapsLock } from '../components/CapsLockWarning';
@@ -10,11 +10,17 @@ function RedefinirSenha() {
   const [salvando, setSalvando] = useState(false);
   const navigate = useNavigate();
   const capsLockOn = useCapsLock();
-  // Modo simulado para navegar sem backend. Quando true, não faz requisições reais.
-  const MOCK = true;
 
-  const email = localStorage.getItem('reset_email');
-  const resetToken = localStorage.getItem('reset_token');
+  const userId = localStorage.getItem('userId');
+  const resetToken = localStorage.getItem('resetToken');
+
+  // Proteção: se o usuário chegar aqui sem userId, volta ao início do fluxo
+  useEffect(() => {
+    if (!userId) {
+      alert('Sessão inválida. Por favor, comece o processo novamente.');
+      navigate('/esquecer-senha');
+    }
+  }, [userId, navigate]);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -27,59 +33,40 @@ function RedefinirSenha() {
       alert('As senhas não coincidem.');
       return;
     }
-    if (!email) {
-      alert('E-mail não identificado. Volte e informe seu e-mail.');
-      navigate('/esquecer-senha');
-      return;
-    }
 
     try {
       setSalvando(true);
 
-      if (MOCK) {
-        // Simulação: apenas valida dados e finaliza fluxo
-        setTimeout(() => {
-          alert('Senha redefinida (simulada) com sucesso!');
-          localStorage.removeItem('reset_email');
-          localStorage.removeItem('reset_token');
-          localStorage.removeItem('reset_code');
-          navigate('/login');
-          setSalvando(false);
-        }, 700);
-        return;
-      }
-
-      // Fluxo real (quando tiver backend)
-      const resposta = await fetch(`${API_URL}/user/reset-password`, {
+      const resposta = await fetch(`${API_URL}/user/password-reset`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password: senha, token: resetToken }),
+        headers: { 'Authorization': `Bearer ${resetToken}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ newPassword: senha, }),
       });
 
       if (resposta.ok) {
         alert('Senha redefinida com sucesso!');
-        localStorage.removeItem('reset_email');
-        localStorage.removeItem('reset_token');
-        localStorage.removeItem('reset_code');
+        
+        // Limpa todos os dados temporários usados no fluxo
+        localStorage.removeItem('resetToken');
+
         navigate('/login');
       } else {
         const erro = await resposta.json();
-        alert(erro.msg || 'Não foi possível redefinir a senha.');
+        alert(erro.msg || 'Não foi possível redefinir a senha. O token pode ter expirado.');
       }
     } catch (err) {
       console.error('Erro ao redefinir senha:', err);
       alert('Erro de conexão com o servidor.');
     } finally {
-      if (!MOCK) setSalvando(false);
+      setSalvando(false);
     }
   };
 
   return (
-    <div className="tela-login">{/* Reuso do layout/cores do login/cadastro */}
+    <div className="tela-login">
       <button className="home-button" onClick={() => navigate('/login')}>
         ← Voltar para Login
       </button>
-
       <div className="login-container">
         <h1>Redefinir senha</h1>
         <form onSubmit={submit}>
@@ -95,7 +82,6 @@ function RedefinirSenha() {
             />
             <CapsLockWarning show={capsLockOn && document.activeElement?.id === 'senha'} className="login-caps-warning" />
           </div>
-
           <div className="form-group">
             <label htmlFor="confirmar">Confirmar nova senha</label>
             <input
@@ -108,7 +94,6 @@ function RedefinirSenha() {
             />
             <CapsLockWarning show={capsLockOn && document.activeElement?.id === 'confirmar'} className="login-caps-warning" />
           </div>
-
           <button type="submit" className="login-btn" disabled={salvando}>
             {salvando ? 'Salvando...' : 'Redefinir senha'}
           </button>
@@ -119,5 +104,3 @@ function RedefinirSenha() {
 }
 
 export default RedefinirSenha;
-
-
