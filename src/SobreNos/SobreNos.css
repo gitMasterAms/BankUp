@@ -12,18 +12,30 @@
   color: #00ff88;
 }
 .subtitulo {
-  color: #ccc;
+  color: #efefef;
   margin-bottom: 50px;
   font-size: 25px;
 }
-
+.subtitulo2 {
+  color: #dbdbdbde;
+  margin: 10vh auto 50px; /* empurra para mais perto do centro da tela e centraliza horizontalmente */
+  font-size: 23px;
+  max-width: 1200px; /* limita largura para melhor leitura */
+  text-align: center; /* garante centralização do texto */
+}
 /* Palavra em destaque com brilho sutil em verde */
 
 .highlight {
   color: #00ff88; /* ALTERADO: Cor do "BankUp" mudou para verde neon (#00ff88) */
-  text-shadow: 0 2px 10px rgba(0, 255, 136, 0.35); /* ALTERADO: Sombra ajustada para nova cor */
+  text-shadow: 0 0 3px rgba(0, 255, 136, 0.14); /* brilho mínimo e mais contido */
   /* Animação contínua de brilho suave */
   animation: glow 2600ms ease-in-out infinite alternate;
+}
+
+/* Animação de brilho mais sutil */
+@keyframes glow {
+  0% { text-shadow: 0 0 3px rgba(0, 255, 136, 0.14); }
+  100% { text-shadow: 0 0 5px rgba(0, 255, 136, 0.20); }
 }
 
 

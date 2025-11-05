@@ -97,7 +97,13 @@ export default function SobreNos() {
   return (
     <div className="sobre-container">
       <h2 className="titulo"> <span className="highlight">NOSSO TIME</span></h2>
-      <p className="subtitulo">Turma do 2° ano de Analise e Desenvolvimento de Sistemas da Fatec Taubaté</p>
+      
+      <p className="subtitulo2"> O BankUp é uma plataforma web criada para automatizar pagamentos e cobranças, buscando reduzir a inadimplência no Brasil e oferecer previsibilidade orçamentária a empreendedores e autônomos. O projeto visa democratizar o acesso a ferramentas de gestão financeira.
+        <br /><br />
+                  O método adotado foi a criação de uma plataforma intuitiva que automatiza cobranças, integrando notificações por WhatsApp/e-mail e pagamentos via Pix. A simplicidade e a automação de tarefas repetitivas são pilares, atendendo pequenos negócios com recursos limitados.
+        <br /><br />
+                  Como resultado, o BankUp proporciona uma gestão de recebíveis mais prática e eficiente, contribuindo diretamente para a redução da inadimplência e a otimização dos processos de cobrança. Seu propósito é remover barreiras técnicas e financeiras, permitindo que qualquer negócio profissionalize sua gestão.</p>
+      <p className="subtitulo">Turma de Analise e Desenvolvimento de Sistemas da Fatec Taubaté 2025</p>
       <div className="voltar-home">
         <button className="home-button" onClick={() => navigate("/")}>← Voltar à Página Inicial</button>
       </div>
