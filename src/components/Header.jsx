@@ -28,7 +28,6 @@ function Header() {
       {/*<a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/home'); setMenuAberto(false); }}>Home</a>*/}
         <a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/sobre'); setMenuAberto(false); }}>Sobre nós</a> 
         <a href="#serviços" className="btn" onClick={() => setMenuAberto(false)}>Serviços</a>
-        <a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/planos'); setMenuAberto(false); }}>Planos</a>
         <a href="#" className="btn" onClick={(e) => { e.preventDefault(); navigate('/login'); setMenuAberto(false); }}>Entrar</a>
         <a href="#" className="btn btn-secundario" onClick={(e) => { e.preventDefault(); navigate('/cadastro'); setMenuAberto(false); }}>Cadastre-se Já</a>
       </nav>

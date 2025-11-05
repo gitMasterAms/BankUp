@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import CaloteSection from './components/CaloteSection';
+import TaxaSection from './components/TaxaSection';
 import AprendaSection from './components/AprendaSection';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
@@ -15,7 +16,6 @@ import Cadastro from './Cadastro.jsx';
 import Token from './Token.jsx';
 import EsquecerSenha from './EsqueceuSenha/EsquecerSenha.jsx';
 import RedefinirSenha from './EsqueceuSenha/RedefinirSenha.jsx';
-import Planos from './Planos.jsx';
 import CadAdicional from './CadAdicional.jsx';
 import SobreNos from './SobreNos/SobreNos.jsx';
 // Página de cadastro de pagador (migrada para a pasta Pagador)
@@ -49,6 +49,7 @@ function Home() {
       <Header />
       <Hero />
       <CaloteSection />
+      <TaxaSection />
       <AprendaSection />
       <Footer />
       
@@ -85,8 +86,6 @@ function App() {
         {/* 3) Tela para cadastrar nova senha após verificar código */}
         <Route path="/redefinir-senha" element={<RedefinirSenha />} />
 
-        {/* Quando a URL for "/planos", mostra o componente Planos */}
-        <Route path="/planos" element={<Planos />} />
 
         {/* Quando a URL for "/sobre", mostra a página Sobre Nós */}
         <Route path="/sobre" element={<SobreNos />} />

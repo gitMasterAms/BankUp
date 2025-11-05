@@ -208,6 +208,110 @@ body {
   color: #ccc;              /* Cor cinza claro para contraste suave */
 }
 
+/* ===== SEÇÃO DE TAXAS ===== */
+.taxa-section {
+  background-color: #111;
+  padding: 60px 20px;
+  color: #fff;
+}
+
+.taxa-container {
+  max-width: 1150px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.taxa-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.taxa-texto h2 {
+  font-size: 2em;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.taxa-texto p {
+  font-size: 1.1em;
+  color: #ccc;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.taxa-destaque {
+  color: #00ff90;
+  font-weight: 600;
+}
+
+.taxa-tabela-wrapper {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid #00ff90;
+}
+
+.taxa-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  color: #fff;
+  border: 1px solid #00ff90;
+}
+
+.taxa-tabela thead {
+  border-bottom: 2px solid #00ff90;
+}
+
+.taxa-tabela th {
+  padding: 15px 10px;
+  text-align: left;
+  font-weight: 600;
+  color: #00ff90;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-right: 1px solid #00ff90;
+}
+
+.taxa-tabela th:last-child {
+  border-right: none;
+}
+
+.taxa-tabela td {
+  padding: 15px 10px;
+  border-bottom: 1px solid rgba(0, 255, 144, 0.3);
+  border-right: 1px solid rgba(0, 255, 144, 0.3);
+  color: #ccc;
+}
+
+.taxa-tabela td:last-child {
+  border-right: none;
+}
+
+.taxa-tabela tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.taxa-tabela tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.taxa-valor {
+  color: #00ff90;
+  font-weight: 600;
+}
+
+.taxa-recebe {
+  color: #00ff90;
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
 /* ===== RESPONSIVIDADE GLOBAL ===== */
 
 /* Tablets (768px - 1024px) */
@@ -244,6 +348,15 @@ body {
   
   .apr-card {
     padding: 30px;
+  }
+
+  .taxa-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .taxa-texto h2 {
+    font-size: 1.8em;
   }
 }
 
@@ -363,6 +476,37 @@ body {
     padding: 30px 10px;
     font-size: 0.8em;
   }
+
+  .taxa-section {
+    padding: 40px 15px;
+  }
+
+  .taxa-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .taxa-texto h2 {
+    font-size: 1.5em;
+  }
+
+  .taxa-texto p {
+    font-size: 1em;
+  }
+
+  .taxa-tabela-wrapper {
+    overflow-x: auto;
+  }
+
+  .taxa-tabela {
+    min-width: 500px;
+  }
+
+  .taxa-tabela th,
+  .taxa-tabela td {
+    padding: 12px 8px;
+    font-size: 0.9em;
+  }
 }
 
 /* Celulares pequenos (até 480px) */
@@ -414,5 +558,27 @@ body {
   
   .apr-card p {
     font-size: 0.9em;
+  }
+
+  .taxa-section {
+    padding: 30px 10px;
+  }
+
+  .taxa-texto h2 {
+    font-size: 1.3em;
+  }
+
+  .taxa-texto p {
+    font-size: 0.9em;
+  }
+
+  .taxa-tabela {
+    min-width: 400px;
+    font-size: 0.85em;
+  }
+
+  .taxa-tabela th,
+  .taxa-tabela td {
+    padding: 10px 6px;
   }
 }
