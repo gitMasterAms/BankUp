@@ -25,10 +25,8 @@ class PaymentsController {
       interest_rate,    
       pix_key,
       is_recurring, // boolean (true/false)
-      installments
+      installments
     } = req.body;
-
-    let processedDays = days_before_due_date;
 
     if (is_recurring === true && (!installments || installments <= 1)) {
         return res.status(422).json({ msg: 'Para cobranças recorrentes, o número de parcelas (installments) deve ser maior que 1.' });
