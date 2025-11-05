@@ -4,9 +4,8 @@ node_modules/
 # Ignorar arquivos de lock
 yarn.lock
 pnpm-lock.yaml
-package-lock.json
 
 # Outros comuns
 dist/
 
-.env
+.env    
