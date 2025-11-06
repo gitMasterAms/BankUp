@@ -1,0 +1,157 @@
+// TESTES DE SAÚDE DO SITE
+
+describe('BankUp - E2E Smoke Tests e Health Checks', () => {
+    const base = 'https://bankup.online';
+
+    // Utilitário: resolve hrefs relativos para absolute
+    const resolveUrl = (href) => {
+        try {
+            // Tenta criar uma URL absoluta a partir do href relativo e da URL base
+            return new URL(href, base).toString();
+        } catch (e) {
+            // Retorna null se for um href inválido (ex: só #)
+            return null;
+        }
+    };
+
+    // --- Health Checks Básicos ---
+
+    it('health check: endpoint /health responde 2xx', () => {
+        // Testa o endpoint de saúde comum, esperando qualquer status 2xx
+        cy.request('GET', base + '/health');
+    });
+
+    it('health check: homepage responde 200 e é HTML', () => {
+        cy.request({
+            url: base + '/',
+            failOnStatusCode: false, // Permite checar o status manualmente
+        }).then((resp) => {
+            // 1. Checa o status HTTP
+            expect(resp.status, 'Status da homepage deve ser 200').to.equal(200);
+            
+            // 2. Checa o Content-Type
+            const ct = resp.headers['content-type'] || '';
+            expect(ct.toLowerCase(), 'Content-Type deve incluir "html"').to.include('html');
+
+            // 3. Checa o início do corpo
+            expect(resp.body).to.be.a('string');
+            expect(resp.body.slice(0, 200).toLowerCase(), 'Corpo da resposta deve começar com <html').to.include('<html');
+        });
+    });
+
+    // --- Renderização e Links (Teste E2E) ---
+
+    it('homepage render: título e estrutura básica presentes', () => {
+        // Visita a página para testar a renderização no navegador
+        cy.visit(base + '/'); 
+
+        // 1. Checa o título
+        cy.title().then((t) => {
+            // Título deve conter "bank" / "bankup" (case-insensitive)
+            expect(/bank/i.test(t), `Título da página (${t}) deve conter 'bank' ou 'bankup'`).to.equal(true);
+        });
+
+        // 2. Checa a estrutura básica do DOM
+        cy.document().then((doc) => {
+            const hasHeader = !!doc.querySelector('header');
+            const hasNav = !!doc.querySelector('nav');
+            const hasMain = !!doc.querySelector('main');
+            const hasFooter = !!doc.querySelector('footer');
+            
+            expect(
+                hasHeader || hasNav || hasMain || hasFooter,
+                'Esperado encontrar pelo menos uma tag estrutural (header, nav, main, ou footer)'
+            ).to.equal(true);
+        });
+    });
+
+    it('procura links de login / cadastro e valida que as páginas existem (200)', () => {
+        // Faz request para obter o HTML e analisar os links (mais rápido que cy.visit)
+        cy.request({
+            url: base + '/',
+            failOnStatusCode: false,
+        }).then((resp) => {
+            const html = resp.body || '';
+            
+            // Regex para buscar hrefs com login/entrar/register/cadastrar
+            const linkRegex = /href=(?:'|")([^'"]*(?:login|entrar|register|cadastrar)[^'"]*)(?:'|")/ig;
+            const links = [];
+            let m;
+            while ((m = linkRegex.exec(html)) !== null) {
+                if (m[1]) links.push(m[1]);
+            }
+
+            // Garante que pelo menos um link foi encontrado
+            expect(links.length, 'Esperado encontrar ao menos um link de autenticação/cadastro na homepage').to.be.greaterThan(0);
+
+            // Testa cada link encontrado
+            links.forEach((href) => {
+                const url = resolveUrl(href);
+                if (!url) {
+                    // Força falha se href inválido
+                    expect(url, `href inválido: ${href}`).to.not.equal(null);
+                } else {
+                    // Testa o status da URL do link
+                    cy.request({ url, failOnStatusCode: false }).then((r) => {
+                        expect(r.status, `Esperado 200 para o link ${url} mas recebeu ${r.status}`).to.equal(200);
+                    });
+                }
+            });
+        });
+    });
+
+    it('smoke check: se existir página de login, verificar presença de form e campos', () => {
+        let attempted = base + '/login';
+        
+        // 1. Tenta /login, depois /entrar para encontrar a rota
+        cy.request({ url: base + '/login', failOnStatusCode: false })
+            .then((resp) => {
+                if (resp.status !== 200) {
+                    // Se /login falhar, tenta /entrar
+                    attempted = base + '/entrar';
+                    return cy.request({ url: attempted, failOnStatusCode: false });
+                }
+                return resp;
+            })
+            .then((resp) => {
+                // Se ainda assim não encontrou (status != 200), falha e avisa
+                if (resp.status !== 200) {
+                    expect(resp.status, `Página de login não encontrada em /login ou /entrar (último testado: ${attempted})`).to.equal(200);
+                    return; // Sai do teste
+                }
+
+                // 2. Se a página existe (status 200), visita para checar o DOM
+                cy.visit(attempted);
+
+                // Checa a presença do <form>
+                cy.get('form', { timeout: 5000 }).then(($forms) => {
+                    expect($forms.length, 'Esperado encontrar um <form> na página de login').to.be.greaterThan(0);
+
+                    // 3. Checa a presença de campos de email e senha
+                    const emailSelectors = [
+                        'input[type="email"]',
+                        'input[name*="email" i]',
+                        'input[id*="email" i]',
+                        'input[placeholder*="email" i]',
+                    ].join(',');
+                    
+                    const passwordSelectors = [
+                        'input[type="password"]',
+                        'input[name*="password" i]',
+                        'input[id*="password" i]',
+                        'input[placeholder*="senha" i]',
+                    ].join(',');
+
+                    cy.get('body').then(($body) => {
+                        const hasEmail = $body.find(emailSelectors).length > 0;
+                        const hasPassword = $body.find(passwordSelectors).length > 0;
+                        
+                        expect(
+                            hasEmail || hasPassword, 
+                            'Esperado encontrar pelo menos campos de email ou password no form de login'
+                        ).to.equal(true);
+                    });
+                });
+            });
+    });
+});
