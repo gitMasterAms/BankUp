@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/token.css';
 import { API_URL } from './config/api';
+import { useLoginModal } from './contexts/LoginModalContext';
 
 function Token() {
   const [codigo, setCodigo] = useState('');
   const [verificando, setVerificando] = useState(false);
   const navigate = useNavigate();
+  const { openModal: openLoginModal } = useLoginModal();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +19,7 @@ function Token() {
 
     if (!userId || !type) {
       alert('Sessão de verificação inválida. Por favor, tente novamente.');
-      navigate('/login');
+      openLoginModal();
       return;
     }
 

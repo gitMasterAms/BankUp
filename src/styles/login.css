@@ -1,83 +1,111 @@
-/* Estilos apenas para a tela de login */
-.tela-login {
-  background-color: #000;
-  color: #fff;
+/* ===== MODAL DE LOGIN ===== */
+
+/* Overlay do modal (fundo escuro) */
+.login-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  position: relative;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
 }
 
-/* ===== BOTÃO DE VOLTAR À HOME ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
-/* Botão para voltar à home externa */
-.tela-login .home-button {
+/* Container do modal */
+.login-modal-container {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  margin: 20px;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Botão de fechar */
+.login-modal-close {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  background: linear-gradient(135deg, #00AD4A, #00ff88);
-  color: white;
+  top: -40px;
+  right: 0;
+  background: transparent;
   border: none;
-  border-radius: 25px;
-  padding: 10px 20px;
-  font-size: 12px;
-  font-weight: 600;
+  color: #fff;
+  font-size: 36px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  box-shadow: 0 2px 8px rgba(0, 173, 74, 0.3);
-  z-index: 10;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  z-index: 1001;
+  line-height: 1;
+  padding: 0;
 }
 
-/* Efeito hover no botão de voltar */
-.tela-login .home-button:hover {
-  background: linear-gradient(135deg, #00ff88, #00AD4A);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 173, 74, 0.4);
+.login-modal-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: rotate(90deg);
 }
 
-/* Efeito ativo no botão de voltar */
-.tela-login .home-button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(0, 173, 74, 0.3);
-}
-
-.tela-login * {
+.login-modal-container * {
   box-sizing: border-box;
   font-family: Arial, sans-serif;
 }
 
-.tela-login .login-container {
+.login-modal-container .login-container {
   background-color: #111;
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 0 15px rgb(0, 173, 75);
   width: 100%;
   max-width: 400px;
+  position: relative;
 }
 
-.tela-login .login-container h1 {
+.login-modal-container .login-container h1 {
   color: #00AD4A;
   margin-bottom: 30px;
   font-size: 24px;
   text-align: center;
 }
 
-.tela-login .form-group {
+.login-modal-container .form-group {
   margin-bottom: 20px;
 }
 
-.tela-login label {
+.login-modal-container label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
+  color: #fff;
 }
 
-.tela-login input[type="email"],
-.tela-login input[type="password"] {
+.login-modal-container input[type="email"],
+.login-modal-container input[type="password"] {
   width: 100%;
   padding: 10px;
   border: 1px solid #444;
@@ -86,7 +114,7 @@
   color: #fff;
 }
 
-.tela-login .forgot-password {
+.login-modal-container .forgot-password {
   display: block;
   text-align: right;
   margin-top: 10px;
@@ -95,11 +123,11 @@
   text-decoration: none;
 }
 
-.tela-login .forgot-password:hover {
+.login-modal-container .forgot-password:hover {
   text-decoration: underline;
 }
 
-.tela-login .login-btn {
+.login-modal-container .login-btn {
   width: 100%;
   padding: 12px;
   background-color: #00AD4A;
@@ -110,81 +138,81 @@
   font-weight: bold;
   cursor: pointer;
   margin-top: 10px;
+  transition: background-color 0.3s ease;
 }
 
-.tela-login .login-btn:hover {
+.login-modal-container .login-btn:hover {
   background-color: #008f3b;
 }
 
-.tela-login .signup-link {
+.login-modal-container .signup-link {
   text-align: center;
   margin-top: 20px;
   font-size: 14px;
+  color: #fff;
 }
 
-.tela-login .signup-link a {
+.login-modal-container .signup-link a {
   color: #00AD4A;
   text-decoration: none;
   font-weight: bold;
 }
 
-.tela-login .signup-link a:hover {
+.login-modal-container .signup-link a:hover {
   text-decoration: underline;
 }
 
-/* ===== RESPONSIVIDADE LOGIN ===== */
+/* ===== RESPONSIVIDADE MODAL ===== */
 
 /* Tablets (768px - 1024px) */
 @media (max-width: 1024px) {
-  .tela-login .login-container {
+  .login-modal-container .login-container {
     padding: 30px;
     max-width: 350px;
   }
   
-  .tela-login .login-container h1 {
+  .login-modal-container .login-container h1 {
     font-size: 22px;
   }
   
-  .tela-login .home-button {
-    top: 15px;
-    left: 15px;
-    padding: 8px 16px;
-    font-size: 16px;
+  .login-modal-close {
+    top: -35px;
+    font-size: 32px;
   }
 }
 
 /* Celulares (até 768px) */
 @media (max-width: 768px) {
-  .tela-login {
-    padding: 20px;
+  .login-modal-container {
+    margin: 10px;
+    max-width: 100%;
   }
   
-  .tela-login .login-container {
+  .login-modal-container .login-container {
     padding: 25px;
     max-width: 100%;
-    margin: 0 10px;
   }
   
-  .tela-login .login-container h1 {
+  .login-modal-container .login-container h1 {
     font-size: 20px;
     margin-bottom: 25px;
   }
   
-  .tela-login .home-button {
-    top: 10px;
-    left: 10px;
-    padding: 6px 12px;
-    font-size: 14px;
-    border-radius: 20px;
+  .login-modal-close {
+    top: -30px;
+    right: 10px;
+    font-size: 28px;
+    width: 35px;
+    height: 35px;
   }
   
-  .tela-login input[type="email"],
-  .tela-login input[type="password"] {
+  .login-modal-container input[type="email"],
+  .login-modal-container input[type="password"] {
     padding: 12px;
     font-size: 16px; /* Evita zoom no iOS */
   }
   
-  .tela-login .login-btn {
+  .login-modal-container .login-btn {
     padding: 14px;
     font-size: 16px;
   }
@@ -192,32 +220,32 @@
 
 /* Celulares pequenos (até 480px) */
 @media (max-width: 480px) {
-  .tela-login {
-    padding: 10px;
+  .login-modal-container {
+    margin: 5px;
   }
   
-  .tela-login .login-container {
+  .login-modal-container .login-container {
     padding: 20px;
   }
   
-  .tela-login .login-container h1 {
+  .login-modal-container .login-container h1 {
     font-size: 18px;
   }
   
-  .tela-login .home-button {
-    top: 8px;
-    left: 8px;
-    padding: 5px 10px;
-    font-size: 12px;
-    border-radius: 15px;
+  .login-modal-close {
+    top: -25px;
+    right: 5px;
+    font-size: 24px;
+    width: 30px;
+    height: 30px;
   }
   
-  .tela-login input[type="email"],
-  .tela-login input[type="password"] {
+  .login-modal-container input[type="email"],
+  .login-modal-container input[type="password"] {
     padding: 10px;
   }
   
-  .tela-login .login-btn {
+  .login-modal-container .login-btn {
     padding: 12px;
   }
 }

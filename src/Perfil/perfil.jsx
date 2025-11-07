@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../config/api';
 import SidebarLayout from '../components/SidebarLayout';
+import { useCadastroModal } from '../contexts/CadastroModalContext';
 import './perfil.css';
 
 function Perfil() {
@@ -13,9 +14,10 @@ function Perfil() {
     address: '',
     birthdate: ''
   });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(''); 
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(''); 
+  const navigate = useNavigate();
+  const { openModal } = useCadastroModal();
 
   // Determina se o perfil adicional (nome, cpf, etc.) foi preenchido.
   // Usamos 'name' como o campo chave para verificar se há dados.
@@ -79,10 +81,10 @@ function Perfil() {
     navigate('/cadAdicional');
   };
 
-  // Função para editar dados básicos (pode incluir email/senha)
-  const handleEditBasicData = () => {
-    navigate('/cadastro');
-  };
+  // Função para editar dados básicos (pode incluir email/senha)
+  const handleEditBasicData = () => {
+    openModal();
+  };
 
   if (loading) {
     return (

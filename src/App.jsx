@@ -1,5 +1,6 @@
 // Importa os componentes de roteamento do React Router
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 // Importa os componentes da página inicial
 import Header from './components/Header';
@@ -21,7 +22,6 @@ import SobreNos from './SobreNos/SobreNos.jsx';
 // Página de cadastro de pagador (migrada para a pasta Pagador)
 import CadastrarCliente from './Pagador/CadClientes.jsx';
 
-
 // Importa a Home interna (com sidebar)
 import HomeInterna from './HomeInterna.jsx';
 
@@ -36,6 +36,11 @@ import Perfil from './Perfil/perfil.jsx';
 import PagadorTabela from './Pagador/PagadorTabela.jsx';
 // - Tabela de cobranças
 import CobrancaTabela from './cobrança/cobrancaTabela.jsx';
+
+// Importa o contexto do modal de cadastro
+import { CadastroModalProvider, useCadastroModal } from './contexts/CadastroModalContext';
+// Importa o contexto do modal de login
+import { LoginModalProvider, useLoginModal } from './contexts/LoginModalContext';
 
 // Importa os estilos globais
 import './index.css';
@@ -59,21 +64,58 @@ function Home() {
   );
 }
 
+// Componente auxiliar para abrir o modal quando acessar a rota /cadastro
+function CadastroRedirect() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { openModal } = useCadastroModal();
+
+  useEffect(() => {
+    // Se acessar diretamente a rota /cadastro, abre o modal e redireciona para home
+    if (location.pathname === '/cadastro') {
+      openModal();
+      navigate('/', { replace: true });
+    }
+  }, [location.pathname, navigate, openModal]);
+
+  return null;
+}
+
+// Componente auxiliar para abrir o modal quando acessar a rota /login
+function LoginRedirect() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { openModal } = useLoginModal();
+
+  useEffect(() => {
+    // Se acessar diretamente a rota /login, abre o modal e redireciona para home
+    if (location.pathname === '/login') {
+      openModal();
+      navigate('/', { replace: true });
+    }
+  }, [location.pathname, navigate, openModal]);
+
+  return null;
+}
+
 // Componente principal da aplicação
-function App() {
+function AppContent() {
   return (
-    // Define o roteador principal da aplicação
-    <Router>
+    <>
+      {/* Modais (renderizados globalmente) */}
+      <Cadastro />
+      <Login />
+      
       {/* Define todas as rotas da aplicação */}
       <Routes>
         {/* Quando a URL for "/", mostra a Home pública */}
-         <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} />
 
-        {/* Quando a URL for "/login", mostra o componente Login */}
-        <Route path="/login" element={<Login />} />
+        {/* Rota /login redireciona para home e abre o modal */}
+        <Route path="/login" element={<LoginRedirect />} />
 
-        {/* Quando a URL for "/cadastro", mostra o componente Cadastro */}
-        <Route path="/cadastro" element={<Cadastro />} />
+        {/* Rota /cadastro redireciona para home e abre o modal */}
+        <Route path="/cadastro" element={<CadastroRedirect />} />
 
         {/* Quando a URL for "/token", mostra o componente Token */}
         <Route path="/token" element={<Token />} />
@@ -113,6 +155,20 @@ function App() {
 
 
       </Routes>
+    </>
+  );
+}
+
+// Componente principal da aplicação com Providers
+function App() {
+  return (
+    // Define o roteador principal da aplicação
+    <Router>
+      <CadastroModalProvider>
+        <LoginModalProvider>
+          <AppContent />
+        </LoginModalProvider>
+      </CadastroModalProvider>
     </Router>
   );
 }
