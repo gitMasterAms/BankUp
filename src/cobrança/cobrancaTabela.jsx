@@ -52,7 +52,8 @@ function CobrancaTabela() {
             descricao: payment.description,
             validade: payment.due_date,
             multa: payment.fine_amount,
-            pixKey: payment.pix_key
+            pixKey: payment.pix_key,
+            recorrencia: payment.recurrence || 'unica'
           };
         }));
  
@@ -83,8 +84,21 @@ function CobrancaTabela() {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
- 
+
     return `${day}/${month}/${year}`;
+  }
+
+  function formatRecorrencia(recorrencia) {
+    const map = {
+      'unica': 'Única',
+      'semanal': 'Semanal',
+      'quinzenal': 'Quinzenal',
+      'mensal': 'Mensal',
+      'trimestral': 'Trimestral',
+      'semestral': 'Semestral',
+      'anual': 'Anual'
+    };
+    return map[recorrencia] || recorrencia || '-';
   }
  
   return (
@@ -102,6 +116,7 @@ function CobrancaTabela() {
                 <th>Valor</th>
                 <th>Descrição</th>
                 <th>Vencimento</th>
+                <th>Recorrência</th>
                 <th>Multa</th>
                 <th>PixKey</th>
                 <th style={{ width: 90 }}>Ações</th>
@@ -110,7 +125,7 @@ function CobrancaTabela() {
             <tbody>
               {linhas.length === 0 && (
                 <tr>
-                  <td colSpan={7} style={{ color: "#888", padding: 12 }}>Nenhuma cobrança cadastrada.</td>
+                  <td colSpan={8} style={{ color: "#888", padding: 12 }}>Nenhuma cobrança cadastrada.</td>
                 </tr>
               )}
               {linhas.map((linha, index) => (
@@ -119,6 +134,7 @@ function CobrancaTabela() {
                   <td>{linha.valor}</td>
                   <td>{linha.descricao}</td>
                   <td>{formatDateBR(linha.validade)}</td>
+                  <td>{formatRecorrencia(linha.recorrencia)}</td>
                   <td>{linha.multa}</td>
                   <td>{linha.pixKey}</td>
                   <td>

@@ -17,7 +17,8 @@ function CobrancaForm() {
     fine_amount: 0,
     interest_rate: 0,
     days_before_due_date: 0,
-    pixKey: ''
+    pixKey: '',
+    recorrencia: 'unica'
   });
 
   const [pagadores, setPagadores] = useState([]);
@@ -72,7 +73,8 @@ function CobrancaForm() {
         pix_key: formData.pixKey,
         fine_amount: Number(formData.fine_amount) || 0,
         interest_rate: Number(formData.interest_rate) || 0,
-        days_before_due_date: Number(formData.days_before_due_date) || 0
+        days_before_due_date: Number(formData.days_before_due_date) || 0,
+        recurrence: formData.recorrencia
       };
 
       // Validação rápida no front (opcional, mas boa prática)
@@ -159,7 +161,8 @@ function CobrancaForm() {
         fine_amount: Number(cobranca.fine_amount) || Number(cobranca.multa) || 0,
         interest_rate: Number(cobranca.interest_rate) || 0,
         days_before_due_date: 0, // Este campo não é salvo no DB, então zera ao editar
-        pixKey: cobranca.pix_key || cobranca.pixKey || ''
+        pixKey: cobranca.pix_key || cobranca.pixKey || '',
+        recorrencia: cobranca.recurrence || cobranca.recorrencia || 'unica'
       });
     }
   }, [location.state]);
@@ -224,9 +227,7 @@ function CobrancaForm() {
                   required
                 />
               </div>
-            </div>
 
-            <div className="form-column">
               <div className="form-group">
                 <label>Vencimento *</label>
                 <input
@@ -238,6 +239,27 @@ function CobrancaForm() {
                   maxLength={10}
                   required
                 />
+              </div>
+            </div>
+
+            <div className="form-column">
+              <div className="form-group">
+                <label>Recorrência *</label>
+                <select
+                  name="recorrencia"
+                  value={formData.recorrencia}
+                  onChange={handleInputChange}
+                  className="cliente-select"
+                  required
+                >
+                  <option value="unica">Única</option>
+                  <option value="semanal">Semanal</option>
+                  <option value="quinzenal">Quinzenal</option>
+                  <option value="mensal">Mensal</option>
+                  <option value="trimestral">Trimestral</option>
+                  <option value="semestral">Semestral</option>
+                  <option value="anual">Anual</option>
+                </select>
               </div>
               
               <div className="form-group">
@@ -253,24 +275,25 @@ function CobrancaForm() {
                 />
               </div>
               
-                <div className="form-group">
-                    <label>Multa (Valor Fixo)</label>
-                    <CurrencyInput
-                      name="fine_amount"
-                      value={formData.fine_amount}
-                      onValueChange={(num) => setFormData(prev => ({ ...prev, fine_amount: num }))}
-                      placeholder="R$ 0,00"
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Juros (Taxa %)</label>
-                    <PercentInput
-                      name="interest_rate"
-                      value={formData.interest_rate}
-                      onValueChange={(num) => setFormData(prev => ({ ...prev, interest_rate: num }))}
-                      placeholder="Ex: 1%"
-                    />
-                </div>
+              <div className="form-group">
+                <label>Multa (Valor Fixo)</label>
+                <CurrencyInput
+                  name="fine_amount"
+                  value={formData.fine_amount}
+                  onValueChange={(num) => setFormData(prev => ({ ...prev, fine_amount: num }))}
+                  placeholder="R$ 0,00"
+                />
+              </div>
+              
+              <div className="form-group">
+                <label>Juros (Taxa %)</label>
+                <PercentInput
+                  name="interest_rate"
+                  value={formData.interest_rate}
+                  onValueChange={(num) => setFormData(prev => ({ ...prev, interest_rate: num }))}
+                  placeholder="Ex: 1%"
+                />
+              </div>
             </div>
           </div>
 
