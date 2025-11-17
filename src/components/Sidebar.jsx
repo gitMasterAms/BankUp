@@ -48,15 +48,6 @@ function Sidebar() {
             </button>
           </li>
           
-          <li>
-            <button 
-              className={`sidebar-button ${isActive('/planos') ? 'active' : ''}`}
-              /* onClick={() => navigate('/planos')} */
-            >
-              {/* ... SVG e texto ... */}
-              Seu plano
-            </button>
-          </li>
         </ul>
 
         {/* Cabeçalho de seção */}
