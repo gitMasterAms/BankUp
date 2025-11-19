@@ -29,7 +29,7 @@
     "qrcode-terminal": "^0.12.0",
     "sequelize": "^6.37.7",
     "validator": "^13.15.15",
-    "whatsapp-web.js": "^1.34.1"
+    "whatsapp-web.js": "^1.34.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
