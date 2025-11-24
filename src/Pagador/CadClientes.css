@@ -1,0 +1,130 @@
+/* ===== LAYOUT COM SIDEBAR ===== */
+
+/* Container principal que inclui sidebar e conteúdo */
+.page-with-sidebar {
+  display: flex;             /* Layout flexbox horizontal */
+  min-height: 100vh;         /* Altura mínima da viewport */
+  background: #000;          /* Fundo preto */
+}
+
+/* Área principal do conteúdo (ao lado da sidebar) */
+.main-content {
+  flex: 1;                   /* Ocupa todo o espaço restante */
+  padding: 20px;             /* Espaçamento interno */
+  margin: 0 auto;            /* Centraliza */
+  max-width: 1100px;         /* Largura máxima */
+}
+
+/* ===== CONTAINER DO FORMULÁRIO ===== */
+
+/* Container principal do formulário de cadastro */
+.cadastro-container {
+  background: #111;          /* Fundo cinza escuro */
+  padding: 20px;             /* Espaçamento interno */
+  border-radius: 12px;       /* Bordas arredondadas */
+  border: 1px solid #0f0;    /* Borda verde */
+  max-width: 900px;          /* Largura máxima */
+  margin: 0 auto;            /* Centralização horizontal */
+  color: #fff;               /* Texto branco */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5); /* Sombra sutil */
+}
+
+/* ===== TÍTULO E INFORMAÇÕES ===== */
+
+/* Título principal do formulário */
+.cadastro-container h2 {
+  margin-bottom: 5px;        /* Margem inferior pequena */
+}
+
+/* Texto informativo abaixo do título */
+.cadastro-container .info {
+  font-size: 14px;           /* Tamanho menor da fonte */
+  color: #aaa;              /* Cor cinza clara */
+  margin-bottom: 20px;       /* Margem inferior */
+}
+
+/* ===== FORMULÁRIO ===== */
+
+/* Container do formulário */
+.form-cadastro {
+  display: flex;             /* Layout flexbox */
+  flex-direction: column;    /* Direção vertical */
+  gap: 15px;                /* Espaçamento entre elementos */
+}
+
+/* Linha do formulário (para agrupar campos) */
+.form-row {
+  display: flex;             /* Layout flexbox horizontal */
+  gap: 15px;                /* Espaçamento entre campos */
+}
+
+/* Campos de entrada e seleção */
+.form-row input,
+.form-row select {
+  flex: 1;                   /* Ocupa espaço igual */
+  padding: 12px;             /* Espaçamento interno */
+  border: none;              /* Remove bordas */
+  border-radius: 6px;        /* Bordas arredondadas */
+  background: #222;          /* Fundo cinza escuro */
+  color: #fff;               /* Texto branco */
+}
+
+/* Estado de foco dos campos */
+.form-row input:focus,
+.form-row select:focus {
+  outline: 1px solid #0f0;   /* Borda verde no foco */
+}
+
+/* ===== BOTÕES DE AÇÃO ===== */
+
+/* Container dos botões */
+.form-actions {
+  display: flex;             /* Layout flexbox */
+  justify-content: flex-end; /* Alinhamento à direita */
+  gap: 15px;                /* Espaçamento entre botões */
+  margin-top: 20px;          /* Margem superior */
+}
+
+/* Responsividade e centralização adicional */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 16px;
+  }
+  .form-row {
+    flex-direction: column;
+  }
+  .form-actions {
+    justify-content: center;
+  }
+}
+
+/* Botão de salvar */
+.btn-salvar {
+  background: #00c853;       /* Cor verde */
+  color: #fff;               /* Texto branco */
+  border: none;              /* Remove bordas */
+  padding: 12px 20px;        /* Espaçamento interno */
+  border-radius: 6px;        /* Bordas arredondadas */
+  cursor: pointer;           /* Cursor de ponteiro */
+  transition: 0.2s;          /* Transição suave */
+}
+
+/* Efeito hover no botão salvar */
+.btn-salvar:hover {
+  background: #00e676;       /* Verde mais claro no hover */
+}
+
+/* Botão de cancelar */
+.btn-cancelar {
+  background: #333;          /* Cor cinza escura */
+  color: #fff;               /* Texto branco */
+  border: none;              /* Remove bordas */
+  padding: 12px 20px;        /* Espaçamento interno */
+  border-radius: 6px;        /* Bordas arredondadas */
+  cursor: pointer;           /* Cursor de ponteiro */
+}
+
+/* Efeito hover no botão cancelar */
+.btn-cancelar:hover {
+  background: #555;          /* Cinza mais claro no hover */
+}
