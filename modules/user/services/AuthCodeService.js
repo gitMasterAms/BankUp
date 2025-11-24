@@ -23,90 +23,189 @@ class AuthCodeService {
      * Esta função é o primeiro passo do fluxo 2FA.
      * @param {object} data - Contém userId, email e type ('login_verification', 'password_reset', etc.).
      */
-    async sendCode({ userId, email, type }) {
-        try {
-            // 1. Valida se o usuário e o e-mail correspondem no banco de dados.
-            const user = await this.UserRepository.getById(userId);
-            if (!user || user.email !== email) {
-                throw new Error('ID_EMAIL_INCOMPATIVEIS');
+    async sendCode({ email, type }) {
+    try {
+        // 1. Valida se o usuário e o e-mail correspondem no banco de dados.
+        const user = await this.UserRepository.findByEmail(email);
+        if (!user || user.email !== email) {
+            throw new Error('ID_EMAIL_INCOMPATIVEIS');
+        }
+
+        const userId = user.id;
+
+        const existingCode = await this.AuthCodeRepository.findByUserId({ userId });
+        const now = new Date();
+        let currentAttempts = 0; 
+
+        if (existingCode) {
+            // 2a. Verifica se o usuário ainda está sob um bloqueio ativo.
+            if (existingCode.blockedUntil && new Date(existingCode.blockedUntil) > now) {
+                const remainingMinutes = Math.ceil((new Date(existingCode.blockedUntil) - now) / 60000);
+                throw new Error(`BLOQUEIO_TEMPORARIO: Muitas tentativas. Tente novamente em ${remainingMinutes} minutos.`);
             }
 
-            const existingCode = await this.AuthCodeRepository.findByUserId({ userId });
-            const now = new Date();
-            let currentAttempts = 0; // Inicia o contador de tentativas como 0 para uma nova sessão.
+            // 2b. CORREÇÃO DE SEGURANÇA: Decide se as tentativas devem ser zeradas.
+            const isBlockExpired = existingCode.blockedUntil && new Date(existingCode.blockedUntil) <= now;
+            const isAttemptStale = (now.getTime() - new Date(existingCode.createdAt).getTime()) > (10 * 60 * 1000); // Limite de 10 minutos
 
-            if (existingCode) {
-                // 2a. Verifica se o usuário ainda está sob um bloqueio ativo.
-                if (existingCode.blockedUntil && new Date(existingCode.blockedUntil) > now) {
-                    const remainingMinutes = Math.ceil((new Date(existingCode.blockedUntil) - now) / 60000);
-                    throw new Error(`BLOQUEIO_TEMPORARIO: Muitas tentativas. Tente novamente em ${remainingMinutes} minutos.`);
-                }
-
-                // 2b. CORREÇÃO DE SEGURANÇA: Decide se as tentativas devem ser zeradas.
-                const isBlockExpired = existingCode.blockedUntil && new Date(existingCode.blockedUntil) <= now;
-                const isAttemptStale = (now.getTime() - new Date(existingCode.createdAt).getTime()) > (10 * 60 * 1000); // Limite de 10 minutos
-
-                if (isBlockExpired || isAttemptStale) {
-                    // Se o bloqueio expirou ou a última tentativa foi há muito tempo,
-                    // considera-se uma nova sessão de autenticação. As tentativas são zeradas.
-                    currentAttempts = 0;
-                } else {
-                    // Se a tentativa for recente e não houve bloqueio, preserva o contador.
-                    currentAttempts = existingCode.attempts || 0;
-                }
-                
-                // 2c. Lógica de cooldown para prevenir spam de e-mails.
-                const timeSinceCreation = now.getTime() - new Date(existingCode.createdAt).getTime();
-                const cooldownSeconds = 30;
-                if (timeSinceCreation < cooldownSeconds * 1000) {
-                    const remainingSeconds = Math.ceil((cooldownSeconds * 1000 - timeSinceCreation) / 1000);
-                    throw new Error(`COOLDOWN: Aguarde ${remainingSeconds} segundos para solicitar um novo código.`);
-                }
+            if (isBlockExpired || isAttemptStale) {
+                currentAttempts = 0;
+            } else {
+                currentAttempts = existingCode.attempts || 0;
             }
-
-            // 3. Remove qualquer código antigo antes de criar um novo.
-            if (existingCode) {
-                await this.AuthCodeRepository.delete({ userId });
+            
+            // 2c. Lógica de cooldown para prevenir spam de e-mails.
+            const timeSinceCreation = now.getTime() - new Date(existingCode.createdAt).getTime();
+            const cooldownSeconds = 30;
+            if (timeSinceCreation < cooldownSeconds * 1000) {
+                const remainingSeconds = Math.ceil((cooldownSeconds * 1000 - timeSinceCreation) / 1000);
+                throw new Error(`COOLDOWN: Aguarde ${remainingSeconds} segundos para solicitar um novo código.`);
             }
+        }
 
-            // 4. Gera um novo código numérico de 6 dígitos.
-            const twoFactorCode = Math.floor(100000 + Math.random() * 900000).toString();
+        // 3. Remove qualquer código antigo antes de criar um novo.
+        if (existingCode) {
+            await this.AuthCodeRepository.delete({ userId });
+        }
 
-            // 5. Cria o novo registro do código, usando o contador de tentativas (zerado ou preservado).
-            await this.AuthCodeRepository.create({
-                userId,
-                twoFactorCode,
-                type,
-                expiresAt: new Date(Date.now() + 5 * 60 * 1000), // Expira em 5 minutos
-                attempts: currentAttempts,
-                blockedUntil: null, 
-                createdAt: new Date()
+        // 4. Gera um novo código numérico de 6 dígitos.
+        const twoFactorCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+        // 5. Cria o novo registro do código, usando o contador de tentativas (zerado ou preservado).
+        await this.AuthCodeRepository.create({
+            userId,
+            twoFactorCode,
+            type,
+            expiresAt: new Date(Date.now() + 5 * 60 * 1000), // Expira em 5 minutos
+            attempts: currentAttempts,
+            blockedUntil: null, 
+            createdAt: new Date()
+        });
+
+        // 6. Prepara e envia o e-mail com o código.
+        const title = 'Seu Código de Verificação BANKUP';
+        const content = `
+            <p>Prezado usuário do BANKUP,</p>
+            <p>Recebemos uma solicitação para sua conta. Seu código de verificação é:</p>
+            <h1 style="font-size: 28px; letter-spacing: 2px; color: #1a1a1a;">${twoFactorCode}</h1>
+            <p>Este código expira em 5 minutos.</p>
+            <br>
+            <p>Se você não solicitou este código, ignore este e-mail. <strong>Não encaminhe ou dê o código a ninguém.</strong></p>
+            <p>Atenciosamente,</p>
+            <p>Equipe BANKUP</p>
+        `;
+
+        // >>>>>>> MUDANÇA IMPLEMENTADA AQUI: REMOVENDO O AWAIT <<<<<<<<
+        EmailService.sendEmail(email, title, content)
+            .catch(emailErr => {
+                // Se falhar o envio em background, apenas logamos o erro, mas a resposta HTTP já foi enviada.
+                if (process.env.NODE_ENV !== 'production') {
+                    console.error('Falha no envio de e-mail em background:', emailErr);
+                }
+                // (Opcional) Você pode adicionar uma lógica para notificar um administrador.
             });
 
-            // 6. Prepara e envia o e-mail com o código.
-            const title = 'Seu Código de Verificação BANKUP';
-            const content = `
-                <p>Prezado usuário do BANKUP,</p>
-                <p>Recebemos uma solicitação para sua conta. Seu código de verificação é:</p>
-                <h1 style="font-size: 28px; letter-spacing: 2px; color: #1a1a1a;">${twoFactorCode}</h1>
-                <p>Este código expira em 5 minutos.</p>
-                <br>
-                <p>Se você não solicitou este código, ignore este e-mail. <strong>Não encaminhe ou dê o código a ninguém.</strong></p>
-                <p>Atenciosamente,</p>
-                <p>Equipe BANKUP</p>
-            `;
+        // Retorna sucesso imediatamente, antes que o e-mail seja concluído.
+        return { userId, message: "Código enviado com sucesso." };
 
-            await EmailService.sendEmail(email, title, content);
-
-            return { message: "Código enviado com sucesso." };
-
-        } catch (err) {
-            if (process.env.NODE_ENV !== 'production') {
-                console.error('AuthCodeService.sendCode ERRO:', err);
-            }
-            throw err;
+    } catch (err) {
+        if (process.env.NODE_ENV !== 'production') {
+            console.error('AuthCodeService.sendCode ERRO:', err);
         }
+        throw err;
     }
+}async sendCode({ email, type }) {
+    try {
+        // 1. Valida se o usuário e o e-mail correspondem no banco de dados.
+        const user = await this.UserRepository.findByEmail(email);
+        if (!user || user.email !== email) {
+            throw new Error('ID_EMAIL_INCOMPATIVEIS');
+        }
+
+        const userId = user.id;
+
+        const existingCode = await this.AuthCodeRepository.findByUserId({ userId });
+        const now = new Date();
+        let currentAttempts = 0; 
+
+        if (existingCode) {
+            // 2a. Verifica se o usuário ainda está sob um bloqueio ativo.
+            if (existingCode.blockedUntil && new Date(existingCode.blockedUntil) > now) {
+                const remainingMinutes = Math.ceil((new Date(existingCode.blockedUntil) - now) / 60000);
+                throw new Error(`BLOQUEIO_TEMPORARIO: Muitas tentativas. Tente novamente em ${remainingMinutes} minutos.`);
+            }
+
+            // 2b. CORREÇÃO DE SEGURANÇA: Decide se as tentativas devem ser zeradas.
+            const isBlockExpired = existingCode.blockedUntil && new Date(existingCode.blockedUntil) <= now;
+            const isAttemptStale = (now.getTime() - new Date(existingCode.createdAt).getTime()) > (10 * 60 * 1000); // Limite de 10 minutos
+
+            if (isBlockExpired || isAttemptStale) {
+                currentAttempts = 0;
+            } else {
+                currentAttempts = existingCode.attempts || 0;
+            }
+            
+            // 2c. Lógica de cooldown para prevenir spam de e-mails.
+            const timeSinceCreation = now.getTime() - new Date(existingCode.createdAt).getTime();
+            const cooldownSeconds = 30;
+            if (timeSinceCreation < cooldownSeconds * 1000) {
+                const remainingSeconds = Math.ceil((cooldownSeconds * 1000 - timeSinceCreation) / 1000);
+                throw new Error(`COOLDOWN: Aguarde ${remainingSeconds} segundos para solicitar um novo código.`);
+            }
+        }
+
+        // 3. Remove qualquer código antigo antes de criar um novo.
+        if (existingCode) {
+            await this.AuthCodeRepository.delete({ userId });
+        }
+
+        // 4. Gera um novo código numérico de 6 dígitos.
+        const twoFactorCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+        // 5. Cria o novo registro do código, usando o contador de tentativas (zerado ou preservado).
+        await this.AuthCodeRepository.create({
+            userId,
+            twoFactorCode,
+            type,
+            expiresAt: new Date(Date.now() + 5 * 60 * 1000), // Expira em 5 minutos
+            attempts: currentAttempts,
+            blockedUntil: null, 
+            createdAt: new Date()
+        });
+
+        // 6. Prepara e envia o e-mail com o código.
+        const title = 'Seu Código de Verificação BANKUP';
+        const content = `
+            <p>Prezado usuário do BANKUP,</p>
+            <p>Recebemos uma solicitação para sua conta. Seu código de verificação é:</p>
+            <h1 style="font-size: 28px; letter-spacing: 2px; color: #1a1a1a;">${twoFactorCode}</h1>
+            <p>Este código expira em 5 minutos.</p>
+            <br>
+            <p>Se você não solicitou este código, ignore este e-mail. <strong>Não encaminhe ou dê o código a ninguém.</strong></p>
+            <p>Atenciosamente,</p>
+            <p>Equipe BANKUP</p>
+        `;
+
+        // >>>>>>> MUDANÇA IMPLEMENTADA AQUI: REMOVENDO O AWAIT <<<<<<<<
+        EmailService.sendEmail(email, title, content)
+            .catch(emailErr => {
+                // Se falhar o envio em background, apenas logamos o erro, mas a resposta HTTP já foi enviada.
+                if (process.env.NODE_ENV !== 'production') {
+                    console.error('Falha no envio de e-mail em background:', emailErr);
+                }
+                // (Opcional) Você pode adicionar uma lógica para notificar um administrador.
+            });
+
+        // Retorna sucesso imediatamente, antes que o e-mail seja concluído.
+        return { userId, message: "Código enviado com sucesso." };
+
+    } catch (err) {
+        if (process.env.NODE_ENV !== 'production') {
+            console.error('AuthCodeService.sendCode ERRO:', err);
+        }
+        throw err;
+    }
+}
 
     /**
      * Verifica o código e, se for válido, gera o token apropriado (Login ou Reset).
@@ -162,15 +261,17 @@ class AuthCodeService {
             }
 
             switch (authCode.type) {
-                case 'login_verification':
+                case 'login_verification':{
                     const token = jwt.sign({ id: userId }, process.env.SECRET, {
                         expiresIn: '1d',
                     });
-                    return { token, profile_complete: user.profile_complete };
+                    return { token, profile_complete: user.profile_complete }
+                }
                 
-                case 'password_reset':
+                case 'password_reset':{
                     const resetToken = jwt.sign({ id: userId, scope: 'reset_password' }, process.env.SECRET);
-                    return { resetToken };
+                    return { resetToken }
+                }
 
                 default:
                     throw new Error('TIPO_DE_CODIGO_INVALIDO');

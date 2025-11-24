@@ -33,6 +33,12 @@ Dockerfile
 yarn.lock
 pnpm-lock.yaml
 
+.wwebjs_auth
+.wwebjs_cache
+
 # Outros comuns
 dist/
-.env
+
+
+.env    
+

@@ -49,6 +49,8 @@ module.exports = (db) => {
 
   //Rota cadastro Profile
   userRouter.post('/profile', checkLoginToken, profileController.register);
+  userRouter.patch('/profile', checkLoginToken, profileController.update);
+  userRouter.get('/profile', checkLoginToken, profileController.getProfile);
   // Rota protegida
   userRouter.get('/user/:id', checkLoginToken, userController.getById);
 

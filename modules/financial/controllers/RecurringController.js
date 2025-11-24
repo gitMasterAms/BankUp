@@ -36,14 +36,19 @@ class RecurringController {
 
       return res.status(201).json({ msg: 'Conta recorrente criada com sucesso.' });
     } catch (err) {
-      console.error('Erro ao criar conta recorrente:', err);
+        console.error('Erro ao criar conta recorrente:', err);
 
-      if (err.message === 'CONTA_DUPLICADA') {
-        return res.status(409).json({ msg: 'Conta já cadastrada para esse vencimento.' });
+        if (err.message === 'CPF_CNPJ_DUPLICADO') {
+          return res.status(409).json({ msg: 'CPF/CNPJ já cadastrado.' });
+        }
+
+        if (err.message === 'EMAIL_DUPLICADO') {
+          return res.status(409).json({ msg: 'E-mail já cadastrado.' });
+        }
+
+        return res.status(500).json({ msg: 'Erro ao cadastrar conta recorrente.' });
       }
 
-      return res.status(500).json({ msg: 'Erro ao cadastrar conta recorrente.' });
-    }
   };
   getAllByUser = async (req, res) => {
     const userId = req.id;

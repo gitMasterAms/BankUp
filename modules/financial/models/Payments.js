@@ -1,9 +1,3 @@
-/**
- * models/Payments.js
- * * Define o schema da tabela 'Payments' usando o Sequelize.
- * * ATUALIZADO: O campo 'userId' foi removido, pois a referência ao usuário
- * * será feita através da tabela Recurring_Accounts.
- */
 module.exports = (sequelize, DataTypes) => {
   const Payment = sequelize.define('Payment', {
     payment_id: {
@@ -13,8 +7,11 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       defaultValue: DataTypes.UUIDV4
     },
-    // O campo userId foi removido daqui.
-    account_id: { // Chave estrangeira para a tabela Recurring_Accounts
+    userId: { // 🔗 FK para o usuário que criou o pagamento
+      type: DataTypes.UUID,
+      allowNull: false
+    },
+    account_id: { // FK para a conta recorrente
       type: DataTypes.UUID,
       allowNull: false
     },
@@ -34,16 +31,29 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('pendente', 'concluido', 'vencido'),
       allowNull: false,
       defaultValue: 'pendente'
-    }, 
-    penalty: {
-      type: DataTypes.DECIMAL(5, 2),
-      allowNull: false
     },
-    
+    fine_amount: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
+      defaultValue: 0.00
+    },
+    interest_rate: {
+      type: DataTypes.DECIMAL(5, 2),
+      allowNull: false,
+      defaultValue: 0.00
+    },
+    final_amount: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: true
+    },
+    paid_at: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
     pix_key: {
       type: DataTypes.STRING(32),
       allowNull: false
-    },    
+    }
   }, {
     tableName: 'Payments',
     timestamps: true,
@@ -51,11 +61,16 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at'
   });
 
+  // 🔗 Associações
   Payment.associate = (models) => {
-    // A associação com User foi removida daqui, pois não há mais chave direta.
-    // A associação com RecurringAccount permanece.
+    // Pagamento pertence a uma conta recorrente
     Payment.belongsTo(models.RecurringAccount, {
       foreignKey: 'account_id',
+      onDelete: 'CASCADE'
+    });
+
+    Payment.belongsTo(models.User, {
+      foreignKey: 'userId',
       onDelete: 'CASCADE'
     });
   };

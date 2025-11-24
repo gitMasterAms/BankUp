@@ -1,4 +1,6 @@
-// ProfileController.test.js
+/* eslint-env jest */
+
+/ ProfileController.test.js */
 
 const ProfileController = require('../modules/user/controllers/ProfileController'); // <-- AJUSTE O CAMINHO se necessário
 const validator = require('validator');
